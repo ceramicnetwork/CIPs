@@ -1,6 +1,6 @@
 ---
 name: Core CIP
-about: Create a Core CIP
+about: Propose a Core CIP
 title: 'Core: Your title'
 labels: 'Cat: Standards, Type: Core'
 assignees: ''
@@ -15,6 +15,7 @@ Type: Core
 Status:
 Dependencies:
 Created:
+
 ---
 
 ## Simple Summary
