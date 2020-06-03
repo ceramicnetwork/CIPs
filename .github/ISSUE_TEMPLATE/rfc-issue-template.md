@@ -1,5 +1,5 @@
 ---
-name: RFC Issue Template
+name: RFC CIP
 about: Create an RFC CIP
 title: 'RFC: Your title'
 labels: 'Cat: Standards, Type: CRC'
