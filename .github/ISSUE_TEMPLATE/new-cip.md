@@ -11,7 +11,7 @@ ATTENTION!
 
 **If you would like to create a DRAFT of your CIP to receive input from the community:**
 
-- Open a new issue in this repository following the format outlined in the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/cip-template.md)
+- Open a new issue in this repository following the format outlined in the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md)
 - Give your issue an appropriate title, following the format - Type (or Category if available): Your Title (i.e. Core: Versioned Doctypes)
 - Add the appropriate Labels to your issue
   - Type: Standards | Meta | Informational
