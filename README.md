@@ -21,11 +21,25 @@ When you believe your CIP is mature and ready to progress past the draft phase, 
 - **For a Standards Track: Core CIP**, ask to have your issue added to the agenda of an upcoming Ceramic Core Devs meeting, where it can be discussed for inclusion in a future network upgrade. If implementers agree to include it, the CIP editors will update the state of your CIP to 'Accepted'.
 - **For all other CIPs**, open a PR changing the state of your CIP to 'Final'. An editor will review your draft and ask if anyone objects to its being finalised. If the editor decides there is no rough consensus - for instance, because contributors point out significant issues with the CIP - they may close the PR and request that you fix the issues in the draft before trying again.
 
-## CIP Status Terms
+## CIP Types
 
-- **Idea** - an CIP that is incomplete.
-- **Draft** - an CIP that is undergoing rapid iteration and changes.
-- **Last Call** - an CIP that is done with its initial iteration and ready for review by a wide audience.
-- **Accepted** - a core CIP that has been in Last Call for at least 2 weeks and any technical changes that were requested have been addressed by the author. The process for Core Devs to decide whether to encode an CIP into their clients as part of a network upgrade is not part of the CIP process. If such a decision is made, the CIP will move to final.
-- **Final (non-Core)** - an CIP that has been in Last Call for at least 2 weeks and any technical changes that were requested have been addressed by the author.
-- **Final (Core)** - an CIP that the Core Devs have decided to implement and release in a future network upgrade or has already been released.
+- **Standards**:
+- **Meta**:
+- **Informational**:
+
+## CIP Categories
+> *Only applicable to CIPs that are **Standards** type.
+
+- **Core**:
+- **Networking**:
+- **Interface**:
+- **RFC**:
+
+## CIP Statuses
+
+- **Idea**: an CIP that is incomplete.
+- **Draft**: an CIP that is undergoing rapid iteration and changes.
+- **Last Call**: an CIP that is done with its initial iteration and ready for review by a wide audience.
+- **Accepted**: a core CIP that has been in Last Call for at least 2 weeks and any technical changes that were requested have been addressed by the author. The process for Core Devs to decide whether to encode an CIP into their clients as part of a network upgrade is not part of the CIP process. If such a decision is made, the CIP will move to final.
+- **Final (non-Core)**: an CIP that has been in Last Call for at least 2 weeks and any technical changes that were requested have been addressed by the author.
+- **Final (Core)**: an CIP that the Core Devs have decided to implement and release in a future network upgrade or has already been released.
