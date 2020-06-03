@@ -4,13 +4,14 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 
 ## Contributing
 
-1. Create an issue in the CIP repository containing your proposal as draft status, following the format of other CIPs.
-2. Gather feedback from the community and iterate on your proposal. When done, update the status to last call.
-2. When last call is done, fork the repository by clicking "Fork" in the top right.
-3. Add your CIP to your fork of the repository.
-4. Submit a Pull Request to Ceramic's CIPs repository.
+1. Create an issue in the CIP repository containing the idea for your your proposal, following the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md) format. Designate your proposal as **IDEA**, by adding the Idea Label and include Idea in the issue header. (Note: during Idea status, not every detail needs to be completed, however your issue should contain enough information for the community to begin commenting.)
+2. Complete your proposal, then update your status to **DRAFT** Label and header.
+3. Gather feedback from the community and iterate on your proposal. When done, update the status to **LAST CALL**.
+4. When the last call period is done and all community concerns have been addressed, fork the repository by clicking "Fork" in the top right.
+5. Add your CIP to your fork of the repository.
+6. Submit a Pull Request to Ceramic's CIPs repository.
 
-Your first PR should be a first draft of the final CIP. An editor will manually review the first PR for a new CIP and assign it a number before merging it. Make sure you include a discussions-to header with the URL to an open GitHub issue where people can discuss the CIP as a whole. (Ideally this is an issue in the CIP repository.)
+> Your first PR should be a first draft of the final CIP. An editor will manually review the first PR for a new CIP and assign it a number before merging it. Make sure you include a discussions-to header with the URL to an open GitHub issue where people can discuss the CIP as a whole. (Ideally this is the original issue in the CIP repository.)
 
 If your CIP requires images, the image files should be included in a subdirectory of the assets folder for that CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-1/image.png`.
 
@@ -23,23 +24,23 @@ When you believe your CIP is mature and ready to progress past the draft phase, 
 
 ## CIP Types
 
-- **Standards**:
-- **Meta**:
-- **Informational**:
+- `Standards`:
+- `Meta`:
+- `Informational`:
 
 ## CIP Categories
-> *Only applicable to CIPs that are **Standards** type.
+> Only applicable to CIPs that are *Standards* type.
 
-- **Core**:
-- **Networking**:
-- **Interface**:
-- **RFC**:
+- `Core`:
+- `Networking`:
+- `Interface`:
+- `RFC`:
 
 ## CIP Statuses
 
-- **Idea**: an CIP that is incomplete.
-- **Draft**: an CIP that is undergoing rapid iteration and changes.
-- **Last Call**: an CIP that is done with its initial iteration and ready for review by a wide audience.
-- **Accepted**: a core CIP that has been in Last Call for at least 2 weeks and any technical changes that were requested have been addressed by the author. The process for Core Devs to decide whether to encode an CIP into their clients as part of a network upgrade is not part of the CIP process. If such a decision is made, the CIP will move to final.
-- **Final (non-Core)**: an CIP that has been in Last Call for at least 2 weeks and any technical changes that were requested have been addressed by the author.
-- **Final (Core)**: an CIP that the Core Devs have decided to implement and release in a future network upgrade or has already been released.
+- `Idea`: an CIP that is incomplete.
+- `Draft`: an CIP that is undergoing rapid iteration and changes.
+- `Last Call`: an CIP that is done with its initial iteration and ready for review by a wide audience.
+- `Accepted`: a core CIP that has been in Last Call for at least 2 weeks and any technical changes that were requested have been addressed by the author. The process for Core Devs to decide whether to encode an CIP into their clients as part of a network upgrade is not part of the CIP process. If such a decision is made, the CIP will move to final.
+- `Final (non-Core)`: an CIP that has been in Last Call for at least 2 weeks and any technical changes that were requested have been addressed by the author.
+- `Final (Core)`: an CIP that the Core Devs have decided to implement and release in a future network upgrade or has already been released.
