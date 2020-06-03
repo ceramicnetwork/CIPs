@@ -1,5 +1,5 @@
 ---
-name: Core Issue Template
+name: Core CIP
 about: Create a Core CIP
 title: 'Core: Your title'
 labels: 'Cat: Standards, Type: Core'
