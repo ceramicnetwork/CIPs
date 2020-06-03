@@ -4,12 +4,30 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 
 ## Contributing
 
+### 1. Propose a new idea
+
 1. Create an issue in the CIP repository containing the idea for your your proposal, following the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md) format. Designate your proposal as **IDEA**, by adding the Idea Label and include Idea in the issue header. (Note: during Idea status, not every detail needs to be completed, however your issue should contain enough information for the community to begin commenting.)
+
+### 2.  Finalize your draft
+
 2. Complete your proposal, then update your status to **DRAFT** Label and header.
+
+### 3. Enter last call
+
 3. Gather feedback from the community and iterate on your proposal. When done, update the status to **LAST CALL**.
+
+### 4. Submit a PR for consideration
+
 4. When the last call period is done and all community concerns have been addressed, fork the repository by clicking "Fork" in the top right.
 5. Add your CIP to your fork of the repository.
 6. Submit a Pull Request to Ceramic's CIPs repository.
+
+### 5a. Get your Core CIP Accepted
+
+
+### 5b. Finalize your non-Core CIP
+
+
 
 > Your first PR should be a first draft of the final CIP. An editor will manually review the first PR for a new CIP and assign it a number before merging it. Make sure you include a discussions-to header with the URL to an open GitHub issue where people can discuss the CIP as a whole. (Ideally this is the original issue in the CIP repository.)
 
