@@ -4,7 +4,7 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 
 ## Contributing
 
-### 1. Create a new proposal
+### 1. Create new proposal
 
 1. Create a new issue in the CIP repository containing the idea for your your proposal, following the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md) format. 
 2. Add the appropriate [type](#cip-types) and [category](#cip-categories) labels to your issue.
