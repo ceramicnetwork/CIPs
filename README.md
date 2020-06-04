@@ -6,29 +6,33 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 
 #### 1. IDEA: Create a new proposal
 
+> Ideas are incomplete proposals meant to kick off community conversation.
+
 1. Create a new issue in the CIP repository containing the idea for your your proposal, following the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md) format. 
 2. Add the appropriate [type](#cip-types) and [category](#cip-categories) labels to your issue.
-3. Designate your proposal as **IDEA** status in the issue label and header. Ideas are incomplete proposals meant to kick off community conversation.
+3. Designate your proposal as **IDEA** status in the issue label and header. 
 4. Begin seeking feedback from the community.
-
-> During the idea period not every CIP detail needs to be completed, however your issue should contain enough information for the community to begin commenting.
 
 #### 2. DRAFT: Complete your proposal
 
+> Drafts are complete proposals, but still undergoing rapid iteration and change.
+
 1. Complete your proposal by filling out all appropriate fields in the CIP template.
-2. Update your proposal to **DRAFT** status in the issue label and header. Drafts are complete proposals, but still undergoing rapid iteration and change.
+2. Update your proposal to **DRAFT** status in the issue label and header. 
 3. Gather community feedback and make improvements as required.
 
 #### 3. LAST CALL: Gather last feedback
 
-1. Update your proposal to **LAST CALL** status in the issue label and header. Last calls are proposals done with their initial iteration and ready for review by a wider audience.
+> Last calls are proposals done with their initial iteration and ready for review by a wider audience.
+
+1. Update your proposal to **LAST CALL** status in the issue label and header. 
 2. Gather community feedback and make improvements as required.
 
 > Last call period is a minimum of 2 weeks and a maximum of the amount of time it takes to address all major community concerns.
 
 #### 4. FINAL: Submit a PR for consideration
 
-Once last call is over, you should submit a Pull Request to the CIP repository containing your proposal for consideration.
+> PRs are stable proposals ready for official review.
 
 1. Fork the CIP repository by clicking "Fork" in the top right.
 2. Add your CIP to your fork of the repository.
