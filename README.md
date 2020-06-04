@@ -19,7 +19,7 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 2. Update your proposal to **DRAFT** status in the issue label and header. Drafts are complete proposals, but still undergoing rapid iteration and change.
 3. Gather community feedback and make improvements as required.
 
-### 3. LAST CALL: Gather final feedback
+### 3. LAST CALL: Gather last feedback
 
 1. Update your proposal to **LAST CALL** status in the issue label and header. Last calls are proposals done with their initial iteration and ready for review by a wider audience.
 2. Gather community feedback and make improvements as required.
