@@ -4,49 +4,70 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 
 ## Contributing
 
-### 1. Propose a new idea
+### 1. Create a new proposal idea
 
-1. Create an issue in the CIP repository containing the idea for your your proposal, following the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md) format. Designate your proposal as **IDEA**, by adding the Idea Label and include Idea in the issue header. (Note: during Idea status, not every detail needs to be completed, however your issue should contain enough information for the community to begin commenting.)
+> Ideas are incomplete proposals meant to kick-off community conversation.
 
-### 2.  Finalize your draft
+1. Create a new issue in the CIP repository containing the idea for your your proposal, following the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md) format. 
+2. Add the appropriate [type](#cip-types) and [category](#cip-categories) labels to your issue.
+3. Designate your proposal as **IDEA** status in the issue label and header.
+4. Begin seeking feedback from the community.
 
-2. Complete your proposal, then update your status to **DRAFT** Label and header.
+> Note: During the idea period, not every CIP detail needs to be completed. However your issue should contain enough information for the community to begin commenting.
 
-### 3. Enter last call
+### 2.  Complete your proposal draft
 
-3. Gather feedback from the community and iterate on your proposal. When done, update the status to **LAST CALL**.
+> Drafts are complete proposals, but still undergoing rapid iteration and change.
 
-### 4. Submit a PR for consideration
+1. Complete your proposal by filling out all the appropriate fields in the CIP template.
+2. Update your proposal to **DRAFT** status in the issue label and header.
+3. Gather community feedback and make improvements as required.
 
-4. When the last call period is done and all community concerns have been addressed, fork the repository by clicking "Fork" in the top right.
-5. Add your CIP to your fork of the repository.
-6. Submit a Pull Request to Ceramic's CIPs repository.
+### 3. Move your proposal to last call
 
-### 5a. Get your Core CIP Accepted
+> Last calls are proposals done with their initial iteration and ready for review by a wider audience.
+
+1. Update your proposal to **LAST CALL** status in the issue label and header.
+2. Make updates based on community feedback.
+2. Once the 2-week period is over and all community concerns have been addressed, continue to step 4.
+
+### 4. Submit a PR for final consideration
+
+> PRs are complete first drafts of the final CIP.
+
+Once your proposal draft is complete and has taken all community feedback into consideration, you should submit a Pull Request to the CIP repository containing your proposal.
+
+1. Fork the CIP repository by clicking "Fork" in the top right.
+2. Add your CIP to your fork of the repository.
+3. Submit a Pull Request to the CIP repository.
+4. Add the appropriate issue labels.
+
+> Your PR should be a complete first draft of the final CIP. An editor will manually review the first PR for a new CIP and assign it a canonical number (i.e. CIP-1). 
+
+> When submitting your PR, make sure to include a discussions-to header with the URL to the open Github issue in the CIP repository where people can discuss your CIP. Also ensure the 'author' line of your CIP contains either your GitHub username or your email address. If you use your email address, that address must be the one publicly shown on your GitHub profile.
+
+> If your CIP requires images, the image files should be included in a subdirectory of the assets folder for that CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-1/image.png`.
 
 
-### 5b. Finalize your non-Core CIP
+### 5a. Get your non-Core CIP Finalized
+
+When you believe your CIP PR is mature, you should open a PR changing the state of your CIP to 'Final'. An editor will review your draft and ask if anyone objects to its being finalised. If the editor decides there is no rough consensus - for instance, because contributors point out significant issues with the CIP - they may close the PR and request that you fix the issues in the draft before trying again.
+
+### 5b. Get your Core CIP Finalized
+
+When you believe your CIP PR is mature, you should ask to have your issue added to the agenda of an upcoming Ceramic Core Devs meeting ([calendar]()), where it can be discussed for inclusion in a future network upgrade. If implementers agree to include it, the CIP editors will update the state of your CIP to 'Accepted'.
 
 
 
-> Your first PR should be a first draft of the final CIP. An editor will manually review the first PR for a new CIP and assign it a number before merging it. Make sure you include a discussions-to header with the URL to an open GitHub issue where people can discuss the CIP as a whole. (Ideally this is the original issue in the CIP repository.)
+## CIP Labels
 
-If your CIP requires images, the image files should be included in a subdirectory of the assets folder for that CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-1/image.png`.
-
-Make sure that the 'author' line of your CIP contains either your GitHub username or your email address. If you use your email address, that address must be the one publicly shown on your GitHub profile.
-
-When you believe your CIP is mature and ready to progress past the draft phase, you should do one of two things:
-
-- **For a Standards Track: Core CIP**, ask to have your issue added to the agenda of an upcoming Ceramic Core Devs meeting, where it can be discussed for inclusion in a future network upgrade. If implementers agree to include it, the CIP editors will update the state of your CIP to 'Accepted'.
-- **For all other CIPs**, open a PR changing the state of your CIP to 'Final'. An editor will review your draft and ask if anyone objects to its being finalised. If the editor decides there is no rough consensus - for instance, because contributors point out significant issues with the CIP - they may close the PR and request that you fix the issues in the draft before trying again.
-
-## CIP Types
+### CIP Types
 
 - `Standards`:
 - `Meta`:
 - `Informational`:
 
-## CIP Categories
+### CIP Categories
 > Only applicable to CIPs that are *Standards* type.
 
 - `Core`:
@@ -54,7 +75,7 @@ When you believe your CIP is mature and ready to progress past the draft phase, 
 - `Interface`:
 - `RFC`:
 
-## CIP Statuses
+### CIP Statuses
 
 - `Idea`: an CIP that is incomplete.
 - `Draft`: an CIP that is undergoing rapid iteration and changes.
