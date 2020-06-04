@@ -68,6 +68,7 @@ When you believe your CIP PR is mature, you should ask to have your issue added 
 - `Informational`:
 
 ### CIP Categories
+
 > Only applicable to CIPs that are *Standards* type.
 
 - `Core`:
