@@ -28,7 +28,7 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 1. Update your proposal to **LAST CALL** status in the issue label and header. 
 2. Gather community feedback and make improvements as required.
 
-> Last call period is a minimum of 2 weeks and a maximum of the amount of time it takes to address all major community concerns.
+*Last call is a minimum of 2 weeks and a maximum of the amount of time it takes to address all major community concerns.*
 
 #### 4. FINAL: Submit a PR for consideration
 
@@ -38,11 +38,10 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 2. Add your CIP to your fork of the repository.
 3. Submit a Pull Request to the CIP repository.
 
-> Your PR should be a complete first draft of the final CIP. An editor will manually review the first PR for a new CIP and assign it a canonical number (i.e. CIP-1). 
-
-> When submitting your PR, make sure to include a discussions-to header with the URL to the open Github issue in the CIP repository where people can discuss your CIP. Also ensure the 'author' line of your CIP contains either your GitHub username or your email address. If you use your email address, that address must be the one publicly shown on your GitHub profile.
-
-> If your CIP requires images, the image files should be included in a subdirectory of the assets folder for that CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-1/image.png`.
+Remember:
+- Your PR should be a complete first draft of the final CIP. An editor will manually review the first PR for a new CIP and assign it a canonical number (i.e. CIP-1). 
+- When submitting your PR, make sure to include a discussions-to header with the URL to the open Github issue in the CIP repository where people can discuss your CIP. Also ensure the 'author' line of your CIP contains either your GitHub username or your email address. If you use your email address, that address must be the one publicly shown on your GitHub profile.
+- If your CIP requires images, the image files should be included in a subdirectory of the assets folder for that CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-1/image.png`.
 
 ##### 4a. If your PR is a Core CIP
 
