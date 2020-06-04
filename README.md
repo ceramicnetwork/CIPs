@@ -4,7 +4,7 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 
 ## Contributing
 
-### 1. IDEA: Create a new proposal
+#### 1. IDEA: Create a new proposal
 
 1. Create a new issue in the CIP repository containing the idea for your your proposal, following the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md) format. 
 2. Add the appropriate [type](#cip-types) and [category](#cip-categories) labels to your issue.
@@ -13,20 +13,20 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 
 > During the idea period not every CIP detail needs to be completed, however your issue should contain enough information for the community to begin commenting.
 
-### 2. DRAFT: Complete your proposal
+#### 2. DRAFT: Complete your proposal
 
 1. Complete your proposal by filling out all appropriate fields in the CIP template.
 2. Update your proposal to **DRAFT** status in the issue label and header. Drafts are complete proposals, but still undergoing rapid iteration and change.
 3. Gather community feedback and make improvements as required.
 
-### 3. LAST CALL: Gather last feedback
+#### 3. LAST CALL: Gather last feedback
 
 1. Update your proposal to **LAST CALL** status in the issue label and header. Last calls are proposals done with their initial iteration and ready for review by a wider audience.
 2. Gather community feedback and make improvements as required.
 
 > Last call period is a minimum of 2 weeks and a maximum of the amount of time it takes to address all major community concerns.
 
-### 4. FINAL: Submit a PR for consideration
+#### 4. FINAL: Submit a PR for consideration
 
 Once last call is over, you should submit a Pull Request to the CIP repository containing your proposal for consideration.
 
@@ -40,13 +40,13 @@ Once last call is over, you should submit a Pull Request to the CIP repository c
 
 > If your CIP requires images, the image files should be included in a subdirectory of the assets folder for that CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-1/image.png`.
 
-#### 4a. If your PR is a Core CIP
+##### 4a. If your PR is a Core CIP
 
 In your PR, leave the status as 'Last Call' and ping the editors to ask to have your proposal added to the agenda of an upcoming Ceramic Core Devs meeting ([calendar]()), where it can be discussed for inclusion in a future network upgrade. 
 
 If implementers agree to include it, the CIP editors will update the state of your CIP to 'Final' and merge the PR.
 
-#### 4b. If your PR is a non-Core CIP
+##### 4b. If your PR is a non-Core CIP
 
 In your PR, you should update the status of your proposal to 'Final'. An editor will review your draft and ask if anyone objects to its being finalised. If the editor decides there is no rough consensus - for instance, because contributors point out significant issues with the CIP - they may close the PR and request that you fix the issues in the draft before trying again. If the editor finds there is rough consensus, they will merge the PR.
 
