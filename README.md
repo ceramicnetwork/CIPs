@@ -31,9 +31,10 @@ When your proposal exits Last Call, you should submit a Pull Request to the CIP 
 
 Upon submission an editor will manually review the first PR for a new CIP, assign it a canonical number (i.e. CIP-1), and merge it into the CIP repo. They will then reach out to discuss next steps to achieve finalization. Thesse steps will depend on whether or not your CIP is of type Core.
 
-*Remember:*
+*When submitting your Pull Request:*
 
-- When submitting your PR, make sure to include a discussions-to header with the URL to the open Github issue in the CIP repository where people can discuss your CIP. Also ensure the 'author' line of your CIP contains either your GitHub username or your email address. If you use your email address, that address must be the one publicly shown on your GitHub profile.
+- Make sure to include a discussions-to header with the URL to the open Github issue in the CIP repository where people can discuss your CIP. 
+- Ensure the 'author' line of your CIP contains either your GitHub username or your email address. If you use your email address, that address must be the one publicly shown on your GitHub profile.
 - If your CIP requires images, the image files should be included in a subdirectory of the assets folder for that CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-1/image.png`.
 
 ## 5. Get your CIP finalized
