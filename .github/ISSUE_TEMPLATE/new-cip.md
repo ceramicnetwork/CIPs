@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-<remove> ---
+<remove>---
 cip: <to be assigned>
 title: <CIP title>
 author: <a list of the author's or authors' name(s) and/or username(s), or name(s) and email(s), e.g. (use with the parentheses or triangular brackets): FirstName LastName (@GitHubUsername), FirstName LastName <foo@bar.com>, FirstName (@GitHubUsername) and GitHubUsername (@GitHubUsername)>
@@ -18,32 +18,50 @@ type (*only required for Standards): <Core | Networking | Interface | RFC>
 created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
 requires (*optional): <EIP number(s)>
 replaces (*optional): <EIP number(s)>
-<remove> ---
+<remove>---
+  
+<!--You can leave these HTML comments in your merged CIP and delete the visible text guides, they will not appear and may be helpful to refer to if you edit it again. This is the suggested template for new CIPs. Note that an CIP number will be assigned by an editor. When opening a pull request to submit your CIP, please use an abbreviated title in the filename, `cip-draft_title_abbrev.md`. The title should be 44 characters or less.-->
+This is the suggested template for new CIPs.
 
-ATTENTION! 
+## Simple Summary
+<!--Provide a simplified and layman-accessible explanation of the EIP.-->
+Simple summary goes here.
 
-**If you would like to create a DRAFT of your CIP to receive input from the community:**
 
-- Open a new issue in this repository following the format outlined in the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md)
-- Give your issue an appropriate title, following the format - Type (or Category if available): Your Title (i.e. Core: Versioned Doctypes)
-- Add the appropriate Labels to your issue
-  - Type: Standards | Meta | Informational
-  - Category (*only applicable for Standards): Core | Networking | Interface | RFC
-  - Status: Idea | Draft | Last Call | Approved
+## Abstract
+<!--A short (~200 word) description of the technical issue being addressed.-->
+Abstract goes here.
 
-**If you are considering a proposal but would like to gather feedback on the idea first before submitting a draft:**
-- Continue opening an Issue as a thread for discussion. Note that the more clearly and completely you state your idea the higher the quality of the feedback you are likely to receive.
 
-**If you would like to elevate your CIP from draft to formal proposal:**
-- Submit it as a [Pull Request](https://github.com/ceramicnetwork/CIP/pulls)
+## Motivation
+<!--Motivation is critical for CIPs that want to change the Ceramic protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the CIP solves. CIP submissions without sufficient motivation may be rejected outright.-->
+Motivation goes here.
 
----
 
-**Keep in mind the following guidelines from [CIP-1]():**
+## Specification
+<!--The technical specification should describe the syntax and semantics of any new feature.-->
+Specification goes here.
 
-> Each CIP must have a champion - someone who writes the CIP using the style and format described in the template, shepherds the discussions in the appropriate forums, and attempts to build community consensus around the idea. The CIP champion (a.k.a. Author) should first attempt to ascertain whether the idea is CIP-able. Opening an Issue is the best way to go about this.
 
-> Vetting an idea publicly before going as far as writing a CIP is meant to save the potential author time. Asking the Ceramic community first if an idea is original helps prevent too much time being spent on something that is guaranteed to be rejected based on prior discussions (searching the Internet does not always do the trick). It also helps to make sure the idea is applicable to the entire community and not just the author. Just because an idea sounds good to the author does not mean it will work for most people in most areas where Ceramic is used.
+## Rationale
+<!--The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work, e.g. how the feature is supported in other languages. The rationale may also provide evidence of consensus within the community, and should discuss important objections or concerns raised during discussion.-->
+Rationale goes here.
 
-> Once the champion has asked the Ceramic community as to whether an idea has any chance of acceptance, a draft CIP should be presented as a Pull Request. This gives the author a chance to flesh out the draft of a CIP to make it properly formatted, of high quality, and to address initial concerns about the proposal.
 
+## Backwards Compatibility
+<!--All CIPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their severity. The CIP must explain how the author proposes to deal with these incompatibilities. CIP submissions without a sufficient backwards compatibility section may be rejected outright.-->
+Backwards compatibility goes here.
+
+
+## Implementation
+<!--The implementations must be completed before any CIP is given status "Final", but it need not be completed before the CIP is accepted.-->
+Implementation goes here.
+
+
+## Security Considerations
+<!--All CIPs must contain a section that discusses the security implications/considerations relevant to the proposed change. Include information that might be important for security discussions, surfaces risks and can be used throughout the life cycle of the proposal. E.g. include security-relevant design decisions, concerns, important discussions, implementation-specific guidance and pitfalls, an outline of threats and risks and how they are being addressed. CIP submissions missing the "Security Considerations" section will be rejected. An CIP cannot proceed to status "Final" without a Security Considerations discussion deemed sufficient by the reviewers.-->
+Security considerations go here.
+
+
+## Copyright
+Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
