@@ -1,6 +1,6 @@
 # Ceramic Improvement Proposals (CIPs)
 
-Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform, including core protocol specifications, client APIs, and document standards.
+Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform, including core protocol specifications, client APIs, and document standards. This process is defined in [CIP-1]().
 
 ## Contributing
 
@@ -8,25 +8,19 @@ Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform
 
 > Ideas are incomplete proposals meant to kick off community conversation.
 
-1. Create a new issue in the CIP repository containing the idea for your your proposal, following the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md) format. 
-2. Add the appropriate [type](#cip-types) and [category](#cip-categories) labels to your issue.
-3. Designate your proposal as **IDEA** status in the issue label and header. 
-4. Begin seeking feedback from the community.
+Create a new issue in the CIP repository containing the idea for your your proposal, following the [CIP template](https://github.com/ceramicnetwork/CIP/blob/master/.github/ISSUE_TEMPLATE/cip-template.md) format. Add the appropriate [type](#cip-types) and [category](#cip-categories) labels to your issue. Designate your proposal as **IDEA** status in the issue label and header. Begin seeking feedback from the community.
 
 #### 2. DRAFT: Complete your proposal
 
 > Drafts are complete proposals, but still undergoing rapid iteration and change.
 
-1. Complete your proposal by filling out all appropriate fields in the CIP template.
-2. Update your proposal to **DRAFT** status in the issue label and header. 
-3. Gather community feedback and make improvements as required.
+Complete your proposal by filling out all appropriate fields in the CIP template. Update your proposal to **DRAFT** status in the issue label and header. Gather community feedback and make improvements as required.
 
 #### 3. LAST CALL: Gather last feedback
 
 > Last calls are proposals done with their initial iteration and ready for review by a wider audience.
 
-1. Update your proposal to **LAST CALL** status in the issue label and header. 
-2. Gather community feedback and make improvements as required.
+When you feel that your proposal is stable and ready for final review by the community, update your proposal to **LAST CALL** status in the issue label and header. The last call period lasts fora
 
 *Last call is a minimum of 2 weeks and a maximum of the amount of time it takes to address all major community concerns.*
 
@@ -70,10 +64,15 @@ In your PR, you should update the status of your proposal to 'Final'. An editor 
 - `Interface`:
 - `RFC`:
 
-### CIP Statuses
+### CIP Statuses (Issues)
 
-- `Idea`: an CIP that is incomplete.
-- `Draft`: an CIP that is undergoing rapid iteration and changes.
-- `Last Call`: an CIP that is done with its initial iteration and ready for review by a wide audience.
-- `Final (non-Core)`: an CIP that has been in Last Call for at least 2 weeks and any technical changes that were requested have been addressed by the author.
-- `Final (Core)`: an CIP that the Core Devs have decided to implement and release in a future network upgrade or has already been released.
+- `Idea`: an CIP issue that is incomplete.
+- `Draft`: an CIP issue that is undergoing rapid iteration and changes.
+- `Last Call`: an CIP issue that is done with its initial iteration and ready for review by a wide audience.
+
+### CIP Statuses (Pull Requests)
+
+- `Accepted (Core)`: an CIP Pull Request of type Core that has been accepted by the core devs and will be included in a future network upgrade.
+- `Final (Core)`: an CIP Pull Request of type Core that has already been released in a network upgrade.
+- `Final (non-Core)`: an CIP Pull that has been in Last Call for at least 2 weeks and any technical changes that were requested have been addressed by the author.
+
