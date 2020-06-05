@@ -7,6 +7,19 @@ assignees: ''
 
 ---
 
+---
+cip: <to be assigned>
+title: <CIP title>
+author: <a list of the author's or authors' name(s) and/or username(s), or name(s) and email(s), e.g. (use with the parentheses or triangular brackets): FirstName LastName (@GitHubUsername), FirstName LastName <foo@bar.com>, FirstName (@GitHubUsername) and GitHubUsername (@GitHubUsername)>
+discussions-to: <URL of the github issue for this CIP>
+status: Draft
+category: <Standards | Meta | Informational>
+type (*only required for Standards): <Core | Networking | Interface | RFC>
+created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
+requires (*optional): <EIP number(s)>
+replaces (*optional): <EIP number(s)>
+---
+
 ATTENTION! 
 
 **If you would like to create a DRAFT of your CIP to receive input from the community:**
