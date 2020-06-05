@@ -40,7 +40,7 @@ Upon submission an editor will manually review the first PR for a new CIP, assig
 
 > Finalized CIPs are CIPs that are have been approved.
 
-### 5a. If your PR is a Core CIP
+### 5a. If your CIP is a Core CIP
 
 An editor will reach out and provide the dates of upcoming Core Devs calls. Once you select one, your issue will be added to the agenda for that call where it will be discussed for inclusion in a future network upgrade. 
 
@@ -48,7 +48,7 @@ If implementers agree to include your CIP in a future network upgrade, CIP edito
 
 If implementers decide not to include your CIP in a future network upgrade for whatever reason, you are always able to propose it again at a later time. It will remain as status **PENDING** in the CIP repo.
 
-### 5b. If your PR is a non-Core CIP
+### 5b. If your CIP is a non-Core CIP
 
 An editor will ask if anyone objects to it being finalized. If the editor decides there is no rough consensus - for instance, because contributors point out significant issues with the CIP - they may close the PR and request that you fix the issues in the draft before trying again. If the editor finds there is rough consensus, they will merge the PR and update the status to **FINAL**.
 
