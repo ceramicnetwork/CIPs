@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-<remove>---
+<REMOVE>---
 cip: <to be assigned>
 title: <CIP title>
 author: <a list of the author's or authors' name(s) and/or username(s), or name(s) and email(s), e.g. (use with the parentheses or triangular brackets): FirstName LastName (@GitHubUsername), FirstName LastName <foo@bar.com>, FirstName (@GitHubUsername) and GitHubUsername (@GitHubUsername)>
@@ -18,7 +18,11 @@ type (*only required for Standards): <Core | Networking | Interface | RFC>
 created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
 requires (*optional): <EIP number(s)>
 replaces (*optional): <EIP number(s)>
-<remove>---
+<REMOVE>---
+  
+<!--Complete the header section above, and remove the '<REMOVE>' elements. Leave the --- characters.-->
+
+<!--Give your issue a unique descriptive title, preceded by type for standards CIPs, or category for other CIPs. (i.e. Core: Protocol Upgrade, Meta: Define CIP Process, etc.)-->
   
 <!--You can leave these HTML comments in your merged CIP and delete the visible text guides, they will not appear and may be helpful to refer to if you edit it again. This is the suggested template for new CIPs. Note that an CIP number will be assigned by an editor. When opening a pull request to submit your CIP, please use an abbreviated title in the filename, `cip-draft_title_abbrev.md`. The title should be 44 characters or less.-->
 This is the suggested template for new CIPs.
