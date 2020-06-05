@@ -1,6 +1,6 @@
 # Ceramic Improvement Proposals (CIPs)
 
-Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic platform, including core protocol specifications, client APIs, and document standards. This document describes the end-to-end process for contributors to take their CIP from idea to finalization. This process was initially defined in [CIP-1]().
+Ceramic Improvement Proposals (CIPs) are standards for the Ceramic platform, including core protocol specifications, client APIs, doctypes, and document standards. This document describes the end-to-end process for creating a CIP. This process was initially defined in [CIP-1]().
 
 # Contributing
 
@@ -24,7 +24,7 @@ Once you feel that your proposal is stable and ready for final review by the com
 
 ## 4. Submit a PR for consideration by CIP editors
 
-> PRs are stable proposals ready for consideration by CIP editors.
+> Open PRs are CIPs ready for consideration by editors and/or core devs.
 
 When your proposal exits Last Call, you should submit a Pull Request to the CIP repository so EIP editors can review your proposal. To do this, fork the CIP repository by clicking "Fork" in the top right. Add your CIP to your fork of the repository.
 Update your proposal to **PENDING** status in the header. Then, submit a Pull Request to the CIP repository.
@@ -37,14 +37,17 @@ Upon submission an editor will reach out to discuss next steps. These will depen
 - When submitting your PR, make sure to include a discussions-to header with the URL to the open Github issue in the CIP repository where people can discuss your CIP. Also ensure the 'author' line of your CIP contains either your GitHub username or your email address. If you use your email address, that address must be the one publicly shown on your GitHub profile.
 - If your CIP requires images, the image files should be included in a subdirectory of the assets folder for that CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-1/image.png`.
 
+## 5. Get your PR merged
 
-### 4a. If your proposal is a Core CIP
+> Merged PRs are CIPs that have been approved. You can find a list of approved CIPs [here](https://github.com/ceramicnetwork/CIP/tree/master/CIPs).
+
+### 5a. If your PR is a Core CIP
 
 A CIP editor will reach out on your Pull Request and provide the dates of upcoming Core Devs calls. Once you select one, your issue will be added to the agenda for that call where it will be discussed for inclusion in a future network upgrade. 
 
 If implementers agree to include your CIP in a future network upgrade, CIP editors will update the status of your CIP to **ACCEPTED** and merge the PR. Once your proposal has been released in a network upgrade, CIP editors will update the status of your CIP to **FINAL**.
 
-### 4b. If your proposal is a non-Core CIP
+### 5b. If your PR is a non-Core CIP
 
 A CIP editor will review your Pull Request
 
