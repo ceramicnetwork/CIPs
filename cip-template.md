@@ -10,7 +10,11 @@ created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
 requires (*optional): <EIP number(s)>
 replaces (*optional): <EIP number(s)>
 ---
-  
+
+<!--Complete the header section above.-->
+
+<!--Give your issue a unique descriptive title, preceded by type for standards CIPs, or category for other CIPs. (i.e. 'Core: Protocol Upgrade', or 'Meta: Define CIP Process', etc.)-->
+
 <!--You can leave these HTML comments in your merged CIP and delete the visible text guides, they will not appear and may be helpful to refer to if you edit it again. This is the suggested template for new CIPs. Note that an CIP number will be assigned by an editor. When opening a pull request to submit your CIP, please use an abbreviated title in the filename, `cip-draft_title_abbrev.md`. The title should be 44 characters or less.-->
 This is the suggested template for new CIPs.
 
