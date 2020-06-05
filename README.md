@@ -50,15 +50,15 @@ A CIP editor will review your Pull Request
 
 In your PR, you should update the status of your proposal to 'Final'. An editor will review your draft and ask if anyone objects to its being finalised. If the editor decides there is no rough consensus - for instance, because contributors point out significant issues with the CIP - they may close the PR and request that you fix the issues in the draft before trying again. If the editor finds there is rough consensus, they will merge the PR.
 
-## CIP Labels
+# CIP Labels
 
-### CIP Types
+## CIP Types
 
 - `Standards`:
 - `Meta`:
 - `Informational`:
 
-### CIP Categories
+## CIP Categories
 
 > Only applicable to CIPs that are *Standards* type.
 
@@ -67,7 +67,7 @@ In your PR, you should update the status of your proposal to 'Final'. An editor 
 - `Interface`:
 - `RFC`:
 
-### CIP Statuses
+## CIP Statuses
 
 - `Idea`: an CIP issue that is incomplete.
 - `Draft`: an CIP issue that is undergoing rapid iteration and changes.
