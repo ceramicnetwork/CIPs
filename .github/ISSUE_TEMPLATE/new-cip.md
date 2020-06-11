@@ -10,25 +10,57 @@ assignees: ''
 <REMOVE>---
 cip: <to be assigned>
 title: <CIP title>
-author: <a list of the author's or authors' name(s) and/or username(s), or name(s) and email(s), e.g. (use with the parentheses or triangular brackets): FirstName LastName (@GitHubUsername), FirstName LastName <foo@bar.com>, FirstName (@GitHubUsername) and GitHubUsername (@GitHubUsername)>
-discussions-to: <URL of the github issue for this CIP>
-status: Draft
+author: <a list of the author's or authors' name(s) and/or username(s), or name(s) and email(s), e.g. (use with the parentheses or triangular brackets): FirstName LastName (@GitHubUsername), FirstName LastName <foo@bar.com>, FirstName LastName (@GitHubUsername) and GitHubUsername (@GitHubUsername)>
+discussions-to: <URL of the Github issue for this CIP (if this is a PR)>
+status: <Idea | Draft | Last Call | Pending>
 category: <Standards | Meta | Informational>
-type (*only required for Standards): <Core | Networking | Interface | RFC>
+type: <Core | Networking | Interface | RFC> (*only required for Standards)
 created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
-requires (*optional): <EIP number(s)>
-replaces (*optional): <EIP number(s)>
+requires: <EIP number(s)>
+replaces: <EIP number(s)>
 <REMOVE>---
   
-<!--Complete the header section above, and remove the '<REMOVE>' elements. Leave the --- characters.-->
+<!--PROPOSE A NEW CIP-->
 
-<!--Give your issue a unique descriptive title, preceded by type for standards CIPs, or category for other CIPs. (i.e. Core: Protocol Upgrade, Meta: Define CIP Process, etc.)-->
-  
-<!--You can leave these HTML comments in your merged CIP and delete the visible text guides, they will not appear and may be helpful to refer to if you edit it again. This is the suggested template for new CIPs. Note that an CIP number will be assigned by an editor. When opening a pull request to submit your CIP, please use an abbreviated title in the filename, `cip-draft_title_abbrev.md`. The title should be 44 characters or less.-->
-This is the suggested template for new CIPs.
+<!--NOTE: 
+You can leave these HTML comments in your CIP and delete the visible text guides, they will not appear and may be helpful to refer to if you edit your CIP again.-->
+
+<!-- STEPS TO SUBMIT A CIP:
+1. Complete the header above.
+2. Fill in as much content as is appropriate for the status of your CIP.
+3. Add labels for status, category, and type.-->
+
+<!--ADDITIONAL INSTRUCTIONS FOR HEADER SECTION ABOVE-->
+
+<!--<REMOVE>: Remove the <REMOVE> elements from above and below the header. Leave the --- characters.-->
+
+<!--[cip]: Leave this section blank for new issues. Once you submit a PR later in the process, an editor will assign you a canonical number.-->
+
+<!--[title]: Give your issue a concise, descriptive title prefixed by either its *type* for standards CIPs or its category for other CIPs. (i.e. Core: Protocol Upgrade, Meta: Define CIP Process, etc.).-->
+
+<!--[status]: Here is a description of status terms.
+- `Idea`: an CIP issue that is incomplete.
+- `Draft`: an CIP issue that is complete but undergoing rapid iteration and changes.
+- `Last Call`: an CIP issue that is stable and ready for final review by the community.
+- `Pending`: an CIP that has been submitted as a PR or merged but not finalized.-->
+
+<!--[category]: Here is a description of category terms.
+- `Standards`: an CIP that affects the protocol or is an implementation standard.
+- `Meta`: an CIP that affects the governance process for CIPs.
+- `Informational`: an CIP that is merely for informational purposes but requires no action by the community, and will not be merged as a CIP.-->
+
+<!--[type]: Here is a description of type terms. These are only applicable to CIPs in the *Standards* category.
+- `Core`: an CIP that affects the core protocol.
+- `Networking`: an CIP thst affects the networking layer (i.e. libp2p or syncing).
+- `Interface`: an CIP that affects the Ceramic API or provider interface.
+- `RFC`: an CIP that proposes an implementation standard (i.e. doctypes, document configurations, or document schemas).-->
+
+<!--[requires]: A list of CIP(s) that this CIP depends on. *Optional.-->
+
+<!--[replaces]: A list of CIP(s) that this CIP replaces. *Optional.-->
 
 ## Simple Summary
-<!--Provide a simplified and layman-accessible explanation of the EIP.-->
+<!--Provide a simplified and layman-accessible explanation of the CIP.-->
 Simple summary goes here.
 
 
