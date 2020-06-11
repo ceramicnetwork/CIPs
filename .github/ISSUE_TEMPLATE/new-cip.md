@@ -28,7 +28,7 @@ You can leave these HTML comments in your CIP and delete the visible text guides
 <!-- STEPS TO SUBMIT A CIP:
 1. Complete the header above.
 2. Fill in as much content as is appropriate for the status of your CIP.
-3. Add labels for status, category, and type.-->
+3. Add Github labels for status, category, and type.-->
 
 <!--ADDITIONAL INSTRUCTIONS FOR HEADER SECTION ABOVE-->
 
