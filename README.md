@@ -79,3 +79,9 @@ An editor will ask if anyone objects to it being finalized. If the editor decide
 - `Accepted (Core)`: an CIP of type Core that has been accepted by the core devs to be included in a future network upgrade.
 - `Final (Core)`: an CIP of type Core that has already been released in a network upgrade.
 - `Final (non-Core)`: a non-core CIP that has met all criteria and is finished.
+
+# CIP Editors
+- Michael Sena ([@michaelsena](http://github.com/michaelsena))
+- Joel Thorstensson ([@oed](http://github.com/oed))
+- Janko Simonivich
+- Pedro Gomes ([@pedrouid](http://github.com/pedrouid))
