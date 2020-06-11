@@ -1,4 +1,4 @@
-![cip-readme-image](assets/general/cip-readme-header-image.png)
+![cip-readme-image](assets/general/cip.png)
 # Ceramic Improvement Proposals (CIPs)
 
 Ceramic Improvement Proposals (CIPs) are standards for the Ceramic platform, including core protocol specifications, client APIs, doctypes, and document standards. This document describes the end-to-end process for creating a CIP. This process was initially defined in [CIP-1]().
