@@ -59,7 +59,7 @@ An editor will ask if anyone objects to it being finalized. If the editor decide
 
 - `Standards`: an CIP that affects the protocol or is an implementation standard.
 - `Meta`: an CIP that affects the governance process for CIPs.
-- `Informational`: an CIP that
+- `Informational`: an CIP that is merely for informational purposes but requires no action by the community, and will not be merged as a CIP.
 
 ## CIP Categories
 
