@@ -57,18 +57,18 @@ An editor will ask if anyone objects to it being finalized. If the editor decide
 
 ## CIP Types
 
-- `Standards`:
-- `Meta`:
-- `Informational`:
+- `Standards`: an CIP that affects the protocol or is an implementation standard.
+- `Meta`: an CIP that affects the governance process for CIPs.
+- `Informational`: an CIP that
 
 ## CIP Categories
 
-> Only applicable to CIPs that are *Standards* type.
+> Only applicable to CIPs of type *Standards*.
 
-- `Core`:
-- `Networking`:
-- `Interface`:
-- `RFC`:
+- `Core`: an CIP that affects the core protocol.
+- `Networking`: an CIP thst affects the networking layer (i.e. libp2p or syncing).
+- `Interface`: an CIP that affects the Ceramic API or provider interface.
+- `RFC`: an CIP that proposes an implementation standard (i.e. doctypes, document configurations, or document schemas).
 
 ## CIP Statuses
 
@@ -83,5 +83,5 @@ An editor will ask if anyone objects to it being finalized. If the editor decide
 # CIP Editors
 - Michael Sena ([@michaelsena](http://github.com/michaelsena))
 - Joel Thorstensson ([@oed](http://github.com/oed))
-- Janko Simonivich
+- Janko Simonovic
 - Pedro Gomes ([@pedrouid](http://github.com/pedrouid))
