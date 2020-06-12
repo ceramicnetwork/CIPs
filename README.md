@@ -51,15 +51,15 @@ If implementers decide not to include your CIP in a future network upgrade for w
 
 An editor will ask if anyone objects to it being finalized. If the editor decides there is no rough consensus - for instance, because contributors point out significant issues with the CIP - they may close the PR and request that you fix the issues in the draft before trying again. If the editor finds there is rough consensus, they will merge the PR and update it to **Status: FINAL**.
 
-# CIP Labels
+# Terms
 
-## CIP Categories
+## Categories
 
 - `Standards`: an CIP that affects the protocol or is an implementation standard.
 - `Meta`: an CIP that affects the governance process for CIPs.
 - `Informational`: an CIP that is merely for informational purposes but requires no action by the community, and will not be merged as a CIP.
 
-## CIP Types
+## Types
 
 > Only applicable to CIPs of type *Standards*.
 
@@ -68,7 +68,7 @@ An editor will ask if anyone objects to it being finalized. If the editor decide
 - `Interface`: an CIP that affects the Ceramic API or provider interface.
 - `RFC`: an CIP that proposes an implementation standard (i.e. doctypes, document configurations, or document schemas).
 
-## CIP Statuses
+## Statuses
 
 - `Idea`: an CIP issue that is incomplete.
 - `Draft`: an CIP issue that is undergoing rapid iteration and changes.
@@ -78,7 +78,7 @@ An editor will ask if anyone objects to it being finalized. If the editor decide
 - `Final (Core)`: an CIP of type Core that has already been released in a network upgrade.
 - `Final (non-Core)`: a non-core CIP that has met all criteria and is finished.
 
-# CIP Editors
+# Editors
 - Michael Sena ([@michaelsena](http://github.com/michaelsena))
 - Joel Thorstensson ([@oed](http://github.com/oed))
 - Janko Simonovic
