@@ -79,7 +79,7 @@ An editor will ask if anyone objects to it being finalized. If the editor decide
 - `Final (non-Core)`: a non-core CIP that has met all criteria and is finished.
 
 # Editors
-- Michael Sena ([@michaelsena](@michaelsena))
-- Joel Thorstensson ([@oed](@oed))
+- Michael Sena (@michaelsena)
+- Joel Thorstensson (@oed)
 - Janko Simonovic
-- Pedro Gomes ([@pedrouid](@pedrouid))
+- Pedro Gomes (@pedrouid)
