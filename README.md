@@ -33,7 +33,8 @@ Upon submission an editor will manually review the first PR for a new CIP, assig
 
 *When submitting your Pull Request:*
 
-- If your CIP requires images, the image files should be included in a subdirectory of the assets folder for that CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-1/image.png`.
+- Images: If your CIP requires images, the image files should be included in a subdirectory of the assets folder for that CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-1/image.png`.
+- Tables: If your CIP requires tables, the table files should be included in a subdirectory of the tables folder for that CIP as follows: `tables/cip-N` (where **N** is to be replaced with the CIP number). When linking to a table in the CIP, use relative links such as `../tables/cip-1/table.png`.
 
 ## 5. Get your CIP finalized
 
