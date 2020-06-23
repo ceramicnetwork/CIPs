@@ -2,7 +2,7 @@
 cip: 3
 title: Ceramic Ecosystem Alliance (CEA)
 author: Michael Sena (@michaelsena)
-discussions-to:
+discussions-to: https://github.com/ceramicnetwork/CIP/issues/40
 status: Final
 category: Meta
 type:
