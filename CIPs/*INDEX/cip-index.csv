@@ -2,3 +2,21 @@ cip,name,summary,status,category,type,url
 1,Ceramic Improvement Proposals (CIP),Establishes the process for Ceramic Improvement Proposals (CIPs),final,meta,,https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-1/CIP-1.md
 2,Ceramic Community Discord,Establishes Discord as a platform for fast-paced conversations about the Ceramic network,final,meta,,https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-2/CIP-2.md
 3,Ceramic Ecosystem Alliance (CEA),Establishes a grassroots way for community members to organize working groups around important topics,final,meta,,https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-3/CIP-3.md
+4,Ceramic Javascript API,Defines the Javascript interface for using ceramic-core or http-client,draft,standards,interface,https://github.com/ceramicnetwork/CIP/issues/38
+5,Doctypes,Defines how to specify a doctype,draft,standards,interface,https://github.com/ceramicnetwork/CIP/issues/37
+6,3ID Doctype,DID method native to Ceramic,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/6
+7,Account Link Doctype,,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/15
+8,Tile Doctype,,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/9
+9,Schema Document,Document that defines a schema,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/27
+10,Identity Index Protocol (IIP),Standard for indexing a DID's resources,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/3
+11,Root Index,Root directory for a DID's resources,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/21
+12,Profiles Index,Index of a DID's profiles,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/12
+13,Accounts Index,Index of directories for a DID's linked accounts,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/14
+14,Keychains Index,Index of a DID's keychains,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/13
+15,Collections Index,Index of a DID's data collections,idea,standards,rfc,
+16,Services Index,Index of a DID's services,idea,standards,rfc,
+17,Connections Index,Index of directories for a DID's connections,idea,standards,rfc,
+18,Basic Profile,Document for storing a DID's basic profile information,draft,standards,rfc,
+19,Auth Keychain,,idea,standards,rfc,
+20,Crypto Accounts Directory,Stores a list of a DID's crypto accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/44
+21,Oauth Accounts Directory,Stores a list of a DID's Oauth accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/43
