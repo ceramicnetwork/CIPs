@@ -2,4 +2,4 @@ cip,name,summary,status,category,type,url
 1,Ceramic Improvement Proposals (CIP),Establishes the process for Ceramic Improvement Proposals (CIPs),final,meta,,https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-1/CIP-1.md
 2,Ceramic Community Discord,Establishes Discord as a platform for fast-paced conversations about the Ceramic network,final,meta,,https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-2/CIP-2.md
 3,Ceramic Ecosystem Alliance (CEA),Establishes a grassroots way for community members to organize working groups around important topics,final,meta,,https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-3/CIP-3.md
-4,Ceramic Javascript API,Defines the Javascript interface for using ceramic-core or http-client,,interface,,
+4,Ceramic Javascript API,Defines the Javascript interface for using ceramic-core or http-client,,standards,interface,
