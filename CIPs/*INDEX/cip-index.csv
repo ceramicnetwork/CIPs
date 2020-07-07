@@ -16,7 +16,7 @@ cip,name,summary,status,category,type,url
 15,Collections Index,Index of a DID's data collections,idea,standards,rfc,
 16,Services Index,Index of a DID's services,idea,standards,rfc,
 17,Connections Index,Index of directories for a DID's connections,idea,standards,rfc,
-18,Basic Profile,Contains a DID's basic profile information,draft,standards,rfc,
+18,Basic Profile,Document for storing a DID's basic profile information,draft,standards,rfc,
 19,Auth Keychain,,idea,standards,rfc,
 20,Crypto Accounts Directory,Stores a list of a DID's crypto accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/44
 21,Oauth Accounts Directory,Stores a list of a DID's Oauth accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/43
