@@ -5,8 +5,8 @@ cip,name,summary,status,category,type,url
 4,Ceramic Javascript API,Defines the Javascript interface for using ceramic-core or http-client,draft,standards,interface,https://github.com/ceramicnetwork/CIP/issues/38
 5,Doctypes,Defines how to specify a doctype,draft,standards,interface,https://github.com/ceramicnetwork/CIP/issues/37
 6,3ID Doctype,DID method native to Ceramic,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/6
-7,Account Link Doctype,Document that proves ownership over a crypto account,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/15
-8,Tile Doctype,Document that stores JSON objects,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/9
+7,Account Link Doctype,Doctype that proves ownership over a crypto account,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/15
+8,Tile Doctype,Doctype that stores JSON objects,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/9
 9,String Map,Schema for a document that stores mappings from string to string,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/50
 10,DocId Map,Schema for a document that stores mappings from string to Ceramic DocId,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/51
 11,Identity Index Protocol (IIP),Standard for indexing a DID's resources,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/3
