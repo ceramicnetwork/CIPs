@@ -7,16 +7,17 @@ cip,name,summary,status,category,type,url
 6,3ID Doctype,DID method native to Ceramic,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/6
 7,Account Link Doctype,,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/15
 8,Tile Doctype,,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/9
-9,Schema Document,Document that defines a schema,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/27
-10,Identity Index Protocol (IIP),Standard for indexing a DID's resources,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/3
-11,Root Index,Root directory for a DID's resources,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/21
-12,Profiles Index,Index of a DID's profiles,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/12
-13,Accounts Index,Index of directories for a DID's linked accounts,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/14
-14,Keychains Index,Index of a DID's keychains,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/13
-15,Collections Index,Index of a DID's data collections,idea,standards,rfc,
-16,Services Index,Index of a DID's services,idea,standards,rfc,
-17,Connections Index,Index of directories for a DID's connections,idea,standards,rfc,
-18,Basic Profile,Document for storing a DID's basic profile information,draft,standards,rfc,
-19,Auth Keychain,,idea,standards,rfc,
-20,Crypto Accounts Directory,Stores a list of a DID's crypto accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/44
-21,Oauth Accounts Directory,Stores a list of a DID's Oauth accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/43
+9,String Map,Document that stores mappings from string to string,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/50
+10,DocId Map,Document that stores mappings from string to Ceramic DocId,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/51
+11,Identity Index Protocol (IIP),Standard for indexing a DID's resources,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/3
+12,Root Index,Root directory for a DID's resources,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/21
+13,Profiles Index,Index of a DID's profiles,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/12
+14,Accounts Index,Index of directories for a DID's linked accounts,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/14
+15,Keychains Index,Index of a DID's keychains,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/13
+16,Collections Index,Index of a DID's data collections,idea,standards,rfc,
+17,Services Index,Index of a DID's services,idea,standards,rfc,
+18,Connections Index,Index of directories for a DID's connections,idea,standards,rfc,
+19,Basic Profile,Document for storing a DID's basic profile information,draft,standards,rfc,
+20,Auth Keychain,,idea,standards,rfc,
+21,Crypto Accounts Directory,Stores a list of a DID's crypto accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/44
+22,Oauth Accounts Directory,Stores a list of a DID's Oauth accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/43
