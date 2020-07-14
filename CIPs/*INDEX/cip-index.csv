@@ -12,7 +12,7 @@ cip,name,summary,status,category,type,url
 11,Identity Index Protocol (IIP),Standard for indexing a DID's resources,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/3
 12,Root Index,Root directory for a DID's resources,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/21
 13,Profiles Index,Index of a DID's profiles,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/12
-14,Accounts Index,Index of directories for a DID's linked accounts,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/14
+14,Accounts Index,Index of a DID's linked accounts lists,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/14
 15,Keychains Index,Index of a DID's keychains,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/13
 16,Collections Index,Index of a DID's data collections,idea,standards,rfc,
 17,Services Index,Index of a DID's services,idea,standards,rfc,
