@@ -18,6 +18,6 @@ cip,name,summary,status,category,type,url
 17,Services Index,Index of a DID's services,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/19
 18,Connections Index,Index of a DID's connections lists,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/17
 19,Basic Profile,Document for storing a DID's basic profile information,last call,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/32
-20,Auth Keychain,,idea,standards,rfc,
+20,Auth Keychain,Stores data that allows a DID to be authenticated and controlled by many different wallet keys,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/33
 21,Crypto Accounts Directory,Stores a list of a DID's crypto accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/44
 22,Oauth Accounts Directory,Stores a list of a DID's Oauth accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/43
