@@ -23,3 +23,4 @@ cip,name,summary,status,category,type,url
 22,Social Account Links,Stores a list of a DID's linked social accounts,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/43
 23,Linked Accounts Array,Schema for a document that stores a list of a DID's linked accounts,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/55
 24,Settings Index,Index of a DID's global settings documents,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/57
+25,DID Provider,,idea,standards,interface,https://github.com/ceramicnetwork/CIP/issues/4
