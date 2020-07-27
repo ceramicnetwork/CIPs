@@ -26,3 +26,5 @@ cip,name,summary,status,category,type,url
 25,DID Provider,,idea,standards,interface,https://github.com/ceramicnetwork/CIP/issues/4
 26,DID Array,Schema for a document that stores an array of DIDs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/53
 27,DocId to DocId Map,Schema for a document that stores mappings from DocId to DocId,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/54
+28,Collection Definition,Stores the definition of a data collection,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/8
+29,Collection Reference,Stores references to objects defined in a given Collection Definition (CIP-28),idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/10
