@@ -4,9 +4,9 @@ cip,name,summary,status,category,type,url
 3,Ceramic Ecosystem Alliance (CEA),Establishes a grassroots way for community members to organize working groups around important topics,final,meta,,https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-3/CIP-3.md
 4,Ceramic Javascript API,Defines the Javascript interface for using ceramic-core or http-client,last call,standards,interface,https://github.com/ceramicnetwork/CIP/issues/38
 5,Doctypes,Defines how to specify a doctype,last call,standards,interface,https://github.com/ceramicnetwork/CIP/issues/37
-6,3ID Doctype,DID method native to Ceramic,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/6
-7,Account Link Doctype,Doctype that proves ownership over a crypto account,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/15
-8,Tile Doctype,Doctype that stores JSON objects,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/9
+6,3ID Doctype,DID method native to Ceramic,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/6
+7,CAIP-10 Link Doctype,Doctype that proves ownership over a blockchain account,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/15
+8,Tile Doctype,Doctype that stores JSON objects,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/56
 9,String Map,Schema for a document that stores mappings from string to string,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/50
 10,DocId Map,Schema for a document that stores mappings from string to Ceramic DocId,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/51
 11,Identity Index Protocol (IIP),Standard for indexing a DID's resources,last call,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/3
@@ -14,10 +14,15 @@ cip,name,summary,status,category,type,url
 13,Profiles Index,Index of a DID's profiles,last call,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/12
 14,Accounts Index,Index of a DID's linked accounts lists,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/14
 15,Keychains Index,Index of a DID's keychains,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/13
-16,Collections Index,Index of a DID's data collections,idea,standards,rfc,
-17,Services Index,Index of a DID's services,idea,standards,rfc,
-18,Connections Index,Index of a DID's connections lists,idea,standards,rfc,
+16,Collections Index,Index of a DID's data collections,idea,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/26
+17,Services Index,Index of a DID's services,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/19
+18,Connections Index,Index of a DID's connections lists,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/17
 19,Basic Profile,Document for storing a DID's basic profile information,last call,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/32
-20,Auth Keychain,,idea,standards,rfc,
-21,Crypto Accounts Directory,Stores a list of a DID's crypto accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/44
-22,Oauth Accounts Directory,Stores a list of a DID's Oauth accounts and links to proofs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/43
+20,Auth Keychain,Stores data that allows a DID to be authenticated and controlled by many different wallet keys,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/33
+21,Crypto Account Links,Stores a list of a DID's linked crypto accounts,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/44
+22,Social Account Links,Stores a list of a DID's linked social accounts,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/43
+23,Linked Accounts Array,Schema for a document that stores a list of a DID's linked accounts,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/55
+24,Settings Index,Index of a DID's global settings documents,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/57
+25,DID Provider,,idea,standards,interface,https://github.com/ceramicnetwork/CIP/issues/4
+26,DID Array,Schema for a document that stores an array of DIDs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/53
+27,DocId to DocId Map,Schema for a document that stores mappings from DocId to DocId,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/54
