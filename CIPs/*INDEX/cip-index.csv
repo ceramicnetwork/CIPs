@@ -24,3 +24,5 @@ cip,name,summary,status,category,type,url
 23,Linked Accounts Array,Schema for a document that stores a list of a DID's linked accounts,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/55
 24,Settings Index,Index of a DID's global settings documents,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/57
 25,DID Provider,,idea,standards,interface,https://github.com/ceramicnetwork/CIP/issues/4
+26,DID Array,Schema for a document that stores an array of DIDs,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/53
+27,DocId to DocId Map,Schema for a document that stores mappings from DocId to DocId,draft,standards,rfc,https://github.com/ceramicnetwork/CIP/issues/54
