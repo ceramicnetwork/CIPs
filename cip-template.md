@@ -7,10 +7,11 @@ status: <Idea | Draft | Last Call | Pending>
 category: <Standards | Meta | Informational>
 type: <Core | Networking | Interface | RFC> (*only required for Standards)
 created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
+edited: <date created on, in ISO 8601 (yyyy-mm-dd) format>
 requires: <EIP number(s)>
 replaces: <EIP number(s)>
 ---
-  
+
 <!--PROPOSE A NEW CIP-->
 
 <!--NOTE: 
