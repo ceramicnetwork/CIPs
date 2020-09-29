@@ -47,15 +47,17 @@ IDX aims to:
 
 ## Specification
 
-IDX is a Ceramic document which contains mappings from **definitions** to **references**. A reference is a Ceramic document created by a developer that describes a data set. This document contains a title and description, as well as a schema document that the reference has to conform to. In addition to this the definition document may also include configuration options unique to the given data set. A reference is also a Ceramic document which has to use the schema defined in the reference. This document may contain data directly, but it could also contain pointers to data that lives elsewhere (e.g. in other Ceramic document, on other p2p databases, or hosted databases). For each definition there should only ever be one reference.
+IDX is a Ceramic document which contains mappings from **definitions** to **references**. A *definition* is a Ceramic document created by a developer that describes a *data set*. This document contains a title and description, as well as a schema document that the *reference* has to conform to. In addition to this, the *definition* document may also include configuration options unique to the given data set. A *reference* is also a Ceramic document which has to use the schema defined in the *reference*. This document may contain data directly, but it could also contain pointers to data that lives elsewhere (e.g. in other Ceramic document, on other p2p databases, or hosted databases). Each user should only ever have one instance of any unique *definition*.
 
-The definition-reference pair can be stored publicly or encrypted. The former is desirable for data sets which require public discoverability. The latter is useful when possession of the data set should be kept secret. The encrypted reference should be encrypted using a unique symmetric key. This enables the data set to be selectively disclosed by asymmetrically encrypt the symmetric key to a given recipient.
+The *definition-reference* pair can be stored publicly or encrypted. The former is desirable for data sets which require public discoverability. The latter is useful when possession of the data set should be kept secret. The encrypted *reference* should be encrypted using a unique symmetric key. This enables the data set to be selectively disclosed by asymmetrically encrypting the symmetric key to a given recipient.
+
+![IDX Example](./assets/idx-example.png)
 
 ### IDX Document
 
-The IDX document simply consist of a map from strings to strings. For public data sets the *key* in this map is the DocID of the *reference* document, and the *value* is the DocID of the *reference* document.
+The IDX document simply consist of a map from strings to DocIDs. For public data sets the *key* in this map is the DocID of the *definition* document, and the *value* is the DocID of the *reference* document.
 
-For encrypted data sets the *key* is simply a multibase encoded string of 24 random bytes. The *value* is the DocID of the *reference* document. See the [Data Set Keychain Definition](#data-set-keychain-definition) section for more more details on how this works.
+For encrypted data sets the *key* is simply a multibase (base32) encoded string of 24 random bytes. The *value* is the DocID of the *reference* document with content encryption. See the [Data Set Keychain Definition](#data-set-keychain-definition) section for more more details on how this works.
 
 #### Schema
 
@@ -64,9 +66,17 @@ For encrypted data sets the *key* is simply a multibase encoded string of 24 ran
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IDX",
   "type": "object",
   "additionalProperties": {
-    "type": "string"
+    "$ref": "#/definitions/CeramicDocId"
+  },
+  "definitions": {
+    "CeramicDocId": {
+      "type": "string",
+      "pattern": "^ceramic://.+(\\?version=.+)?",
+      "maxLength": 150
+    }
   }
 }
 ```
@@ -94,26 +104,31 @@ The `config` object can be used for whatever is prefered by the creator of the d
   "type": "object",
   "properties": {
     "name": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
+      "type": "string",
+      "maxLength": 150
     },
     "schema": {
-      "type": "string"
+      "$ref": "#/definitions/CeramicDocId"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 420
     },
     "url": {
-      "type": "string"
+      "type": "string",
+      "maxLength": 240
     },
     "config": {
       "type": "object"
     }
   },
-  "required": [
-    "description",
-    "name",
-    "schema"
-  ]
+  "definitions": {
+    "CeramicDocId": {
+      "type": "string",
+      "pattern": "^ceramic://.+(\\?version=.+)?",
+      "maxLength": 150
+    }
+  }
 }
 ```
 
@@ -123,23 +138,23 @@ A *reference* is created for the user when an application requests access to a n
 
 ---
 
-### Data Set Keychain Definition
+### IDX Keychain Definition
 
-An encrypted data set was defined above to be stored in the IDX document as a multibase encoded string of 24 random bytes as the *key* and a DocID of the *reference* as *value*. The reference document should have all of it's content encrypted with a symmetric key, as defined in [CIP-XX](#). Now we need a way to find out which 24 byte random value maps to which *definition*. This is what the **Data Set Keychain** definition is used for. It stores an array of JWEs that are encrypted to the public key of the DID of the user which controls the given IDX document. Once decrypted, these JWEs should contain the following information.
+An encrypted data set was defined above to be stored in the IDX document as a multibase encoded string of 24 random bytes as the *key* and a DocID of the *reference* as *value*. The *reference* document should have all of it's content encrypted with a symmetric key, as defined by [CIP-XX](#). Now, we need a way to find out which 24 byte random value maps to which *definition*. This is what the **IDX Keychain** is used for. It stores an array of JWEs that are encrypted to the public key of the DID of the user which controls the given IDX document. Once decrypted, these JWEs should contain the following information:
 
 ```json
 {
   "paths": ["/idx/<definition-DocID>"],
-  "contentKey": "<multibase-base64pad-symmetric-key-32-bytes",
-  "mapKey": "<multibase-base32-encoded-24-bytes>"
+  "contentKey": "<multibase-base64pad-symmetric-key-32-bytes>",
+  "definitionKey": "<multibase-base32-encoded-24-bytes>"
 }
 ```
 
-In the data above the `paths` property allows selective disclosure to apps using [EIP-2844](https://eips.ethereum.org/EIPS/eip-2844). The `contentKey` is used for content encryption in the *reference*, and the *mapKey* is used to find the correct *reference* DocID in the IDX document.
+In the data above the `paths` property allows selective disclosure to apps using [EIP-2844](https://eips.ethereum.org/EIPS/eip-2844). The `contentKey` is used for content encryption in the *reference*, and the *definitionKey* is used to find the correct *reference* DocID in the IDX document.
 
 #### Reference schema
 
-The **Data Set Keychain** specifies the following schema in it's `schema` property, which is used for the *reference* document.
+The **IDX Keychain** specifies the following schema in it's `schema` property, which is used for the *reference* document. This schema simply represents an array of JWEs.
 
 **Deployment:** `<data-set-keychain-ref-schema-DocID>`
 
@@ -179,19 +194,21 @@ The **Data Set Keychain** specifies the following schema in it's `schema` proper
 
 #### Definition content
 
-The **Data Set Keychain** *definition* is created using the data below.
+The **IDX Keychain** *definition* is created using the data below.
 
 **Deployment:** `<data-set-keychain-def-DocID>`
 
 ```json
 {
-  "name": "Data Set Keychain",
+  "name": "IDX Keychain",
   "description": "A list of encrypted symmetric keys, used for data set encryption.",
   "schema": "<data-set-keychain-ref-schema-DocID>"
 }
 ```
 
+#### Accessing an Encrypted Data Set
 
+If an application want's access to encrypted definition `A` with DocID `docA` they have to request permission using the `did_authenticate` method of **EIP-2844** setting `paths = ["/idx/<docA>"]`. This will allow the app to request the particular JWE in the *IDX Keychain* that corresponds to definition `A`. Request to decrypt any other JWE in the array will result in authentication denied. Once the correct JWE is decryped the app can find the correct *reference* using the `definitionKey`, and decrypt it's content using the `contentKey`.
 
 
 ## Rationale
@@ -212,9 +229,7 @@ The **Data Set Keychain** *definition* is created using the data below.
 
 ## Security Considerations
 
-The main security consideration here is the encrypted *references*. Since the content encryption of each individual document is defined by [CIP-XX](#) we won't go into detail about that here. The mappings to these *references* and the encrypted data in the *Data Set Keychain* is however important to consider. If an application want's access to encrypted definition `A` with DocID `docA` they have to request permission using the `did_authenticate` method of **EIP-2844** setting `paths = ["/idx/<docA>"]`. This will allow the app to request the particular JWE in the *Data Set Keychain* that corresponds to definition `A`. Request to decrypt any other JWE in the array will result in authentication denied. Once the correct JWE is decryped the app can find the correct *reference* using the `mapKey`, and decrypt it's content using the `contentKey`.
-
-This system does add a bit of overhead since the app can not know beforehand which JWE to decrypt and have to try all of them. This is considered acceptable for now since it allows us to not compromise security. Additional protocols for more efficient selective disclosure of data sets can be considered in future CIPs or updates to **EIP-2844**.
+The main security consideration here is the encrypted *references*. Since the content encryption of each individual document is defined by [CIP-XX](#) we won't go into detail about that here. The array of JWEs in the *IDX Keychain* does add a bit of overhead since the app can not know beforehand which JWE to decrypt and have to try all of them. This is considered acceptable for now since it allows us to not compromise on security and privacy. Additional protocols for more efficient selective disclosure of data sets can be considered in future CIPs or updates to **EIP-2844**.
 
 ## Suggested Usages
 
