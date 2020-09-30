@@ -112,26 +112,18 @@ The Basic Profile schema defines the format of a document that contains the prop
       "pattern": "^[A-Z]{2}$"
     },
     "nationalities": {
-      "oneOf": [
-        {
-          "type": "string",
-          "pattern": "^[A-Z]{2}$"
-        },
-        {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "string",
-            "pattern": "^[A-Z]{2}$"
-          }
-        }
-      ]
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}$"
+      }
     },
     "affiliations": {
       "type": "array",
       "items": {
         "type": "string",
-        "maxLength": 140
+        "maxLength": 240
       }
     }
   }
