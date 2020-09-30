@@ -66,7 +66,7 @@ For encrypted data sets the *key* is simply a multibase (base36) encoded string 
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "IDX",
+  "title": "IdentityIndex",
   "type": "object",
   "additionalProperties": {
     "$ref": "#/definitions/CeramicDocId"
