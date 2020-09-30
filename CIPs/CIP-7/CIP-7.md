@@ -102,6 +102,54 @@ state.log.push(new CID(anchorRecord))
 
 No additional validation needs to happen at this point in the state transition function.
 
+### Examples
+
+When resolving an caip10-link document that is linked to a 3ID, the result looks like the examples below.
+
+#### Ethereum account-link
+
+```js
+{
+  metadata: {
+    owners: ["0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb@eip155:1"]
+  },
+  content: "did:3:bafyreiecedg6ipyvwdwycdjiakhj5hiuuutxlvywtkvckwvsnu6pjbwxae"
+}
+```
+
+#### Polkadot account-link
+
+```JS
+{
+  metadata: {
+    owners: ["5hmuyxw9xdgbpptgypokw4thfyoe3ryenebr381z9iaegmfy@polkadot:b0a8d493285c2df73290dfb7e61f870f"],
+  },
+  content: "did:3:bafyreiecedg6ipyvwdwycdjiakhj5hiuuutxlvywtkvckwvsnu6pjbwxae"
+}
+```
+
+#### Cosmos account-link
+
+```JS
+{
+  metadata: {
+  	owners: ["cosmos1t2uflqwqe0fsj0shcfkrvpukewcw40yjj6hdc0@cosmos:cosmoshub-3"],
+  },
+  content: "did:3:bafyreiecedg6ipyvwdwycdjiakhj5hiuuutxlvywtkvckwvsnu6pjbwxae"
+}
+```
+
+#### Bitcoin account-link
+
+```JS
+{
+  metadata: {
+  	owners: ["128Lkh3S7CkDTBZ8W7BbpsN3YYizJMp8p6@bip122:000000000019d6689c085ae165831e93"],
+  },
+  content: "did:3:bafyreiecedg6ipyvwdwycdjiakhj5hiuuutxlvywtkvckwvsnu6pjbwxae"
+}
+```
+
 
 ## Rationale
 
