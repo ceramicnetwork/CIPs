@@ -45,7 +45,7 @@ Where
 The multicodec for DocID is `0xce`
 
 ### Recommendations 
-For compatibility with browser urls it's recommended to encode the DocID using [`base32`](https://github.com/multiformats/multibase).
+For compatibility with browser urls it's recommended to encode the DocID using [`base36`](https://github.com/multiformats/multibase).
 
 ### Registered values
 Using the tables linked below doctypes and subnets can be be publicly registered by submitting a new CIP that adds it to one of the tables.
