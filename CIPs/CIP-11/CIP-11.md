@@ -55,9 +55,9 @@ The *definition-reference* pair can be stored publicly or encrypted. The former 
 
 ### IDX Document
 
-The IDX document simply consist of a map from strings to DocIDs. For public data sets the *key* in this map is the DocID of the *definition* document, and the *value* is the DocID of the *reference* document.
+The IDX document simply consist of a map from strings to DocIDs. For public data sets the *key* in this map is the DocID (without the prepended `ceramic://`) of the *definition* document, and the *value* is the DocID (with `ceramic://`) of the *reference* document.
 
-For encrypted data sets the *key* is simply a multibase (base36) encoded string of 24 random bytes. The *value* is the DocID of the *reference* document with content encryption. See the [Data Set Keychain Definition](#data-set-keychain-definition) section for more more details on how this works.
+For encrypted data sets the *key* is simply a multibase (base36) encoded string of 24 random bytes. The *value* is the DocID (with `ceramic://`) of the *reference* document with content encryption. See the [Data Set Keychain Definition](#data-set-keychain-definition) section for more more details on how this works.
 
 #### Schema
 
