@@ -12,12 +12,12 @@ requires: Tile Doctype (CIP-8), CAIP-10 Link Doctype (CIP-7)
 
 ## Simple Summary
 
-**Crypto Account Links** is a document that stores a list of a DID's publicly linked crypto accounts.
+**Crypto Accounts** is a data set that stores a list of a DID's publicly linked crypto accounts.
 
 
 ## Abstract
 
-Users may want to publicly associate any number of cryptographic key pairs or accounts, such as Ethereum accounts, Flow accounts, smart contracts, etc. to their DID. Creating and storing public links to these various accounts in the Crypto Account Links document enables anyone to observe these associations and as a result resolve a DID and its resources by looking up a specific crypto account or vice versa. 
+Users may want to publicly associate any number of cryptographic key pairs or accounts, such as Ethereum accounts, Flow accounts, smart contracts, etc. to their DID. Creating and storing public links to these various accounts in the Crypto Accounts *reference* document enables anyone to observe these associations and as a result resolve a DID and its resources by looking up a specific crypto account or vice versa. 
 
 Adding an account to the Crypto Accounts document *does not* allow that account to control or authenticate the DID. Rather it is simply just a verifiable public mapping.
 
@@ -61,7 +61,7 @@ The Crypto Accounts is a *definition* that contains a map from CAIP-10 account-i
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "title": "CryptoAccountLinks",
+  "title": "CryptoAccounts",
   "patternProperties": {
     "^[a-zA-Z0-9]{1,63}@[-a-zA-Z0-9]{3,16}:[-a-zA-Z0-9]{1,47}": {
       "type": "string",
@@ -78,7 +78,7 @@ In the config of the *definition* defined above we can see a `tags` property. We
 
 ### Example
 
-An example Crypto Account Links document that includes two Ethereum accounts and one Bitcoin account.
+An example Crypto Accounts *reference* document that includes two Ethereum accounts and one Bitcoin account.
 
 ```js
 const profile = await ceramic.createDocument('tile', {
@@ -97,7 +97,7 @@ const profile = await ceramic.createDocument('tile', {
 
 ## Suggested Usage
 
-**CAIP-10 Links**: The Crypto Account Links document stores references to [CAIP-10 Links (CIP-7)](https://github.com/ceramicnetwork/CIP/issues/15), which are separate documents that cryptographically prove that the DID owns a given linked blockchain account. At the time a CAIP-10 Link is created, it should be added to this document.
+**CAIP-10 Links**: The Crypto Accounts *reference* document stores references to [CAIP-10 Links (CIP-7)](https://github.com/ceramicnetwork/CIP/issues/15), which are separate documents that cryptographically prove that the DID owns a given linked blockchain account. At the time a CAIP-10 Link is created, it should be added to this document.
 
 
 ## Rationale
