@@ -62,7 +62,7 @@ The Basic Profile schema defines the format of a document that contains the prop
 | `gender`           | a gender                       | string                                                       | 42 char  | optional | female                       |
 | `residenceCity`    | a city of residence            | string                                                       | 140 char | optional | Berlin                       |
 | `residenceCountry` | a country of residence         | [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) | 2 char   | optional | DE                           |
-| `nationalities`    | nationalities                  | array of [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) values | 40 char  | optional | CN                           |
+| `nationalities`    | nationalities                  | array of [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) values | 2 char   | optional | CN                           |
 | `affiliations`     | affiliations                   | array of strings                                             | 240 char | optional | Ceramic Ecosystem Alliance   |
 
 **Deployment:** `<reference-schema-DocID>`
@@ -116,7 +116,8 @@ The Basic Profile schema defines the format of a document that contains the prop
       "minItems": 1,
       "items": {
         "type": "string",
-        "pattern": "^[A-Z]{2}$"
+        "pattern": "^[A-Z]{2}$",
+  			"maxItems": 5
       }
     },
     "affiliations": {
