@@ -179,7 +179,7 @@ The **IDX Keychain** specifies the following schema in it's `schema` property, w
         "type": "string"
       },
       "recipients": {
-        "type": "object",
+        "type": "array",
       }
     },
     "required": [
@@ -251,10 +251,10 @@ IDX does not provide a DID but can be used with any DID. To use IDX, simply stor
 
 Below you can find a list of a few example definitions.
 
-* [CIP-XX](#) - Basic Profile
-* [CIP-XX](#) - Crypto Accounts
+* [CIP-19](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-19/CIP-19.md) - Basic Profile
+* [CIP-21](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-21/CIP-21.md) - Crypto Accounts
 * [CIP-XX](#) - Textile ThreadsDB Template
-* [CIP-XX](#) - Auth Keychain
+* [CIP-20](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-20/CIP-20.md) - 3ID Keychain
 
 ## Copyright
 
