@@ -53,10 +53,10 @@ The Basic Profile schema defines the format of a document that contains the prop
 | Property           | Description                    | Value                                                        | Max Size | Required | Example                      |
 | ------------------ | ------------------------------ | ------------------------------------------------------------ | -------- | -------- | ---------------------------- |
 | `name`             | a name                         | string                                                       | 150 char | optional | Mary Smith                   |
-| `image`            | an image                       | IPFS CID                                                     |          | optional |                              |
+| `image`            | an image                       | IPFS CID URI                                                 |          | optional |                              |
 | `description`      | a short description            | string                                                       | 420 char | optional | This is my cool description. |
 | `emoji`            | an emoji                       | unicode                                                      | 2 char   | optional | 🔢                            |
-| `background`       | a background image (3:1 ratio) | IPFS CID                                                     |          | optional |                              |
+| `background`       | a background image (3:1 ratio) | IPFS CID URI                                                 |          | optional |                              |
 | `birthDate`        | a date of birth                | [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)           | 10 char  | optional | 1990-04-24                   |
 | `url`              | a url                          | string                                                       | 240 char | optional | http://ceramic.network       |
 | `gender`           | a gender                       | string                                                       | 42 char  | optional | female                       |
@@ -72,13 +72,20 @@ The Basic Profile schema defines the format of a document that contains the prop
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "BasicProfile",
   "type": "object",
+  "definitions": {
+    "IPFSUrl": {
+      "type": "string",
+      "pattern": "^ipfs://.+",
+      "maxLength": 150
+    }
+  },
   "properties": {
     "name": {
       "type": "string",
       "maxLength": 150
     },
     "image": {
-      "type": "string"
+      "$ref": "#/definitions/IPFSUrl"
     },
     "description": {
       "type": "string",
@@ -89,7 +96,7 @@ The Basic Profile schema defines the format of a document that contains the prop
       "maxLength": 2
     },
     "background": {
-      "type": "string"
+      "$ref": "#/definitions/IPFSUrl"
     },
     "birthDate": {
       "type": "string",
