@@ -116,7 +116,7 @@ In the config of the *definition* defined above we can see a `tags` property. We
 
 ### Example
 
-An example Crypto Accounts *reference* document that includes two Ethereum accounts and one Bitcoin account.
+An example Social Accounts *reference* document that includes two accounts, Twitter and Github.
 
 ```js
 const profile = await ceramic.createDocument('tile', {
@@ -145,7 +145,7 @@ const profile = await ceramic.createDocument('tile', {
 
 ## Suggested Usage
 
-It is recomended to always include both the `claim` and the `attestation` property. The claim is usually a way to verify that the social account actually want's to be associated with the users DID. The attestation is a [Verifiable Credential](https://github.com/decentralized-identity/did-jwt-vc) from a third party that this is the case. In some scenarious it might be impossible to provide a publicly verifiable `claim`. In these cases just an `attestation` will have to suffice.
+It is recomended to always include both the `claim` and the `attestation` property. The claim is usually a way to verify that the social account actually want's to be associated with the users DID. The attestation is a [Verifiable Credential](https://github.com/decentralized-identity/did-jwt-vc) from a third party that this is the case. In some scenarious it might be impossible to provide a publicly verifiable `claim`, for example it's not possible to create a public post which can be linked to in an easy. In these cases just an `attestation` will have to suffice. Note however that this means that there is full trust in the issuer of this attestation, where as when there is a public claim it's always possible to double check the truth of the attestation.
 
 
 ## Rationale
@@ -156,7 +156,7 @@ It is recomended to always include both the `claim` and the `attestation` proper
 ## Implementation
 
 - [**js-idx**](https://idx.xyz/): A javascript library for reading and writing data sets associated with a DID
-- [**js-idx-constants**](https://github.com/ceramicstudio/js-idx-constants): A javascript library to be used with js-idx which contains the Basic Profile definition.
+- [**js-idx-constants**](https://github.com/ceramicstudio/js-idx-constants): A javascript library to be used with js-idx which contains the Social Accounts definition.
 
 
 ## Copyright
