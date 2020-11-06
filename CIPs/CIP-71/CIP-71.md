@@ -1,8 +1,8 @@
 ---
-cip: <to be assigned>
+cip: 71
 title: MultiQueries
 author: Joel Thorstensson (@oed)
-discussions-to: <URL of the Github issue for this CIP (if this is a PR)>
+discussions-to: https://github.com/ceramicnetwork/CIP/issues/72
 status: Draft
 category: Standards
 type: Core
