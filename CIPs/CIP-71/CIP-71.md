@@ -30,13 +30,13 @@ There are three main changes outlined below. The most important one is **Pubsub 
 
 ### CeramicApi
 
-The *CeramicApi* is updated to be able to sync mutliple documents (preform a Multiquery) that may be linked from the initial document thoughout the `pahts`.
+The *CeramicApi* is updated to be able to sync mutliple documents (preform a Multiquery) that may be linked from the initial document thoughout the `paths`.
 
 ```typescript
 function loadDocuments(id: DocID, paths: string[]): Promise<Record<DocID, Doctype>>
 ```
 
-For example if *doc A* links to *doc B* on the `coolLink` property in it's content `ceramic.loadDocuments(<DocID(doc A)>, ['/coolLink'])` would return:
+For example if *doc A* links to *doc B* on the `coolLink` property in its content `ceramic.loadDocuments(<DocID(doc A)>, ['/coolLink'])` would return:
 
 ```typescript
 {
@@ -45,9 +45,11 @@ For example if *doc A* links to *doc B* on the `coolLink` property in it's conte
 }
 ```
 
+If some of the given `paths` are not present in the document the method should just return the documents that where actually present. This will allow developers to optimistically query for multiple linked documents and only get the already created docs.
+
 ### MultiQuery on http-daemon
 
-The http daemon should be extended with a `states` method. This method allows for multiple Multiqueries to be done at once. The reason to add the ability to make multiple queries at once is that the http-client often want's to maintain the state of multiple documents at once in the background, so this method can be used to reduce the number of requests made.
+The http daemon should be extended with a `states` method. This method allows for multiple Multiqueries to be done at once. The reason to add the ability to make multiple queries at once is that the http-client often wants to maintain the state of multiple documents at once in the background, so this method can be used to reduce the number of requests made.
 
 **Endpoint:** `POST /api/v0/states`
 
@@ -94,53 +96,61 @@ interface Update {
 }
 
 interface Query {
-	typ: 1
-	id: number
-	doc: string
-	paths?: Array<string>
+  typ: 1
+  id: string
+  doc: string
+  paths?: Array<string>
+}
+
+interface TipMap {
+  [docid: string]: string
 }
 
 interface Response {
   typ: 2
-	id: number
-	[doc: string]: string
+  id: string
+  tips: TipMap
 }
 ```
 
 #### Update
 
-The new update message merges the previous `UPDATE` and `ANCHOR_META` message types by adding an optional `anchorService` property to the mesasge. This property will be set if an anchor has been requested but not yet returned.
+The new update message merges the previous `UPDATE` and `ANCHOR_META` message types by adding an optional `anchorService` property to the mesasge. This property will be set if an anchor has been requested but not yet returned. When an anchor do get returned a new update message will be sent with the CID of the *anchorRecord* as the `tip`, and `anchorSerivce` not set.
 
 **Properties:**
 
 * `typ` - the message type, always `0`
-
 * `doc` - the DocID that is being updated
 * `tip` - the CID of the new Tip of the document
-* `anchorService` - the url of the anchor service that was used to request an anch or
+* `anchorService` - the url of the anchor service that was used to request an anchor
 
 #### Query
 
-The query message is a replacement of the old `REQUEST` message type. The most important aspect is the new format for the `id` and the new property `paths`. 
+The query message is a replacement of the old `REQUEST` message type. The most important aspect is the new format for the `id` and the new property `paths`.
 
 **Properties:**
 
 * `typ` - the message type, always `1`
-* `id` - unique identifier of the query, random number
-
+* `id` - unique identifier of the query, multihash of the query object without the `id` property
 * `doc` - the DocID that is being queried
 * `paths` - the paths in the contents of the documents to explore
 
 #### Response
 
-The response message is a replacement of the previous `RESPONSE` message type. Note the use of the new format for the `id` property, and the new way of adding multiple DocIDs and Tips to the same response.
+The response message is a replacement of the previous `RESPONSE` message type. Note the use of the new format for the `id` property, and the map in the `tips` property as a way of adding multiple DocIDs and Tips to the same response.
+
+There are two main reasons to include other DocIDs and tips than the main document requested:
+
+* The given `paths` traverses other documents
+* Any of the documents has a `schema` defined
 
 **Properties:**
 
 * `typ` - the message type, always `2`
 * `id` - should be the same as the id of the query that is being responded to
+* `tips` -  a map from DocIDs to tips
 
-In addition to the properties above the response message also contains at least one property where the key is a DocID and the value is the CID of the latest tip of the given document. 
+The `tips` property must contain at least one property where the key is the DocID of the requested document and the value is the  CID of the latest tip of the given document.
 
 
 ## Rationale
