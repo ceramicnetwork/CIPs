@@ -115,7 +115,7 @@ interface Response {
 
 #### Update
 
-The new update message merges the previous `UPDATE` and `ANCHOR_META` message types by adding an optional `anchorService` property to the message. This property will be set if an anchor has been requested but not yet returned. When an anchor do get returned a new update message will be sent with the CID of the *anchorRecord* as the `tip`, and `anchorSerivce` not set.
+The new update message merges the previous `UPDATE` and `ANCHOR_META` message types by adding an optional `anchorService` property to the message. This property will be set if an anchor has been requested but not yet returned. When an anchor does get returned a new update message will be sent with the CID of the *anchorRecord* as the `tip`, and `anchorService` not set.
 
 **Properties:**
 
