@@ -33,7 +33,7 @@ There are three main changes outlined below. The most important one is **Pubsub 
 The *CeramicApi* is updated to be able to sync mutliple documents (preform a Multiquery) that may be linked from the initial document thoughout the `paths`.
 
 ```typescript
-function loadDocuments(id: DocID, paths: string[]): Promise<Record<DocID, Doctype>>
+function loadLinkedDocuments(id: DocID, paths: string[]): Promise<Record<DocID, Doctype>>
 ```
 
 For example if *doc A* links to *doc B* on the `coolLink` property in its content `ceramic.loadDocuments(<DocID(doc A)>, ['/coolLink'])` would return:
@@ -115,7 +115,7 @@ interface Response {
 
 #### Update
 
-The new update message merges the previous `UPDATE` and `ANCHOR_META` message types by adding an optional `anchorService` property to the mesasge. This property will be set if an anchor has been requested but not yet returned. When an anchor do get returned a new update message will be sent with the CID of the *anchorRecord* as the `tip`, and `anchorSerivce` not set.
+The new update message merges the previous `UPDATE` and `ANCHOR_META` message types by adding an optional `anchorService` property to the message. This property will be set if an anchor has been requested but not yet returned. When an anchor do get returned a new update message will be sent with the CID of the *anchorRecord* as the `tip`, and `anchorSerivce` not set.
 
 **Properties:**
 
@@ -131,7 +131,7 @@ The query message is a replacement of the old `REQUEST` message type. The most i
 **Properties:**
 
 * `typ` - the message type, always `1`
-* `id` - unique identifier of the query, multihash of the query object without the `id` property
+* `id` - unique identifier of the query, multihash of the query object without the `id` property canonicalized using dag-cbor
 * `doc` - the DocID that is being queried
 * `paths` - the paths in the contents of the documents to explore
 
