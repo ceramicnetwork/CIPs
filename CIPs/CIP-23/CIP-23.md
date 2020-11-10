@@ -1,6 +1,6 @@
 ```
 cip: 23
-title: Social Accounts Definition
+title: Also Known As Definition
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
 status: Last Call
 category: Standards
@@ -12,19 +12,19 @@ requires: Tile Doctype (CIP-8)
 
 ## Simple Summary
 
-**Social Accounts** is a data set that stores a list of a social accounts that are publicly linked to the users DID.
+**Also Known As** is a data set that stores a list of accounts that are publicly linked to the users DID.
 
 
 ## Abstract
 
-Users may want to publicly associate any number of social accounts, such as Twitter, GitHub, discord, etc. to their DID. Creating and storing public verifications for these various accounts in the Social Accounts *reference* document enables anyone to observe these associations and as a result infer trust about the given user. 
+Users may want to publicly associate any number of social accounts, such as Twitter, GitHub, discord, etc. to their DID. Creating and storing public verifications for these various accounts in the Also Known As *reference* document enables anyone to observe these associations and as a result infer trust about the given user.
 
-Adding an account to the Social Accounts document *does not* allow that account to control or authenticate the DID. Rather it is simply just a verifiable public mapping.
+Adding an account to the Also Known As document *does not* allow that account to control or authenticate the DID. Rather it is simply just a verifiable public mapping.
 
 
 ## Motivation
 
-Publicly associating one or more social accounts to a DID offers a number of benefits.
+Publicly associating one or more accounts to a DID offers a number of benefits.
 
 - Public association with a DID to any number of accounts
 - Serves as a foundation for building aggregated reputation on an identity comprised of multiple accounts, not individual one-off accounts
@@ -33,7 +33,7 @@ Publicly associating one or more social accounts to a DID offers a number of ben
 
 ## Specification
 
-The Social Accounts is a *definition* that contains an array of *linked accounts* entries.
+The Also Known As document is a *definition* that contains an array of *linked accounts* entries.
 
 ### Definition content
 
@@ -41,11 +41,11 @@ The Social Accounts is a *definition* that contains an array of *linked accounts
 
 ```json
 {
-  "name": "Social Accounts",
-  "description": "Social accounts linked to your DID",
+  "name": "Also Known As",
+  "description": "Accounts linked to your DID",
   "schema": "<reference-schema-DocID>",
   "config": {
-    "tags": ["SocialAccounts"]
+    "tags": ["AlsoKnownAs"]
   }
 }
 ```
@@ -60,7 +60,7 @@ The reference schema defines a document which maintains an array of JSON objects
 | `host`         | Host used to resolve the ID                                  | string           | 150 char  | required | https://github.com                           |
 | `id`           | Path of the unique ID within the host. Can be the same as the host to represent the root. | string           | 450 char  | required | https://github.com/marysmith                 |
 | `claim`        | Unique location where the DID string is stored. Should be a place where only the given ID could have posted the DID. | string           | 450 char  | optional | https://gist.github.com/marysmith/5c48debdb7 |
-| `attestations` | Attestations issued by third-party services which have verified the claim against the ID. | array of strings | 1000 char | optional | ceramic://bafy...123                         |
+| `attestations` | Attestations issued by third-party services which have verified the claim against the ID.<br />The key in this object should be "did-jwt-vc" in order to indicate a verifiable credential. <br />For backwards compatibility reasons "did-jwt" is also supported. | array of objects | 1000 char | optional | {did-jwt-vc: "eyJhbGciOiJIUzI1..."}          |
 
 **Deployment:** `<reference-schema-DocID>`
 
@@ -68,35 +68,47 @@ The reference schema defines a document which maintains an array of JSON objects
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "array",
-  "title": "SocialAccounts",
+  "title": "AlsoKnownAs",
   "items": {
     "$ref": "#/definitions/Account"
   },
   "definitions": {
+    "Attestation": {
+      "type": "object",
+      "properties": {
+        "did-jwt": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "did-jwt-vc": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
     "Account": {
       "type": "object",
       "properties": {
         "protocol": {
           "type": "string",
-		      "maxLength": 50
+          "maxLength": 50
         },
         "host": {
           "type": "string",
-		      "maxLength": 150
+          "maxLength": 150
         },
         "id": {
           "type": "string",
-		      "maxLength": 450
+          "maxLength": 450
         },
         "claim": {
           "type": "string",
-		      "maxLength": 450
+          "maxLength": 450
         },
         "attestations": {
-          "type": "array"
+          "type": "array",
           "items": {
-            "type": "string",
-		      	"maxLength": 1000
+            "$ref": "#/definitions/Attestation"
           }
         }
       },
@@ -122,23 +134,23 @@ An example Social Accounts *reference* document that includes two accounts, Twit
 const profile = await ceramic.createDocument('tile', {
   metadata: {
     schema: "<reference-schema-DocID>"
-    tags: ["SocialAccounts"]
+    tags: ["AlsoKnownAs"]
   },
   content: [{
-		protocol: "https",
-		host: "https://twitter.com",
-		id: "https://twitter.com/marysmith",
+    protocol: "https",
+    host: "https://twitter.com",
+    id: "https://twitter.com/marysmith",
     // ID of tweet containing the user's DID
-		claim: "https://twitter.com/marysmith/status/1274020265417076736",
-		attestations: ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."]
-	}, {
-  	protocol: "https"
-		host: "https://github.com"
-		id: "https://github.com/marysmith"
+    claim: "https://twitter.com/marysmith/status/1274020265417076736",
+    attestations: [{ did-jwt-vc: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }]
+  }, {
+    protocol: "https",
+    host: "https://github.com",
+    id: "https://github.com/marysmith",
     // ID of Gist containing the user's DID
-		claim: "https://gist.github.com/marysmith/5c48debdb7089b3c8f86cca31739572c"
-		attestations: ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."]
-	}]
+    claim: "https://gist.github.com/marysmith/5c48debdb7089b3c8f86cca31739572c",
+    attestations: [{ did-jwt-vc: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }]
+  }]
 })
 ```
 
@@ -150,7 +162,7 @@ It is recomended to always include both the `claim` and the `attestation` proper
 
 ## Rationale
 
-**Decentralization & Trust:** Linked social account directories are data that needs to be globally-available, cross-chain, censorship-resistant, and live permissionlessly in the public domain (not on any single server). Additionally this information should be owned by a DID and will need to be updated from time to time. These requirements make Ceramic the most appropriate platform for publishing account links content.
+**Decentralization & Trust:** Linked account directories are data that needs to be globally-available, cross-chain, censorship-resistant, and live permissionlessly in the public domain (not on any single server). Additionally this information should be owned by a DID and will need to be updated from time to time. These requirements make Ceramic the most appropriate platform for publishing account links content.
 
 
 ## Implementation
