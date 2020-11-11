@@ -1,3 +1,0 @@
-name,           code,           description,                                                    link
-Devnet,         0x00,           The development network, used for testing purposes,             --,
-Livenet,        0x01,           The public Ceramic network,                                     --,
