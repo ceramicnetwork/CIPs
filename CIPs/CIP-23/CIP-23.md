@@ -138,15 +138,15 @@ const profile = await ceramic.createDocument('tile', {
   },
   content: [{
     protocol: "https",
-    host: "https://twitter.com",
-    id: "https://twitter.com/marysmith",
+    host: "twitter.com",
+    id: "marysmith",
     // ID of tweet containing the user's DID
     claim: "https://twitter.com/marysmith/status/1274020265417076736",
     attestations: [{ did-jwt-vc: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }]
   }, {
     protocol: "https",
-    host: "https://github.com",
-    id: "https://github.com/marysmith",
+    host: "github.com",
+    id: "marysmith",
     // ID of Gist containing the user's DID
     claim: "https://gist.github.com/marysmith/5c48debdb7089b3c8f86cca31739572c",
     attestations: [{ did-jwt-vc: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }]
@@ -157,7 +157,7 @@ const profile = await ceramic.createDocument('tile', {
 
 ## Suggested Usage
 
-It is recomended to always include both the `claim` and the `attestation` property. The claim is usually a way to verify that the social account actually want's to be associated with the users DID. The attestation is a [Verifiable Credential](https://github.com/decentralized-identity/did-jwt-vc) from a third party that this is the case. In some scenarious it might be impossible to provide a publicly verifiable `claim`, for example it's not possible to create a public post which can be linked to in an easy. In these cases just an `attestation` will have to suffice. Note however that this means that there is full trust in the issuer of this attestation, where as when there is a public claim it's always possible to double check the truth of the attestation.
+It is recomended to always include both the `claim` and the `attestation` property. The claim is usually a way to verify that the social account actually wants to be associated with the users DID. The attestation is a [Verifiable Credential](https://github.com/decentralized-identity/did-jwt-vc) from a third party that this is the case. In some scenarious it might be impossible to provide a publicly verifiable `claim`, for example; in some systems it may not be possible to create a public post which can be easily linked to. In these cases just an `attestation` will have to suffice. Note however that this means that there is full trust in the issuer of this attestation, where as when there is a public claim it's always possible to double check the truth of the attestation.
 
 
 ## Rationale
