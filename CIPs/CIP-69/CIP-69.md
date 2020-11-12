@@ -46,7 +46,7 @@ The merkle tree should be constructed as a balanced tree. See the [implementatio
 ### Leaf sorting
 Before creating the tree the leafs (updates) should be sorted. The sorting should be based on a few different properties of the Ceramic document that is being updated and the update record itself:
 
-1. `topic` - sort by the topic in the document metadata
+1. `collection` - sort by the topic in the document metadata
 2. `schema` - if multiple documents have the same topic, sort by the *schema*
 3. `DID` - if multiple documents have the same topic and schema, extract and sorty by the DID from the `kid` in the signed record
 4. `DocID` - finally sort by the DocID
@@ -55,7 +55,7 @@ Before creating the tree the leafs (updates) should be sorted. The sorting shoul
 ### Bloom filter
 The bloom filter should include the following data for each document that is being updated:
 
-* The `topic`, prepend each tag string with `topic-`
+* The `collection`, prepend each tag string with `collection-`
 
 * The first 5 `tags`, prepend each tag string with `tag-`
 * The `schema`, prepend the schema DocID string with `schema-`
