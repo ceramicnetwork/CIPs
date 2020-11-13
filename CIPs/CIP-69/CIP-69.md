@@ -44,23 +44,23 @@ The merkle tree should be constructed as a balanced tree. See the [implementatio
 
 
 ### Leaf sorting
-Before creating the tree the leafs (updates) should be sorted. The sorting should be based on a few different properties of the Ceramic document that is being updated and the update record itself:
+Before creating the tree the leafs (updates) should be sorted. The sorting should be based on a few different properties of the Ceramic document that is being updated:
 
 1. `collection` - sort by the topic in the document metadata
 2. `schema` - if multiple documents have the same topic, sort by the *schema*
-3. `DID` - if multiple documents have the same topic and schema, extract and sorty by the DID from the `kid` in the signed record
+3. `controllers` - if multiple documents have the same topic and schema, sort by the first controller, then subsequent ones
 4. `DocID` - finally sort by the DocID
 
 
 ### Bloom filter
 The bloom filter should include the following data for each document that is being updated:
 
-* The `collection`, prepend each tag string with `collection-`
+* The `collection`, prepend each string with `collection-`
 
 * The first 5 `tags`, prepend each tag string with `tag-`
 * The `schema`, prepend the schema DocID string with `schema-`
-* All DID strings in the `controllers` array, prepend each DID with `did-`
-* The DocID string of the document
+* All DID strings in the `controllers` array, prepend each DID with `controller-`
+* The DocID string of the document, prepend with `docid-`
 
 The bloom filter is created using the javascript [bloom-filter](https://github.com/Callidon/bloom-filters) library. Specifically using the *Classic Bloom Filter*. An example for how to create the filter can be observed below.
 
@@ -84,9 +84,9 @@ Now we can create the *TreeMetaData* object, which can be added into ipfs and th
 
 
 ## Rationale
-This CIP provides the most efficient merkle tree implementation possible in IPLD. The more interesting aspects of this CIP are however the sorting algorithm and the bloom filter implementation. 
+This CIP provides the most efficient merkle tree implementation possible in IPLD DAG-COSE. The more interesting aspects of this CIP are however the sorting algorithm and the bloom filter implementation.
 
-The sorting allows for more efficient lookup in the merkle tree, primarily based on the primary tag of the updated Ceramic document. Further sorting is also provided by the additional properties. If an implementer knows the first tag of a document they can do a binary search though the tree to find the correct update.
+The sorting allows for more efficient lookup in the merkle tree, primarily based on the collection of the updated Ceramic document. Further sorting is also provided by the additional properties. If an implementer knows the collection of a document they can do a binary search though the tree to find the correct update.
 
 The bloom filter allows an observer to efficiently determine if any of the given properties are most likely in the merkle tree. Since the filter itself is stored in a separate IPLD object the filter doesn't add any overhead when verifying a merkle witness for a document update. The bloomfilter implementation that was chosen is currently only implemented in javascript, we failed to find an implementation that is compatible with multiple languages. However, since we introduce a `bloomType` property we can easily determine which implementation was used. This also allows us to change the implementation used in the future.
 
