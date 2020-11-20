@@ -60,6 +60,7 @@ When the genesis record is applied a `DocState` object is created that looks lik
   metadata: {
     owners: genesisRecord.owners,
     schema: genesisRecord.schema,
+    family: genesisRecord.family,
     tags: genesisRecord.tags
   },
   content: genesisRecord.data,
@@ -89,6 +90,7 @@ state.next = {
   content: applyJSONPatch(state.content, signedRecord.data),
   metadata: {
     schema: signedRecord.schema,
+    family: genesisRecord.family,
     tags: signedRecord.tags
   }
 }

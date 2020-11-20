@@ -41,7 +41,7 @@ The Basic Profile is simply a *definition* where the reference holds the data of
   "description": "Basic profile information for a DID",
   "schema": "<reference-schema-DocID>",
   "config": {
-    "tags": ["BasicProfile"]
+    "family": "BasicProfile"
   }
 }
 ```
@@ -138,9 +138,9 @@ The Basic Profile schema defines the format of a document that contains the prop
 }
 ```
 
-### Tags
+### Family
 
-In the config of the *definition* defined above we can see a `tags` property. We simply apply the tags in the config to the `tags` property in the *metadata* of the *reference* Tile.
+In the config of the *definition* defined above we can see a `family` property. We simply apply the family in the config to the `family` property in the *metadata* of the *reference* Tile.
 
 ## **Example**
 
@@ -150,7 +150,7 @@ An example of how to create a Basic Profile document with js-ceramic.
 const profile = await ceramic.createDocument('tile', {
   metadata: {
     schema: "<reference-schema-DocID>"
-    tags: ["BasicProfile"]
+    family: "BasicProfile"
   },
   content: {
     name: "Samantha Smith",

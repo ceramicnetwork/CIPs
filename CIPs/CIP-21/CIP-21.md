@@ -48,7 +48,7 @@ The Crypto Accounts is a *definition* that contains a map from CAIP-10 account-i
   "description": "Crypto accounts linked to your DID",
   "schema": "<reference-schema-DocID>",
   "config": {
-    "tags": ["CryptoAccounts"]
+    "family": "CryptoAccounts"
   }
 }
 ```
@@ -74,7 +74,7 @@ The Crypto Accounts is a *definition* that contains a map from CAIP-10 account-i
 
 ### Tags
 
-In the config of the *definition* defined above we can see a `tags` property. We simply apply the tags in the config to the `tags` property in the *metadata* of the *reference* Tile.
+In the config of the *definition* defined above we can see a `family` property. We simply apply the family in the config to the `family` property in the *metadata* of the *reference* Tile.
 
 ### Example
 
@@ -84,7 +84,7 @@ An example Crypto Accounts *reference* document that includes two Ethereum accou
 const profile = await ceramic.createDocument('tile', {
   metadata: {
     schema: "<reference-schema-DocID>"
-    tags: ["CryptoAccounts"]
+    family: "CryptoAccounts"
   },
   content: {
     "0xab16a96d359ec26a11e2c2b3d8nmn8942d5bxzmn@eip155:1": "ceramic://bafyljsdf1...",
