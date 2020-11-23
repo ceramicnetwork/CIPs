@@ -43,10 +43,7 @@ The Also Known As document is a *definition* that contains an array of *linked a
 {
   "name": "Also Known As",
   "description": "Accounts linked to your DID",
-  "schema": "<reference-schema-DocID>",
-  "config": {
-    "family": "AlsoKnownAs"
-  }
+  "schema": "<reference-schema-DocID>"
 }
 ```
 
@@ -122,19 +119,15 @@ The reference schema defines a document which maintains an array of JSON objects
 }
 ```
 
-### Family
-
-In the config of the *definition* defined above we can see a `family` property. We simply apply the family in the config to the `family` property in the *metadata* of the *reference* Tile.
-
 ### Example
 
-An example Social Accounts *reference* document that includes two accounts, Twitter and Github.
+An example Also Known As *reference* document that includes two accounts, Twitter and Github.
 
 ```js
 const profile = await ceramic.createDocument('tile', {
   metadata: {
     schema: "<reference-schema-DocID>"
-    family: "AlsoKnownAs"
+    family: "<definition-DocID>"
   },
   content: [{
     protocol: "https",
@@ -168,7 +161,7 @@ It is recomended to always include both the `claim` and the `attestation` proper
 ## Implementation
 
 - [**js-idx**](https://idx.xyz/): A javascript library for reading and writing data sets associated with a DID
-- [**js-idx-constants**](https://github.com/ceramicstudio/js-idx-constants): A javascript library to be used with js-idx which contains the Social Accounts definition.
+- [**js-idx-constants**](https://github.com/ceramicstudio/js-idx-constants): A javascript library to be used with js-idx which contains the Also Known As definition.
 
 
 ## Copyright
