@@ -61,10 +61,7 @@ The past seeds array contain JWEs that includes previous seeds, which since have
 {
   "name": "3ID Keychain",
   "description": "Key data for 3ID",
-  "schema": "<reference-schema-DocID>",
-  "config": {
-    "family": "3ID Keychain"
-  }
+  "schema": "<reference-schema-DocID>"
 }
 ```
 
@@ -146,10 +143,6 @@ The past seeds array contain JWEs that includes previous seeds, which since have
 }
 ```
 
-### Family
-
-In the config of the *definition* defined above we can see a `family` property. We simply apply the family in the config to the `family` property in the *metadata* of the *reference* Tile.
-
 ### Example
 
 An example Crypto Accounts *reference* document that includes two Ethereum accounts and one Bitcoin account.
@@ -158,7 +151,7 @@ An example Crypto Accounts *reference* document that includes two Ethereum accou
 const profile = await ceramic.createDocument('tile', {
   metadata: {
     schema: "<reference-schema-DocID>",
-    family: "3ID Keychain"
+    family: "<definition-DocID>"
   },
   content: {
     "authMap": {
