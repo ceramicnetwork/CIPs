@@ -89,6 +89,7 @@ As mentioned previously a *definition* is a document created by a developer to d
 * `description` - A short description that describes the data set in a few sentences
 * `schema` - A DocID of a schema document that has to be set on the *reference*
 * `url` - An url where more information about this data set can be found (optional)
+* `family` - The family to set for the reference document
 * `config` - An object with configurations needed for this data set (optional)
 
 The `config` object can be used for whatever is prefered by the creator of the data set. For example it might be useful to store additional schemas for the data set, urls where the data can be found, DocIDs of service providers that pin the data, etc.
@@ -118,6 +119,10 @@ The `config` object can be used for whatever is prefered by the creator of the d
       "type": "string",
       "maxLength": 240
     },
+    "family": {
+      "type": "string",
+      "maxLength": 240
+    },
     "config": {
       "type": "object"
     }
@@ -128,13 +133,25 @@ The `config` object can be used for whatever is prefered by the creator of the d
       "pattern": "^ceramic://.+(\\?version=.+)?",
       "maxLength": 150
     }
-  }
+  },
+  "required": [
+    "name",
+    "description",
+    "schema"
+  ]
 }
 ```
 
 ### References
 
-A *reference* is created for the user when an application requests access to a new data set. Each user gets their own unique reference that contains information about their individual data, which they control, in the data set. The reference may contain the  data directly, or contain pointers to data that exists elsewhere. When a reference is created the schema is set to the DocID defined in the *reference*.
+A *reference* is created for the user when an application requests access to a new data set. Each user gets their own unique reference that contains information about their individual data, which they control, in the data set. The reference may contain the  data directly, or contain pointers to data that exists elsewhere. 
+
+When creating a reference the following steps should be taken:
+
+1. Create a new *tile* document with `family` set to the DocID of the *definition* and `controller` set to the users DID
+2. Update the document by setting the `schema` to the DocID defined in the `definition`, and the desired content
+
+This enables the reference to be looked up by only knowing the DocID of the definition and the DID of the user.
 
 ---
 

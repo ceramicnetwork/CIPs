@@ -60,6 +60,7 @@ enum AnchorStatus {
 interface DocMetadata {
   owners: Array<string>;
   schema?: String;
+  family?: String;
   tags?: Array<string>;
   isUnique?: boolean;
 

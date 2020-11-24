@@ -61,7 +61,7 @@ The past seeds array contain JWEs that includes previous seeds, which since have
 {
   "name": "3ID Keychain",
   "description": "Key data for 3ID",
-  "schema": "<reference-schema-DocID>",
+  "schema": "<reference-schema-DocID>"
 }
 ```
 
@@ -150,7 +150,8 @@ An example Crypto Accounts *reference* document that includes two Ethereum accou
 ```js
 const profile = await ceramic.createDocument('tile', {
   metadata: {
-    schema: "<reference-schema-DocID>"
+    schema: "<reference-schema-DocID>",
+    family: "<definition-DocID>"
   },
   content: {
     "authMap": {
