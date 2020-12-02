@@ -53,9 +53,9 @@ The reference schema defines a document which maintains an array of JSON objects
 
 | Property       | Description                                                  | Value            | Max Size  | Required | Example                                      |
 | -------------- | ------------------------------------------------------------ | ---------------- | --------- | -------- | -------------------------------------------- |
-| `protocol`     | Network protocol used to resolve the host                    | string           | 50 char   | required | https                                        |
-| `host`         | Host used to resolve the ID                                  | string           | 150 char  | required | https://github.com                           |
-| `id`           | Path of the unique ID within the host. Can be the same as the host to represent the root. | string           | 450 char  | required | https://github.com/marysmith                 |
+| `protocol`     | Protocol used to resolve the ID.                             | string           | 50 char   | required | https                                        |
+| `host`         | Host used to resolve the ID.                                 | string           | 150 char  | optional | github.com                                   |
+| `id`           | The unique ID of the user.                                   | string           | 450 char  | required | marysmith                                    |
 | `claim`        | Unique location where the DID string is stored. Should be a place where only the given ID could have posted the DID. | string           | 450 char  | optional | https://gist.github.com/marysmith/5c48debdb7 |
 | `attestations` | Attestations issued by third-party services which have verified the claim against the ID.<br />The key in this object should be "did-jwt-vc" in order to indicate a verifiable credential. <br />For backwards compatibility reasons "did-jwt" is also supported. | array of objects | 1000 char | optional | {did-jwt-vc: "eyJhbGciOiJIUzI1..."}          |
 
@@ -111,7 +111,6 @@ The reference schema defines a document which maintains an array of JSON objects
       },
       "required": [
         "protocol",
-        "host",
         "id"
       ]
     }
