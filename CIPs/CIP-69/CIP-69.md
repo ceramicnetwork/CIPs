@@ -40,7 +40,7 @@ The structure of the merkle tree is very straight forward. Starting from the bot
 ![merkletree(1)](https://user-images.githubusercontent.com/3909429/97851426-a83bf900-1cf5-11eb-9d9f-e7b568138850.png)
 In this example an *IPLD Path* can be used to reach any of the leafs. For example, to reach *Update 3* we would use the path `<root-cid>/1/0`. Similarly we can always get the *TreeMetadata* using the path `<root-cid>/2`.
 
-The merkle tree should be constructed as a balanced tree. See the [implementation][https://github.com/ceramicnetwork/ceramic-anchor-service/blob/4615c814ed98bb17cba8902480d8f22bde5397a1/src/merkle/merkle-tree.ts#L46-L65] for reference.
+The merkle tree should be constructed as a balanced tree. See the [implementation][https://github.com/ceramicnetwork/ceramic-anchor-service/blob/ced4ea9f8c70aa09e6c87e3c1b2de5bbdf505157/src/merkle/merkle-tree.ts#L26-L61] for reference.
 
 
 ### Leaf sorting
