@@ -30,13 +30,22 @@ There are three main changes outlined below. The most important one is **Pubsub 
 
 ### CeramicApi
 
-The *CeramicApi* is updated to be able to sync mutliple documents (preform a Multiquery) that may be linked from the initial document thoughout the `paths`.
+The *CeramicApi* is updated to be able to sync mutliple documents (preform a Multiquery) that may be linked from the initial document thoughout the `paths`. A MultiQuery is constructed as follows. 
 
 ```typescript
-function loadLinkedDocuments(id: DocID, paths: string[]): Promise<Record<DocID, Doctype>>
+interface MultiQuery {
+    docId: DocID | string
+    paths?: Array<string>
+}
 ```
 
-For example if *doc A* links to *doc B* on the `coolLink` property in its content `ceramic.loadDocuments(<DocID(doc A)>, ['/coolLink'])` would return:
+And the following function is added to resolve MultiQueries. 
+
+```typescript
+async function multiQuery(queries: Array<MultiQuery>):  Promise<Record<string, Doctype>>
+```
+
+For example if *doc A* links to *doc B* on the `coolLink` property in its content `ceramic.multiQuery([{ docId: <DocID(doc A)>, paths: ['/coolLink'] }])` would return:
 
 ```typescript
 {
@@ -49,21 +58,16 @@ If some of the given `paths` are not present in the document the method should j
 
 ### MultiQuery on http-daemon
 
-The http daemon should be extended with a `states` method. This method allows for multiple Multiqueries to be done at once. The reason to add the ability to make multiple queries at once is that the http-client often wants to maintain the state of multiple documents at once in the background, so this method can be used to reduce the number of requests made.
+The http daemon should be extended with a `multiqueries` method. Same as the interface above, this method allows for multiple Multiqueries to be done at once. The http-client often wants to maintain the state of multiple documents at once in the background, so this method can be used to reduce the number of requests made.
 
-**Endpoint:** `POST /api/v0/states`
+**Endpoint:** `POST /api/v0/multiqueries`
 
 **Body:**
 
-The body should conform to the `StatesQuery` interface.
+The body should conform to the `MultiQueries` interface.
 
 ```typescript
-interface MultiQuery {
-  docid: string
-  paths?: Array<string>
-}
-
-interface StatesQuery {
+interface MultiQueries {
   queries: Array<MultiQuery>
 }
 ```
