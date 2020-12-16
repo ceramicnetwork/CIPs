@@ -85,6 +85,10 @@ The Basic Profile schema defines the format of a document that contains the prop
         "src": {
           "$ref": "#/definitions/IPFSUrl"
         },
+        "mimeType": {
+          "type": "string",
+          "maxLength": 50
+        },
         "width": {
           "$ref": "#/definitions/positiveInteger"
         },
@@ -95,7 +99,7 @@ The Basic Profile schema defines the format of a document that contains the prop
           "$ref": "#/definitions/positiveInteger"
         }
       },
-      "required": ["src", "width", "height"]
+      "required": ["src", "mimeType", "width", "height"]
     },
     "imageSources": {
       "type": "object",
@@ -187,6 +191,7 @@ const profile = await ceramic.createDocument('tile', {
     image: {
       original: {
         src: "ipfs://bafy...",
+        mimeType: "image/png",
         width: 500,
         height: 200
       }
