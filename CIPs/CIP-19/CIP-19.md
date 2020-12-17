@@ -50,10 +50,10 @@ The Basic Profile schema defines the format of a document that contains the prop
 | Property           | Description                    | Value                                                        | Max Size | Required | Example                      |
 | ------------------ | ------------------------------ | ------------------------------------------------------------ | -------- | -------- | ---------------------------- |
 | `name`             | a name                         | string                                                       | 150 char | optional | Mary Smith                   |
-| `image`            | an image                       | Image metadata                                               |          | optional |                              |
+| `image`            | an image                       | Image sources                                                |          | optional |                              |
 | `description`      | a short description            | string                                                       | 420 char | optional | This is my cool description. |
 | `emoji`            | an emoji                       | unicode                                                      | 2 char   | optional | 🔢                            |
-| `background`       | a background image (3:1 ratio) | Image metadata                                               |          | optional |                              |
+| `background`       | a background image (3:1 ratio) | Image sources                                                |          | optional |                              |
 | `birthDate`        | a date of birth                | [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)           | 10 char  | optional | 1990-04-24                   |
 | `url`              | a url                          | string                                                       | 240 char | optional | http://ceramic.network       |
 | `gender`           | a gender                       | string                                                       | 42 char  | optional | female                       |
