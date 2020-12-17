@@ -50,10 +50,10 @@ The Basic Profile schema defines the format of a document that contains the prop
 | Property           | Description                    | Value                                                        | Max Size | Required | Example                      |
 | ------------------ | ------------------------------ | ------------------------------------------------------------ | -------- | -------- | ---------------------------- |
 | `name`             | a name                         | string                                                       | 150 char | optional | Mary Smith                   |
-| `image`            | an image                       | IPFS CID URI                                                 |          | optional |                              |
+| `image`            | an image                       | Image sources                                                |          | optional |                              |
 | `description`      | a short description            | string                                                       | 420 char | optional | This is my cool description. |
 | `emoji`            | an emoji                       | unicode                                                      | 2 char   | optional | 🔢                            |
-| `background`       | a background image (3:1 ratio) | IPFS CID URI                                                 |          | optional |                              |
+| `background`       | a background image (3:1 ratio) | Image sources                                                |          | optional |                              |
 | `birthDate`        | a date of birth                | [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)           | 10 char  | optional | 1990-04-24                   |
 | `url`              | a url                          | string                                                       | 240 char | optional | http://ceramic.network       |
 | `gender`           | a gender                       | string                                                       | 42 char  | optional | female                       |
@@ -74,6 +74,47 @@ The Basic Profile schema defines the format of a document that contains the prop
       "type": "string",
       "pattern": "^ipfs://.+",
       "maxLength": 150
+    },
+    "positiveInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "imageMetadata": {
+      "type": "object",
+      "properties": {
+        "src": {
+          "$ref": "#/definitions/IPFSUrl"
+        },
+        "mimeType": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "width": {
+          "$ref": "#/definitions/positiveInteger"
+        },
+        "height": {
+          "$ref": "#/definitions/positiveInteger"
+        },
+        "size": {
+          "$ref": "#/definitions/positiveInteger"
+        }
+      },
+      "required": ["src", "mimeType", "width", "height"]
+    },
+    "imageSources": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "$ref": "#/definitions/imageMetadata"
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/imageMetadata"
+          }
+        }
+      },
+      "required": ["original"]
     }
   },
   "properties": {
@@ -82,7 +123,7 @@ The Basic Profile schema defines the format of a document that contains the prop
       "maxLength": 150
     },
     "image": {
-      "$ref": "#/definitions/IPFSUrl"
+      "$ref": "#/definitions/imageSources"
     },
     "description": {
       "type": "string",
@@ -93,7 +134,7 @@ The Basic Profile schema defines the format of a document that contains the prop
       "maxLength": 2
     },
     "background": {
-      "$ref": "#/definitions/IPFSUrl"
+      "$ref": "#/definitions/imageSources"
     },
     "birthDate": {
       "type": "string",
@@ -121,7 +162,7 @@ The Basic Profile schema defines the format of a document that contains the prop
       "items": {
         "type": "string",
         "pattern": "^[A-Z]{2}$",
-  			"maxItems": 5
+        "maxItems": 5
       }
     },
     "affiliations": {
@@ -147,10 +188,17 @@ const profile = await ceramic.createDocument('tile', {
   },
   content: {
     name: "Samantha Smith",
-  	image: "ipfs://bafy...",
-  	description: "This is my funny description.",
-  	emoji: "🚀",
-  	url: "http://ceramic.network"
+    image: {
+      original: {
+        src: "ipfs://bafy...",
+        mimeType: "image/png",
+        width: 500,
+        height: 200
+      }
+    },
+    description: "This is my funny description.",
+    emoji: "🚀",
+    url: "http://ceramic.network"
   }
 })
 ```
