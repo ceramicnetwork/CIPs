@@ -21,7 +21,7 @@ A DID that uses this method MUST begin with the following prefix: `did:3`. Per t
 
 ## Method Specific Identifier
 
-There are two versions of 3IDs, both versions use a Ceramic document as a way to update the DID document. 3IDv1 is the most recent version, 3IDv0 is supported for legacy reasons. If you are creating new 3IDs you should always use 3IDv1.
+There are two versions of 3IDs, both versions use a Ceramic document as a way to update the DID document. 3IDv1 is the most recent version, 3IDv0 is supported for legacy reasons. If you are creating new 3IDs you should always use 3IDv1. Both versions are always encoded using multibase. To determine if it's v1 or v0 first convert the multibase string into a byte array, if the first varint is `0x01` we have a 3IDv0, and if it's a `0xce` we have a 3IDv1.
 
 ### 3IDv1
 
@@ -42,7 +42,7 @@ did:3:kjzl6cwe1jw149tlplc4bgnpn1v4uwk9rg9jkvijx0u0zmfa97t69dnqibqa2as
 The method specific identifier for 3IDv0 is a [CID](https://github.com/multiformats/cid) as produced by the [IPLD](https://github.com/ipld/specs) codec [dag-cbor](https://github.com/ipld/specs/blob/master/block-layer/codecs/dag-cbor.md).
 
 ```
-3idv1 = "did:3:<cid>"
+3idv0 = "did:3:<cid>"
 ```
 
 #### Example
@@ -55,7 +55,7 @@ did:3:bafyreiffkeeq4wq2htejqla2is5ognligi4lvjhwrpqpl2kazjdoecmugi
 
 In this section the CRUD operations for a 3ID DID are defined.
 
-### Create (Register)
+### Create
 
 A `3` DID is created by simply creating a Ceramic [`tile`](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-8/CIP-8.md) document. The [`tile`](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-8/CIP-8.md) document type takes a DID as the *controller*, and it's recommended that a `did:key` is used. The *controller* is the DID which is allowed to update the document. The *family* of the document is set to `3id`, and the *deterministic* flag is set to `true`.
 
@@ -85,7 +85,7 @@ const doc = await ceramic.createDocument({
 const didString = `did:3:${doc.id}`
 ```
 
-### Read (Resolve)
+### Read/Verify
 
 Resolving a 3ID is quite straight forward. It is done by taking the DocID from the method specific identifier, looking up the referred document using Ceramic, and converting the content of the Ceramic document into a DID document.
 
@@ -111,7 +111,7 @@ const doc = await ceramic.createDocument({
 })
 ```
 
-#### Converting the Ceramic document to the DID document
+#### Converting the loaded Ceramic document to the DID document
 
 Once we have the Ceramic document loaded, load the latest *AnchorCommit* of the document (the latest commit that was anchored to a blockchain). Then get the content of the document which will look something like this:
 
@@ -133,7 +133,7 @@ To convert this into a DID document first create an empty DID document:
   "publicKey": [],
   "authentication": [],
   "keyAgreement": []
-  }
+}
 ```
 
 Now iterate though the entires in the `publicKeys` object in the Ceramic document and do the following:
@@ -200,25 +200,25 @@ When resolving the DID document [DID Document Metadata](https://w3c.github.io/di
 
 #### Resolving using the `versionId` parameter
 
-When the `versionId` query parameter is given as a DID is resolved it means that we should try to resolve a specific version of the DID document. The resolution process is the same except that the *AnchorCommit* we use for the state of the document should be equal to the DocID + CID from `versionId`. In addition we should construct the *DID Document Metadata* differently.
+When the `versionId` query parameter is given as a DID is resolved it means that we should try to resolve a specific version of the DID document. The resolution process is the same except that the *AnchorCommit* we use to get the content of the document should be equal to the DocID + CID from `versionId`. In addition we should construct the *DID Document Metadata* differently.
 
 ##### DID Document Metadata
 
 * `create` - should be populated using the blockchain timestamp of the first *AnchorCommit*
 * `updated` - should be populated using the blockchain timestamp of the resolved *AnchorCommit*
 * `versionId` - should be equal to the commit CID of the resolved *AnchorCommit*
-* `nextUpdate` - should be populated using the blockchain timestamp of the next *AnchorCommit*
-* `nextVersionId` - should be equal to the commit CID of the next *AnchorCommit*
+* `nextUpdate` - should be populated using the blockchain timestamp of the next *AnchorCommit* (if present)
+* `nextVersionId` - should be equal to the commit CID of the next *AnchorCommit* (if present)
 
 ### Update
 
 The 3ID DID can be updated by changing the content of the Ceramic document corresponding the particular 3ID. Any number of public key can be added or removed from the document content. Note that the *controller* of the Ceramic document can be changed as well. This does not have any effect on the state of the DID document, but changes the DID which is in control of the 3ID document.
 
-### Delete (Deactivate)
+### Deactivate
 
 The 3ID can be deactivated by removing all content in the Ceramic document of the 3ID and replacing it with one property `deactivated` set to `true`.
 
-## Extensability
+## Extensibility
 
 As can be seen in the CRUD section, currently only `secp256k1` and `x25519` public keys are supported. This can be easily extended by using other multicodec encoded keys. The 3ID DID Method could also easily be extended to support other features specified in  [did-core](https://w3c.github.io/did-core/), e.g. service endpoints.
 
