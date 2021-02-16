@@ -59,7 +59,7 @@ In this section the CRUD operations for a 3ID DID are defined.
 
 A `3` DID is created by simply creating a Ceramic [`tile`](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-8/CIP-8.md) document. The [`tile`](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-8/CIP-8.md) document type takes a DID as the *controller*, and it's recommended that a `did:key` is used. The *controller* is the DID which is allowed to update the document. The *family* of the document is set to `3id`, and the *deterministic* flag is set to `true`.
 
-Now the content of the document should consist of a JSON object with one property *publicKeys*. The value of this property should be an object where the value is a [multicodec](https://github.com/multiformats/multicodec/) *base58btc* encoded public key, the key for any given key should be the last *15* characters of the encoded public key.
+Now the content of the document should consist of a JSON object with one property *publicKeys*. These public keys will be allowed to sign messages on behalf of the 3ID, or decrypt messages encrypted to the 3ID. The value of this property should be an object where the value is a [multicodec](https://github.com/multiformats/multicodec/) + multibase(*base58btc*) encoded public key, the key for any given key should be the last *15* characters of the encoded public key.
 
 The 3ID DID method supports any type of public key that can be encoded using multicodec which can easily be extended to support quantum resistant signature and encryption schemes in the future.
 
@@ -113,7 +113,7 @@ const doc = await ceramic.createDocument({
 
 #### Converting the loaded Ceramic document to the DID document
 
-Once we have the Ceramic document loaded, load the latest *AnchorCommit* of the document (the latest commit that was anchored to a blockchain). Then get the content of the document which will look something like this:
+Once we have the Ceramic document loaded, load the latest *AnchorCommit* of the document (the latest commit that was anchored to a blockchain). Then get the content of the document at this `AnchorCommit`, which will look something like this:
 
 ```json
 {
@@ -188,15 +188,15 @@ Now iterate though the entires in the `publicKeys` object in the Ceramic documen
 
 ##### 3IDv0 genesis
 
-Since the content of the Ceramic document for a 3IDv0 is empty we create the DID document by taking the public keys in the 3IDv0 genesis object (see [Appendix A](#appendix-a)) and convert them to multicodec public keys (one `secp256k1` and one `x25519`). The key properties in the DID document should be constructed as above, with the *entry-key* being the last *15* characters of the multicodec encoded keys.
+Since the content of the Ceramic document for a 3IDv0 is empty at the *GenesisCommit* we create the DID document by taking the public keys in the 3IDv0 genesis object (see [Appendix A](#appendix-a)) and convert them to multicodec public keys (one `secp256k1` and one `x25519`). The key properties in the DID document should be constructed as above, with the *entry-key* being the last *15* characters of the multicodec encoded keys.
 
 ##### DID Document Metadata
 
 When resolving the DID document [DID Document Metadata](https://w3c.github.io/did-core/#did-document-metadata) should be provided. When resolving a 3ID we should populate the following fields:
 
-* `create` - should be populated using the blockchain timestamp of the first *AnchorCommit*
-* `updated` - should be populated using the blockchain timestamp of the most recent *AnchorCommit*
-* `versionId` - should be equal to the commit CID of the most recent *AnchorCommit*
+* `create` - should be populated using the blockchain timestamp from the first *AnchorCommit*
+* `updated` - should be populated using the blockchain timestamp from the most recent *AnchorCommit*
+* `versionId` - should be equal to the commit CID from the most recent *AnchorCommit*
 
 #### Resolving using the `versionId` parameter
 
@@ -204,11 +204,11 @@ When the `versionId` query parameter is given as a DID is resolved it means that
 
 ##### DID Document Metadata
 
-* `create` - should be populated using the blockchain timestamp of the first *AnchorCommit*
-* `updated` - should be populated using the blockchain timestamp of the resolved *AnchorCommit*
-* `versionId` - should be equal to the commit CID of the resolved *AnchorCommit*
-* `nextUpdate` - should be populated using the blockchain timestamp of the next *AnchorCommit* (if present)
-* `nextVersionId` - should be equal to the commit CID of the next *AnchorCommit* (if present)
+* `create` - should be populated using the blockchain timestamp from the first *AnchorCommit*
+* `updated` - should be populated using the blockchain timestamp from the resolved *AnchorCommit*
+* `versionId` - should be equal to the commit CID from the resolved *AnchorCommit*
+* `nextUpdate` - should be populated using the blockchain timestamp from the next *AnchorCommit* (if present)
+* `nextVersionId` - should be equal to the commit CID from the next *AnchorCommit* (if present)
 
 ### Update
 
@@ -218,9 +218,21 @@ The 3ID DID can be updated by changing the content of the Ceramic document corre
 
 The 3ID can be deactivated by removing all content in the Ceramic document of the 3ID and replacing it with one property `deactivated` set to `true`.
 
+## Security Requirements
+
+3ID derives most of its security properties from the Ceramic protocol. Most notably *censorship resistance*, *decentralization*, and requiring a minimal amount of data to be synced to completely verify the integrity of a 3ID. For more details see the Ceramic [specification](https://github.com/ceramicnetwork/ceramic/blob/master/SPECIFICATION.md).
+
+### Cryptographic Agility
+
+As can be seen in the CRUD section, currently only `secp256k1` and `x25519` public keys are supported. This can be easily extended by using other multicodec encoded keys. The [multicodec table](https://github.com/multiformats/multicodec/blob/master/table.csv) already has support for BLS keys for example, so adding support for it would be trivial. Once good post quantum cryptography becomes more widely available extending 3ID to support that will also be fairly straight forward.
+
+## Privacy Requirements
+
+See [§ 10. Privacy Considerations](https://www.w3.org/TR/did-core/#privacy-considerations) in `did-core`.
+
 ## Extensibility
 
-As can be seen in the CRUD section, currently only `secp256k1` and `x25519` public keys are supported. This can be easily extended by using other multicodec encoded keys. The 3ID DID Method could also easily be extended to support other features specified in  [did-core](https://w3c.github.io/did-core/), e.g. service endpoints.
+ The 3ID DID Method could also easily be extended to support other features specified in  [did-core](https://w3c.github.io/did-core/), e.g. service endpoints.
 
 ## Reference Implementations
 
