@@ -29,7 +29,7 @@ The Basic Profile defines a standard for storing a DID's basic profile informati
 
 ## Specification
 
-The Basic Profile is simply a *definition* where the reference holds the data of the user. Therefore the schma defined in the *definition* describes the profile itself.
+The Basic Profile is simply a *definition* where the record holds the data of the user. Therefore the schma defined in the *definition* describes the profile itself.
 
 ### Definition content
 
@@ -39,11 +39,11 @@ The Basic Profile is simply a *definition* where the reference holds the data of
 {
   "name": "Basic Profile",
   "description": "Basic profile information for a DID",
-  "schema": "<reference-schema-DocID>",
+  "schema": "<record-schema-DocID>",
 }
 ```
 
-### Reference Schema
+### Record Schema
 
 The Basic Profile schema defines the format of a document that contains the properties listed below. Properties not defined in the schema *cannot* be included in the Basic Profile, however the schema can always be updated via a new CIP.
 
@@ -62,7 +62,7 @@ The Basic Profile schema defines the format of a document that contains the prop
 | `nationalities`    | nationalities                  | array of [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) values | 2 char   | optional | CN                           |
 | `affiliations`     | affiliations                   | array of strings                                             | 240 char | optional | Ceramic Ecosystem Alliance   |
 
-**Deployment:** `<reference-schema-DocID>`
+**Deployment:** `<record-schema-DocID>`
 
 ```json
 {
@@ -183,7 +183,7 @@ An example of how to create a Basic Profile document with js-ceramic.
 ```js
 const profile = await ceramic.createDocument('tile', {
   metadata: {
-    schema: "<reference-schema-DocID>"
+    schema: "<record-schema-DocID>"
     family: "<definition-DocID>"
   },
   content: {

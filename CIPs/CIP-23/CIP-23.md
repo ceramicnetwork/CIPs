@@ -1,4 +1,4 @@
-```
+---
 cip: 23
 title: Also Known As Definition
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
@@ -8,7 +8,7 @@ type: RFC
 created: 2020-07-21
 edited: 2020-11-03
 requires: Tile Doctype (CIP-8)
-```
+---
 
 ## Simple Summary
 
@@ -17,7 +17,7 @@ requires: Tile Doctype (CIP-8)
 
 ## Abstract
 
-Users may want to publicly associate any number of social accounts, such as Twitter, GitHub, discord, etc. to their DID. Creating and storing public verifications for these various accounts in the Also Known As *reference* document enables anyone to observe these associations and as a result infer trust about the given user.
+Users may want to publicly associate any number of social accounts, such as Twitter, GitHub, discord, etc. to their DID. Creating and storing public verifications for these various accounts in the Also Known As *record* document enables anyone to observe these associations and as a result infer trust about the given user.
 
 Adding an account to the Also Known As document *does not* allow that account to control or authenticate the DID. Rather it is simply just a verifiable public mapping.
 
@@ -43,13 +43,13 @@ The Also Known As document is a *definition* that contains an array of *linked a
 {
   "name": "Also Known As",
   "description": "Accounts linked to your DID",
-  "schema": "<reference-schema-DocID>"
+  "schema": "<record-schema-DocID>"
 }
 ```
 
-### Reference Schema
+### Record Schema
 
-The reference schema defines a document which maintains an array of JSON objects that represent a DID's linked accounts. Below find the fields that are contained in each object.
+The record schema defines a document which maintains an array of JSON objects that represent a DID's linked accounts. Below find the fields that are contained in each object.
 
 | Property       | Description                                                  | Value            | Max Size  | Required | Example                                      |
 | -------------- | ------------------------------------------------------------ | ---------------- | --------- | -------- | -------------------------------------------- |
@@ -59,7 +59,7 @@ The reference schema defines a document which maintains an array of JSON objects
 | `claim`        | Unique location where the DID string is stored. Should be a place where only the given ID could have posted the DID. | string           | 450 char  | optional | https://gist.github.com/marysmith/5c48debdb7 |
 | `attestations` | Attestations issued by third-party services which have verified the claim against the ID.<br />The key in this object should be "did-jwt-vc" in order to indicate a verifiable credential. <br />For backwards compatibility reasons "did-jwt" is also supported. | array of objects | 1000 char | optional | {did-jwt-vc: "eyJhbGciOiJIUzI1..."}          |
 
-**Deployment:** `<reference-schema-DocID>`
+**Deployment:** `<record-schema-DocID>`
 
 ```json
 {
@@ -129,12 +129,12 @@ The reference schema defines a document which maintains an array of JSON objects
 
 ### Example
 
-An example Also Known As *reference* document that includes two accounts, Twitter and Github.
+An example Also Known As *record* document that includes two accounts, Twitter and Github.
 
 ```js
 const profile = await ceramic.createDocument('tile', {
   metadata: {
-    schema: "<reference-schema-DocID>"
+    schema: "<record-schema-DocID>"
     family: "<definition-DocID>"
   },
   content: {

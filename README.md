@@ -4,7 +4,7 @@
 
 Ceramic Improvement Proposals (CIPs) are standards for the Ceramic platform, including core protocol specifications, client APIs, doctypes, and document standards. This document describes the end-to-end process for creating a CIP. This process was initially defined in [CIP-1](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-1/CIP-1.md).
 
-**Want to explore merged CIPs?** View a list of all [merged CIPs](https://github.com/ceramicnetwork/CIP/tree/master/CIPs), or view a [searchable index](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/*INDEX/cip-index.csv).
+**Want to explore merged CIPs?** View the index of all [merged CIPs](./INDEX.md).
 
 
 # Contributing
@@ -39,6 +39,7 @@ Upon submission an editor will manually review the first PR for a new CIP, assig
 
 - Images: If your CIP requires images, the image files should be included in a subdirectory of your CIP folder as follows: `CIP-N/assets` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `./assets/image.png`.
 - Tables: If your CIP requires csv tables, the table csv files should be included in a subdirectory of your CIP folder as follows: `CIP-N/tables` (where **N** is to be replaced with the CIP number). When linking to a table in the CIP, use relative links such as `./tables/table.csv`.
+- Add your CIP to the [`INDEX.md`](./INDEX.md) file
 
 ## 5. Get your CIP finalized
 
