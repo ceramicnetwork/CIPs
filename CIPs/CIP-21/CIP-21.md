@@ -1,4 +1,4 @@
-```
+---
 cip: 21
 title: Crypto Accounts Definition
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
@@ -8,7 +8,7 @@ type: RFC
 created: 2020-06-15
 edited: 2020-09-30
 requires: Tile Doctype (CIP-8), CAIP-10 Link Doctype (CIP-7)
-```
+---
 
 ## Simple Summary
 
@@ -17,7 +17,7 @@ requires: Tile Doctype (CIP-8), CAIP-10 Link Doctype (CIP-7)
 
 ## Abstract
 
-Users may want to publicly associate any number of cryptographic key pairs or accounts, such as Ethereum accounts, Flow accounts, smart contracts, etc. to their DID. Creating and storing public links to these various accounts in the Crypto Accounts *reference* document enables anyone to observe these associations and as a result resolve a DID and its resources by looking up a specific crypto account or vice versa. 
+Users may want to publicly associate any number of cryptographic key pairs or accounts, such as Ethereum accounts, Flow accounts, smart contracts, etc. to their DID. Creating and storing public links to these various accounts in the Crypto Accounts *record* document enables anyone to observe these associations and as a result resolve a DID and its resources by looking up a specific crypto account or vice versa. 
 
 Adding an account to the Crypto Accounts document *does not* allow that account to control or authenticate the DID. Rather it is simply just a verifiable public mapping.
 
@@ -46,13 +46,13 @@ The Crypto Accounts is a *definition* that contains a map from CAIP-10 account-i
 {
   "name": "Crypto Accounts",
   "description": "Crypto accounts linked to your DID",
-  "schema": "<reference-schema-DocID>"
+  "schema": "<record-schema-DocID>"
 }
 ```
 
-### Reference Schema
+### Record Schema
 
-**Deployment:** `<reference-schema-DocID>`
+**Deployment:** `<record-schema-DocID>`
 
 ```jsx
 {
@@ -71,12 +71,12 @@ The Crypto Accounts is a *definition* that contains a map from CAIP-10 account-i
 
 ### Example
 
-An example Crypto Accounts *reference* document that includes two Ethereum accounts and one Bitcoin account.
+An example Crypto Accounts *record* document that includes two Ethereum accounts and one Bitcoin account.
 
 ```js
 const profile = await ceramic.createDocument('tile', {
   metadata: {
-    schema: "<reference-schema-DocID>"
+    schema: "<record-schema-DocID>"
     family: "<definition-DocID>"
   },
   content: {
@@ -90,7 +90,7 @@ const profile = await ceramic.createDocument('tile', {
 
 ## Suggested Usage
 
-**CAIP-10 Links**: The Crypto Accounts *reference* document stores references to [CAIP-10 Links (CIP-7)](https://github.com/ceramicnetwork/CIP/issues/15), which are separate documents that cryptographically prove that the DID owns a given linked blockchain account. At the time a CAIP-10 Link is created, it should be added to this document.
+**CAIP-10 Links**: The Crypto Accounts *record* document stores records to [CAIP-10 Links (CIP-7)](https://github.com/ceramicnetwork/CIP/issues/15), which are separate documents that cryptographically prove that the DID owns a given linked blockchain account. At the time a CAIP-10 Link is created, it should be added to this document.
 
 
 ## Rationale

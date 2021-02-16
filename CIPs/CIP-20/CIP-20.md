@@ -1,4 +1,4 @@
-```
+---
 cip: 20
 title: 3ID Keychain
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
@@ -8,8 +8,7 @@ type: RFC
 created: 2020-05-26
 edited: 2020-10-14
 requires: Tile Doctype (CIP-8), CAIP-10 Link Doctype (CIP-7)
-
-```
+---
 
 ## Simple Summary
 
@@ -61,13 +60,13 @@ The past seeds array contain JWEs that includes previous seeds, which since have
 {
   "name": "3ID Keychain",
   "description": "Key data for 3ID",
-  "schema": "<reference-schema-DocID>"
+  "schema": "<record-schema-DocID>"
 }
 ```
 
-### Reference Schema
+### Record Schema
 
-**Deployment:** `<reference-schema-DocID>`
+**Deployment:** `<record-schema-DocID>`
 
 ```jsx
 {
@@ -145,12 +144,12 @@ The past seeds array contain JWEs that includes previous seeds, which since have
 
 ### Example
 
-An example Crypto Accounts *reference* document that includes two Ethereum accounts and one Bitcoin account.
+An example Crypto Accounts *record* document that includes two Ethereum accounts and one Bitcoin account.
 
 ```js
 const profile = await ceramic.createDocument('tile', {
   metadata: {
-    schema: "<reference-schema-DocID>",
+    schema: "<record-schema-DocID>",
     family: "<definition-DocID>"
   },
   content: {
