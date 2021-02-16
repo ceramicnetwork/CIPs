@@ -61,14 +61,23 @@ The reference schema defines a document which maintains an array of JSON objects
 
 **Deployment:** `<reference-schema-DocID>`
 
-```jsx
+```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "array",
+  "type": "object",
   "title": "AlsoKnownAs",
-  "items": {
-    "$ref": "#/definitions/Account"
+  "properties": {
+    "accounts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Account"
+      }
+    }
   },
+  "additionalProperties": false,
+  "required": [
+    "accounts"
+  ],
   "definitions": {
     "Attestation": {
       "type": "object",
@@ -128,21 +137,23 @@ const profile = await ceramic.createDocument('tile', {
     schema: "<reference-schema-DocID>"
     family: "<definition-DocID>"
   },
-  content: [{
-    protocol: "https",
-    host: "twitter.com",
-    id: "marysmith",
-    // ID of tweet containing the user's DID
-    claim: "https://twitter.com/marysmith/status/1274020265417076736",
-    attestations: [{ did-jwt-vc: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }]
-  }, {
-    protocol: "https",
-    host: "github.com",
-    id: "marysmith",
-    // ID of Gist containing the user's DID
-    claim: "https://gist.github.com/marysmith/5c48debdb7089b3c8f86cca31739572c",
-    attestations: [{ did-jwt-vc: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }]
-  }]
+  content: {
+    accounts: [{
+      protocol: "https",
+      host: "twitter.com",
+      id: "marysmith",
+      // ID of tweet containing the user's DID
+      claim: "https://twitter.com/marysmith/status/1274020265417076736",
+      attestations: [{ did-jwt-vc: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }]
+    }, {
+      protocol: "https",
+      host: "github.com",
+      id: "marysmith",
+      // ID of Gist containing the user's DID
+      claim: "https://gist.github.com/marysmith/5c48debdb7089b3c8f86cca31739572c",
+      attestations: [{ did-jwt-vc: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }]
+    }]
+  }
 })
 ```
 
