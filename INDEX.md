@@ -18,3 +18,4 @@
 | 59   | [DocID encoding](./CIPs/CIP-59/CIP-59.md)                    | Standards | Core | Final     |
 | 69   | [Batched Anchor Data Structure](./CIPs/CIP-69/CIP-69.md)     | Standards | Core | Last Call |
 | 71   | [MultiQueries](./CIPs/CIP-71/CIP-71.md)                      | Standards | Core | Draft     |
+| 79   | [3ID DID Method Specification](./CIPs/CIP-79/CIP-79.md)      | Standards | RFC  | Draft     |
