@@ -1,5 +1,5 @@
 ---
-cip: <to be assigned>
+cip: 85
 title: AppendCollection
 author: Paul Le Cam (@PaulLeCam)
 discussions-to: <URL of the Github issue for this CIP (if this is a PR)>
