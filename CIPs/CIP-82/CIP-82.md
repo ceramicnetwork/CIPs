@@ -55,9 +55,11 @@ Using this CIP, a `NotesList` schema could explicitly reference a `Note` schema 
   definitions: {
     NoteDocID: {
       type: 'string',
-      $id: 'ceramic://doc',
-      $ceramicSchema: '<Note schema docID>' ,
       maxLength: 150,
+      $ceramic: {
+        type: 'tile',
+        schema: '<Note schema docID>',
+      },
     },
   },
 }
@@ -67,25 +69,25 @@ This way, by loading the `Notes` schema, it is possible by a tool/library to dis
 
 ## Specification
 
-References to Ceramic schema should use a `string` with the [`$id`](https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.8.2.2) field of `ceramic://doc`, and optionally with a `$ceramicSchema` property containing either a string or array of strings containing the DocID (implicit reference to latest version) or CommitID (specific version) of the supported schema(s):
+References to Ceramic schema should use a `string` with the `$ceramic` field using the `tile` type, and optionally with a `schema` property containing either a string or array of strings containing the DocID (implicit reference to latest version) or CommitID (specific version) of the supported schema(s):
 
 ```js
 {
   type: 'string',
-  $id: 'ceramic://doc',
-  $ceramicSchema: '<schema docID or commitID>' ,
   maxLength: 150,
+  $ceramic: {
+    type: 'tile',
+    schema: '<Note schema docID>',
+  },
 }
 ```
 
 ## Rationale
 
-Using the `$id` field on the object gives a unique namespace (`ceramic://`) and identifier (`doc`) so it creates a convention that can be used in similar CIPs.
+This CIP uses the `$ceramic` namespace defined in [CIP-88 (PR)](https://github.com/ceramicnetwork/CIP/issues/88).
 
-Having this static way of identifying if a document references another document allows to simplify the associated logic, rather than relying on checking all string fields for the `ceramic://` prefix, or relying on `"$ref": "#/definitions/CeramicDocId"` matching the expected constraints.
-
-This spec also allows to either define a single schema (using a string) or multiple ones (array of strings).
-The use case would be to support different schemas for a single reference, for example a "media" schema could reference an "image" schema, but also the "audio" and "video" ones as acceptable document schemas: `$ceramicSchema: ['<image schema docID>', '<audio schema docID>', '<video schema docID>']`.
+This spec allows to either define a single schema (using a string) or multiple ones (array of strings).
+The use case would be to support different schemas for a single reference, for example a "media" schema could reference an "image" schema, but also the "audio" and "video" ones as acceptable document schemas: `schema: ['<image schema docID>', '<audio schema docID>', '<video schema docID>']`.
 
 ## Backwards Compatibility
 
