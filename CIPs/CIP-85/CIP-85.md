@@ -2,7 +2,7 @@
 cip: 85
 title: AppendCollection schemas
 author: Paul Le Cam (@PaulLeCam)
-discussions-to: <URL of the Github issue for this CIP (if this is a PR)>
+discussions-to: https://github.com/ceramicnetwork/CIP/issues/90
 status: Draft
 category: Standards
 type: RFC
