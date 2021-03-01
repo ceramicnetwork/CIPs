@@ -7,7 +7,7 @@ status: Draft
 category: Standards
 type: RFC
 created: 2021-02-15
-edited: 2021-02-22
+edited: 2021-03-01
 requires: [CIP-88](https://github.com/ceramicnetwork/CIP/issues/88)
 ---
 
@@ -85,7 +85,7 @@ References to Ceramic schema should use a `string` with the `$ceramic` field usi
 
 ## Rationale
 
-This CIP uses the `$ceramic` namespace defined in [CIP-88 (PR)](https://github.com/ceramicnetwork/CIP/issues/88).
+This CIP uses the `$ceramic` namespace defined in [CIP-88](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-88/CIP-88.md).
 
 This spec allows to either define a single schema (using a string) or multiple ones (array of strings).
 The use case would be to support different schemas for a single reference, for example a "media" schema could reference an "image" schema, but also the "audio" and "video" ones as acceptable document schemas: `schema: ['<image schema docID>', '<audio schema docID>', '<video schema docID>']`.

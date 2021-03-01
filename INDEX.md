@@ -18,3 +18,5 @@
 | 71  | [MultiQueries](./CIPs/CIP-71/CIP-71.md)                      | Standards | Core | Draft     |
 | 79  | [3ID DID Method Specification](./CIPs/CIP-79/CIP-79.md)      | Standards | RFC  | Draft     |
 | 82  | [DocID json-schema definition](./CIPs/CIP-82/CIP-82.md)      | Standards | RFC  | Draft     |
+| 85  | [AppendCollection schemas](./CIPs/CIP-85/CIP-85.md)          | Standards | RFC  | Draft     |
+| 88  | [Ceramic namespace in JSON schemas](./CIPs/CIP-88/CIP-88.md) | Standards | RFC  | Draft     |
