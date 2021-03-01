@@ -8,6 +8,7 @@ category: Standards
 type: RFC
 created: 2021-02-15
 edited: 2021-02-22
+requires: [CIP-88](https://github.com/ceramicnetwork/CIP/issues/88)
 ---
 
 ## Simple Summary
