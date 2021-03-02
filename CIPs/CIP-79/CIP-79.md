@@ -129,8 +129,8 @@ To convert this into a DID document first create an empty DID document:
 ```json
 {
   "@context": "https://w3id.org/did/v1",
-  "id": did,
-  "publicKey": [],
+  "id": "<did>",
+  "verificationMethod": [],
   "authentication": [],
   "keyAgreement": []
 }
@@ -140,12 +140,12 @@ Now iterate though the entires in the `publicKeys` object in the Ceramic documen
 
 * If it's a `secp256k1` key:
 
-  * Add a `Secp256k1VerificationKey2018` to the *publicKey* array:
+  * Add a `Secp256k1VerificationKey2018` to the *verificationMethod* array:
 
     ```js
     {
       id: "<did>#<entry-key>",
-      type: "Secp256k1VerificationKey2018",
+      type: "EcdsaSecp256k1Signature2019",
       controller: "<did>",
       publicKeyBase58: "<entry-value-public-key-base58btc-encoded>"
     }
@@ -156,7 +156,7 @@ Now iterate though the entires in the `publicKeys` object in the Ceramic documen
     ```js
     {
       id: "<did>#<entry-key>",
-      type: "Secp256k1SignatureAuthentication2018",
+      type: "EcdsaSecp256k1Signature2019",
       controller: "<did>",
       publicKeyBase58: "<entry-value-public-key-base58btc-encoded>"
     }
@@ -164,12 +164,12 @@ Now iterate though the entires in the `publicKeys` object in the Ceramic documen
 
 * If it's a `x25519` key:
 
-  * Add a `Curve25519EncryptionPublicKey` to the *publicKey* array:
+  * Add a `Curve25519EncryptionPublicKey` to the *verificationMethod* array:
 
     ```js
     {
       id: "<did>#<entry-key>",
-      type: "Curve25519EncryptionPublicKey",
+      type: "X25519KeyAgreementKey2019",
       controller: "<did>",
       publicKeyBase58: "<entry-value-public-key-base58btc-encoded>"
     }
@@ -180,7 +180,7 @@ Now iterate though the entires in the `publicKeys` object in the Ceramic documen
     ```js
     {
       id: "<did>#<entry-key>",
-      type: "Secp256k1SignatureAuthentication2018",
+      type: "X25519KeyAgreementKey2019",
       controller: "<did>",
       publicKeyBase58: "<entry-value-public-key-base58btc-encoded>"
     }
