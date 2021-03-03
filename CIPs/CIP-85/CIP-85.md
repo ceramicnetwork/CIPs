@@ -117,7 +117,7 @@ Accessing slices in the collection relies on Ceramic's ability to load documents
 #### Other insertions
 
 1. Load the `AppendCollection` document.
-1. Load the `CollectionSlice` document based on its determistic content, using the `slicesCount` from the collection.
+1. Load the most recent `CollectionSlice` document based on its deterministic content, using the `slicesCount` from the collection.
 1. Check the length of the `contents` array of the `CollectionSlice`:
 
 - If it is lower than the `sliceSize` value of the `AppendCollection`, add the item to the `contents` array.
