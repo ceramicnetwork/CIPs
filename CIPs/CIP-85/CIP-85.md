@@ -79,7 +79,7 @@ The `CollectionSlice` schema must be an `object` with a `$ceramic` field from [C
 {
   $schema: 'http://json-schema.org/draft-07/schema#',
   $ceramic: { type: 'collectionSlice' },
-  title: 'MyCollectionSLice',
+  title: 'MyCollectionSlice',
   type: 'object',
   properties: {
     collection: { type: 'string', maxLength: 150 },
