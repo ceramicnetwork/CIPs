@@ -111,10 +111,9 @@ Accessing slices in the collection relies on Ceramic's ability to load documents
 
 > This flow assumes a prerequisite check that the `AppendCollection` document has not been created yet.
 
-1. Create the `AppendCollection` document.
+1. Create the `AppendCollection` document with a `slicesCount` of `1`.
 1. Create a deterministic `CollectionSlice` document with `sliceIndex` of `0` and an empty `contents` array.
 1. Update the created `CollectionSlice` document with the `contents` array containing the item to insert.
-1. Create the `AppendCollection` document with a `slicesCount` of `1`.
 
 #### Other insertions
 
