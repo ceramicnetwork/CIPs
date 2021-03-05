@@ -7,7 +7,7 @@ status: Draft
 category: Standards
 type: RFC
 created: 2021-02-16
-edited: 2021-03-01
+edited: 2021-03-02
 requires: [CIP-82](https://github.com/ceramicnetwork/CIP/issues/82), [CIP-88](https://github.com/ceramicnetwork/CIP/issues/88)
 ---
 
@@ -50,24 +50,20 @@ A Collection "instance" would therefore be made of 1 `AppendCollection` document
 
 The `AppendCollection` schema must be an `object` with a `$ceramic` field from [CIP-88](../CIP-88/CIP-88.md) having the type `appendCollection` and pointing to the slice's `schema`, along with the following properties:
 
-- `sliceSize`: the maximum number of items a single slice should contain
+- `sliceMaxItems`: the maximum number of items a single slice should contain
 - `slicesCount`: the total number of slices the collection contains
-- `first`: DocID of the first slice
-- `last`: DocID of the last slice
 
 ```js
 {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $ceramic: { type: 'appendCollection', schema: '<slice schema ID>' },
+  $ceramic: { type: 'appendCollection', sliceSchema: '<slice schema ID>' },
   title: 'MyCollection',
   type: 'object',
   properties: {
-    sliceSize: { type: 'integer', minimum: 10, maximum: 256 },
+    sliceMaxItems: { type: 'integer', minimum: 10, maximum: 256 },
     slicesCount: { type: 'integer', minimum: 1 },
-    first: { type: 'string', maxLength: 150 },
-    last: { type: 'string', maxLength: 150 },
   },
-  required: ['sliceSize', 'slicesCount', 'first', 'last']
+  required: ['sliceMaxItems', 'slicesCount']
 }
 ```
 
@@ -75,59 +71,68 @@ The `AppendCollection` schema must be an `object` with a `$ceramic` field from [
 
 The `CollectionSlice` schema must be an `object` with a `$ceramic` field from [CIP-88](../CIP-88/CIP-88.md) having the type `collectionSlice` and pointing to the slice's `schema`, along with the following properties:
 
-- `contents`: array with a `maxItems` value matching the `AppendCollection` `sliceSize` property and defining the items schemas, that must include `{ type: 'null' }` in order to support removals
-- `next`: DocID of the next slice (if the slice is not the last one)
-- `prev`: DocID of the previous slice (if the slice is not the first one)
+- `collection`: the DocID of the collection the slice is part of
+- `sliceIndex`: index of the slice in the collection, between `0` and the collection's `slicesCount` minus `1`
+- `contents`: array with a `maxItems` value matching the `AppendCollection` `sliceMaxItems` property and defining the items schemas, that must include `{ type: 'null' }` in order to support removals
 
 ```js
 {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $ceramic: { type: 'collectionSlice', schema: '<slice schema ID>' },
-  title: 'MyCollectionSLice',
+  $ceramic: { type: 'collectionSlice' },
+  title: 'MyCollectionSlice',
   type: 'object',
   properties: {
+    collection: { type: 'string', maxLength: 150 },
+    sliceIndex: { type: 'integer', minimum: 0 },
     contents: {
       type: 'array',
       maxItems: 256,
-      minItems: 1,
+      minItems: 0,
       items: {
         oneOf: [{ type: 'object', ... }, { type: 'null' }],
       },
     },
-    next: { type: 'string', maxLength: 150 },
-    prev: { type: 'string', maxLength: 150 },
   },
-  required: ['contents'],
+  required: ['collection', 'sliceIndex', 'contents'],
 }
 ```
 
 ### Algorithms
 
+#### Deterministic slice access
+
+Accessing slices in the collection relies on Ceramic's ability to load documents deterministically based on their genesis contents:
+
+- `collection`: the collection's `DocID` string
+- `sliceIndex`: the slice's index, an integer between `0` (first slice) and `slicesCount - 1` (last slice)
+- `contents`: empty array
+
 #### First insertion
 
 > This flow assumes a prerequisite check that the `AppendCollection` document has not been created yet.
 
-1. Create the `CollectionSlice` document with the `contents` array containing the item to insert.
-1. Create the `AppendCollection` document with a `slicesCount` of `1`, and the `first` and `last` values containing the DocID of the created `CollectionSlice`.
+1. Create the `AppendCollection` document with a `slicesCount` of `1`.
+1. Create a deterministic `CollectionSlice` document with `sliceIndex` of `0` and an empty `contents` array.
+1. Update the created `CollectionSlice` document with the `contents` array containing the item to insert.
 
 #### Other insertions
 
 1. Load the `AppendCollection` document.
-1. Load the `CollectionSlice` document from the `last` field of the `AppendCollection`.
+1. Load the most recent `CollectionSlice` document based on its deterministic content, using the `slicesCount` from the collection.
 1. Check the length of the `contents` array of the `CollectionSlice`:
 
-- If it is lower than the `sliceSize` value of the `AppendCollection`, add the item to the `contents` array.
-- If it is equal to the `sliceSize` value:
-  1. Create a new `CollectionSlice` document with the `contents` array containing the item to insert and the `prev` value containing the DocID of the previous slice.
-  1. Update the previous slice to set the `next` value to the DocID of the newly created slice.
-  1. Update the `AppendCollection` document with the incremented `slicesCount` and new `last` value.
+- If it is lower than the `sliceMaxItems` value of the `AppendCollection`, add the item to the `contents` array.
+- If it is equal to the `sliceMaxItems` value:
+  1. Create a new deterministic `CollectionSlice` document with `sliceIndex` equal to the `sliceIndex` of the previous slice plus `1` and an empty `contents` array.
+  1. Update the created `CollectionSlice` document with the `contents` array containing the item to insert.
+  1. Update the `AppendCollection` document with the incremented `slicesCount`.
 
 #### Single item loading
 
 Loading a single item is based on the item cursor (slice DocID + item index in slice):
 
 1. Load the `CollectionSlice` document from its DocID.
-2. Access the item at the given index in the `contents` array.
+1. Access the item at the given index in the `contents` array.
 
 #### Multiple item loading
 
@@ -135,31 +140,30 @@ Loading multiple items can be done in order (from the `first` slice) or reverse 
 
 - `first: N`
 
-  1. Load the `AppendCollection` document.
-  1. Load the `CollectionSlice` document from the `first` field of the `AppendCollection`.
+  1. Load the `CollectionSlice` document based on its determistic content with a `sliceIndex` of `0`.
   1. Iterate through `contents` filtering out `null` values until `N` items are collected.
-  1. If `N` items are not collected and `next` is not set then return, otherwise load the `next` slice and continue from previous step.
+  1. If `N` items are not collected, load the next slice deterministically and continue from previous step.
 
 - `first: N, after: cursor(slice ID, offset)`
 
   1. Load the `CollectionSlice` document from the `slice ID`.
   1. Skip the first `contents` items according to the `offset`.
   1. Iterate through `contents` filtering out `null` values until `N` items are collected.
-  1. If `N` items are not collected and `next` is not set then return, otherwise load the `next` slice and continue from previous step.
+  1. If `N` items are not collected, load the next slice deterministically and continue from previous step.
 
 - `last: N`
 
   1. Load the `AppendCollection` document.
-  1. Load the `CollectionSlice` document from the `last` field of the `AppendCollection`.
+  1. Load the `CollectionSlice` document based on its determistic content, using the `slicesCount` from the collection.
   1. Iterate through `contents` in reverse order filtering out `null` values until `N` items are collected.
-  1. If `N` items are not collected and `prev` is not set then return, otherwise load the `prev` slice and continue from previous step.
+  1. If `N` items are not collected and the first slice is not reached, load the previous slice deterministically and continue from previous step
 
 - `last: N, before: cursor(slice ID, offset)`
 
   1. Load the `CollectionSlice` document from the `slice ID`.
   1. Skip the first `contents` items according to the `offset`.
   1. Iterate through `contents` in reverse order filtering out `null` values until `N` items are collected.
-  1. If `N` items are not collected and `prev` is not set then return, otherwise load the `prev` slice and continue from previous step.
+  1. If `N` items are not collected and the first slice is not reached, load the previous slice deterministically and continue from previous step
 
 #### Single item removal
 
