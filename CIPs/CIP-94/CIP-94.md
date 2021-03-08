@@ -2,7 +2,7 @@
 cip: 94
 title: NFT DID Method Specification
 author: Joel Thorstensson (@oed)
-discussions-to: https://github.com/ceramicnetwork/CIP/issues/XX
+discussions-to: https://github.com/ceramicnetwork/CIP/issues/95
 status: Draft
 category: Standards
 type: RFC
