@@ -107,7 +107,12 @@ The NFT DID derives most of its security properties from the blockchain which th
 
 ## Privacy Requirements
 
-See [§ 10. Privacy Considerations](https://www.w3.org/TR/did-core/#privacy-considerations) in `did-core`.
+Blockchains provide an immutable audit trail of all previous owners of an NFT. The `caip10-link` Ceramic document similarly provides an audit trail for which DID the specified blockchain account has pointed to over time. These audit trails are completely public.
+
+Since NFTs are tradable, resources that an NFT has access to should not be seen as having been granted to one individual. Instead access granted to an NFT DID becomes more fluid.
+
+Another important aspect to consider is that if data is encrypted to an NFT DID the data will only really be encrypted to the public key of the *controller-did*. This means that when the NFT gets a new owner this new owner won't get access to data that was previously encrypted to the NFT DID. Furthermore, the old owner will still be able to decrypt the data if they have access to it.
+
 
 ## Extensibility
 
