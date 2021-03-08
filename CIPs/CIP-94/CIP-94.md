@@ -107,7 +107,12 @@ The NFT DID derives most of its security properties from the blockchain which th
 
 ## Privacy Requirements
 
-See [§ 10. Privacy Considerations](https://www.w3.org/TR/did-core/#privacy-considerations) in `did-core`.
+NFT DID utilizes a few components. First, blockchains provide a public, immutable audit trail of all previous owners of an NFT asset; these owners are blockchain accounts. Second, the `caip10-link` document on Ceramic similarly provides an audit trail for which DID a specified blockchain account has linked to over time. The combination of these two proofs allows NFT DID to permissionlessly create pubic mappings from an NFT DID -> blockchain account (owner) -> DID (owner). This allows the Ceramic protocol to enforce decentralized access control permissions that only allows the current owner of the NFT to make updates to content or resources owned by the NFT DID.
+
+Since NFTs are tradable, resources controlled by an NFT DID should not be seen as having been granted to one individual. Instead, access granted to an NFT DID becomes more fluid and changes as on-chain ownership changes.
+
+Another important aspect to consider is that by default if data is encrypted to an NFT DID, then the data will only really be encrypted to the public key of the *controller-did*. This means that when the NFT gets a new owner this new owner won't get access to data that was previously encrypted to the NFT DID. Furthermore, the old owner will still be able to decrypt the data if they have access to it. There are, however, various ways that encrypted content can be implemented on top of this standard that could be just as portable as the NFT itself. Solving this issue falls out of scope for this standard, but there are likely various solutions depending on the use case; *secure multi-party computation* and *proxy reencryption* are two viable approaches.
+
 
 ## Extensibility
 
