@@ -111,7 +111,7 @@ NFT DID utilizes a few components. First, blockchains provide a public, immutabl
 
 Since NFTs are tradable, resources controlled by an NFT DID should not be seen as having been granted to one individual. Instead, access granted to an NFT DID becomes more fluid and changes as on-chain ownership changes.
 
-Another important aspect to consider is that if data is encrypted to an NFT DID the data will only really be encrypted to the public key of the *controller-did*. This means that when the NFT gets a new owner this new owner won't get access to data that was previously encrypted to the NFT DID. Furthermore, the old owner will still be able to decrypt the data if they have access to it. Solving this issue is out of scope for this standard, but there are likely various solutions depending on the use case; *secure multi-party conputation* and *proxy reencryption* are two viable approaches.
+Another important aspect to consider is that by default if data is encrypted to an NFT DID, then the data will only really be encrypted to the public key of the *controller-did*. This means that when the NFT gets a new owner this new owner won't get access to data that was previously encrypted to the NFT DID. Furthermore, the old owner will still be able to decrypt the data if they have access to it. There are, however, various ways that encrypted content can be implemented on top of this standard that could be just as portable as the NFT itself. Solving this issue falls out of scope for this standard, but there are likely various solutions depending on the use case; *secure multi-party computation* and *proxy reencryption* are two viable approaches.
 
 
 ## Extensibility
