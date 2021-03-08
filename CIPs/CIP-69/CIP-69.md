@@ -3,7 +3,7 @@ cip: 69
 title: Batched Anchor Data Structure
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/69
-status: Last Call
+status: Final
 category: Standards
 type: Core
 created: 2020-11-02
@@ -27,20 +27,26 @@ First lets define the basic IPLD data structures used.
 ```ipldsch
 type MerkleNode [Link]
 
+type BloomMetadata struct {
+  type String
+  data {String:any}
+}
+
 type TreeMetadata struct {
   numEntries Int
-  bloomType String
-  bloomFilter {String:Any}
+  bloomFilter BloomMetadata
 }
 ```
-Here the *MerkleNode* is simply an array of CIDs, which is used as the main building block for the merkle tree. The *TreeMetadata* contains some metadata about the tree, namely the number of entries and a bloom filter. The `bloomType` is used to describe which specific type of bloom filter is being used and is there for upgradeability purposes.
+Here the *MerkleNode* is simply an array of CIDs, which is used as the main building block for the merkle tree. The *TreeMetadata* contains some metadata about the tree, namely the number of entries and a bloom filter. The `bloomFilter.type` is used to describe which specific type of bloom filter is being used and is there for upgradeability purposes.
 
 ### Tree structure
 The structure of the merkle tree is very straight forward. Starting from the bottom each individual update is paired with another update and a *MerkleNode* is created which has the leftmost update in position `0`, and the other update at position `1`. *MerkleNodes* are then created on each level until we reach the root. The root *MerkleNode* has an additional entry at position `2` which simply points to a *TreeMetadata* object. In the figure below we see a simple tree with four leafs.
+
 ![merkletree(1)](https://user-images.githubusercontent.com/3909429/97851426-a83bf900-1cf5-11eb-9d9f-e7b568138850.png)
+
 In this example an *IPLD Path* can be used to reach any of the leafs. For example, to reach *Update 3* we would use the path `<root-cid>/1/0`. Similarly we can always get the *TreeMetadata* using the path `<root-cid>/2`.
 
-The merkle tree should be constructed as a balanced tree. See the [implementation][https://github.com/ceramicnetwork/ceramic-anchor-service/blob/ced4ea9f8c70aa09e6c87e3c1b2de5bbdf505157/src/merkle/merkle-tree.ts#L26-L61] for reference.
+The merkle tree should be constructed as a balanced tree. See the [implementation](https://github.com/ceramicnetwork/ceramic-anchor-service/blob/ced4ea9f8c70aa09e6c87e3c1b2de5bbdf505157/src/merkle/merkle-tree.ts#L26-L61) for reference.
 
 
 ### Leaf sorting
@@ -62,12 +68,12 @@ The bloom filter should include the following data for each document that is bei
 * All DID strings in the `controllers` array, prepend each DID with `controller-`
 * The DocID string of the document, prepend with `docid-`
 
-The bloom filter is created using the javascript [bloom-filter](https://github.com/Callidon/bloom-filters) library. Specifically using the *Classic Bloom Filter*. An example for how to create the filter can be observed below.
+The bloom filter is created using the javascript [bloom-filters](https://github.com/Callidon/bloom-filters) library. Specifically using the *Classic Bloom Filter*. An example for how to create the filter can be observed below.
 
 ```js
 const { BloomFilter } = require('bloom-filters')
 const filterEntries = [...] // An array of strings
-const errorRate = 0.04 // 4 % error rate
+const errorRate = 0.0001 // .01 % error rate
 const filter = BloomFilter.from(items, errorRate)
 const exported = filter.saveAsJSON()
 ```
@@ -77,8 +83,7 @@ Now we can create the *TreeMetadata* object, which can be added into ipfs and th
 ```js
 {
   numEntries: <number-of-leafs>,
-  bloomType: 'npmjs_bloom-filter',
-  bloomFilter: exported
+  bloomFilter: { type: 'jsnpm_bloom-filters', data: exported }
 }
 ```
 
@@ -88,7 +93,7 @@ This CIP provides the most efficient merkle tree implementation possible in IPLD
 
 The sorting allows for more efficient lookup in the merkle tree, primarily based on the family of the updated Ceramic document. Further sorting is also provided by the additional properties. If an implementer knows the family of a document they can do a binary search though the tree to find the correct update.
 
-The bloom filter allows an observer to efficiently determine if any of the given properties are most likely in the merkle tree. Since the filter itself is stored in a separate IPLD object the filter doesn't add any overhead when verifying a merkle witness for a document update. The bloomfilter implementation that was chosen is currently only implemented in javascript, we failed to find an implementation that is compatible with multiple languages. However, since we introduce a `bloomType` property we can easily determine which implementation was used. This also allows us to change the implementation used in the future.
+The bloom filter allows an observer to efficiently determine if any of the given properties are most likely in the merkle tree. Since the filter itself is stored in a separate IPLD object the filter doesn't add any overhead when verifying a merkle witness for a document update. The bloomfilter implementation that was chosen is currently only implemented in javascript, we failed to find an implementation that is compatible with multiple languages. However, since we introduce a `type` property we can easily determine which implementation was used. This also allows us to change the implementation used in the future.
 
 
 ## Backwards Compatibility
