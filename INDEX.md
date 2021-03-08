@@ -14,7 +14,7 @@
 | 21  | [Crypto Accounts Definition](./CIPs/CIP-21/CIP-21.md)        | Standards | RFC  | Last Call |
 | 23  | [Also Known As Definition](./CIPs/CIP-23/CIP-23.md)          | Standards | RFC  | Last Call |
 | 59  | [DocID encoding](./CIPs/CIP-59/CIP-59.md)                    | Standards | Core | Final     |
-| 69  | [Batched Anchor Data Structure](./CIPs/CIP-69/CIP-69.md)     | Standards | Core | Last Call |
+| 69  | [Batched Anchor Data Structure](./CIPs/CIP-69/CIP-69.md)     | Standards | Core | Final     |
 | 71  | [MultiQueries](./CIPs/CIP-71/CIP-71.md)                      | Standards | Core | Draft     |
 | 79  | [3ID DID Method Specification](./CIPs/CIP-79/CIP-79.md)      | Standards | RFC  | Draft     |
 | 82  | [DocID json-schema definition](./CIPs/CIP-82/CIP-82.md)      | Standards | RFC  | Draft     |
