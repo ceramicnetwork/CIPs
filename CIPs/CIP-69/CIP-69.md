@@ -3,7 +3,7 @@ cip: 69
 title: Batched Anchor Data Structure
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/69
-status: Last Call
+status: Final
 category: Standards
 type: Core
 created: 2020-11-02
