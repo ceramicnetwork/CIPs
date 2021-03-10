@@ -118,6 +118,8 @@ Another important aspect to consider is that by default if data is encrypted to 
 
 The NFT DID Method could currently supports ERC721 tokens, but could be easily extended to support any other NFT token givent that the token is registered as a [CAIP asset namespace](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md).
 
+NFTs usually encode some sort of metadata (e.g. image on ipfs). It's possible that this can be added as an extension to the resolved DID document which would unify NFT metadata lookup across all chains. Further work needs to be done in order to properly standardize this.
+
 ## Copyright
 
 Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
