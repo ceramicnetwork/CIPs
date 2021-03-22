@@ -75,8 +75,8 @@ const doc = await ceramic.createDocument({
   },
   content: {
     publicKeys: {
-      "XQCT2xJHsdY6iJH": "z6LSqKWh3XQ7AfsJuE2KR23cozEut8D5CXQCT2xJHsdY6iJH",  // secp256k1 public key
-      "yh27jTt7Ny2Pwdy": "zQ3shrMGEKAjUTMmvDkcZ7Y3x9XnVjTH3myh27jTt7Ny2Pwdy", // x25519 public key
+      "XQCT2xJHsdY6iJH": "z6LSqKWh3XQ7AfsJuE2KR23cozEut8D5CXQCT2xJHsdY6iJH",  // x22519 public key
+      "yh27jTt7Ny2Pwdy": "zQ3shrMGEKAjUTMmvDkcZ7Y3x9XnVjTH3myh27jTt7Ny2Pwdy", // secp256k1 public key
     }
   },
   deterministic: true
