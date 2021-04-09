@@ -57,13 +57,19 @@ async function getControllerDid(accountId: string) {
 }
 ```
 
-Once we have retrieved the DID from the `caip10-link` we simply construct the DID document as follows (here `controller-did` is the DID returned by the function above).
+Once we have retrieved the DID from the `caip10-link` we simply construct the DID document as follows (here `controller-did` is the DID returned by the function above). We also populate the `verificationMethod` field using the Account ID.
 
-```json
+```jsonc
 {
   "@context": "https://w3id.org/did/v1",
   "id": "<did>",
-  "controller": "<controller-did>"
+  "controller": "<controller-did>",
+  "verificationMethod": [{
+      "id": "<did>#owner",
+      "type": "BlockchainVerificationMethod2021",
+      "controller": "<did>",
+      "blockchainAccountId": "<accountId>"
+    }]
 }
 ```
 
@@ -71,27 +77,24 @@ If the `caip10-link` returned `null` we simply omit the `controller` property.
 
 ##### DID Document Metadata
 
-When resolving the DID document [DID Document Metadata](https://w3c.github.io/did-core/#did-document-metadata) should be provided. When resolving an NFT we should populate the following fields:
+When resolving the DID document [DID Document Metadata](https://w3c.github.io/did-core/#did-document-metadata) should be provided. When resolving an NFT the following fields MAY be populated:
 
 * `create` - populate using the blockchain timestamp from the block when the NFT was created
 * `updated` - populate using the blockchain timestamp from the block of the most recent owner change
-* `versionTime` - populate using the blockchain timestamp from the block of the most recent owner change
-* `versionId` - integer, should equal the number of owners starting at 0
 
-Note that the regular ERC721 api doesn't provide any way to query this data. An implementer is recommended to use [The Graph protocol](https://thegraph.com/) to create *subgraphs* for NFTs that are supported. Same thing should apply to NFT systems on other blockchains as well.
+Note that the regular ERC721 api doesn't provide any way to query this data. An implementer is MAY to use [The Graph protocol](https://thegraph.com/) to create *subgraphs* for NFTs that are supported. Same thing should apply to NFT systems on other blockchains as well.
 
-#### Resolving using the `versionId`/`versionTime` parameter
+#### Resolving using the `versionTime` parameter
 
-When the `versionId`/`versionTime` query parameter is given as a DID is resolved it means that we should try to resolve a specific version of the DID document. The resolution process requires the use of the *subgraph* explained in the paragraph above. From it retrieve the owner of the NFT at the given version. Once the owner is known the `caip10-link` can be looked up. Once this document is loaded go though the commits (use *AnchorCommits*) to find the state of the document at the time of the resolved version of the NFT DID, to retrieve the controller DID.
+When the `versionTime` query parameter is given as a DID is resolved it means that we should try to resolve a specific version of the DID document. The resolution process requires the use of the [ethereum blocks subgraph](https://thegraph.com/explorer/subgraph/yyong1010/ethereumblocks) which allows looking up the block height from a timestamp. From it retrieve the owner of the NFT at the given block height. Once the owner is known the `caip10-link` can be looked up. Once this document is loaded go though the commits (use *AnchorCommits*) to find the state of the document at the time of the resolved version of the NFT DID, to retrieve the controller DID.
 
 ##### DID Document Metadata
+The following metadata properties MAY be populated (if possible).
 
 * `create` - populate using the blockchain timestamp from the block when the NFT was created
 * `updated` - populate using the blockchain timestamp from the block when the given versions owner became owner
-* `versionTime` - populate using the blockchain timestamp from the block when the given versions owner became owner
 * `versionId` - integer, should equal the number of owners until the looked up version starting at 0
 * `nextUpdate` - populate using the blockchain timestamp from the block when the next owner became owner
-* `nextVersionId` - integer, `versionId` + 1
 
 ### Update
 
@@ -119,6 +122,10 @@ Another important aspect to consider is that by default if data is encrypted to 
 The NFT DID Method could currently supports ERC721 tokens, but could be easily extended to support any other NFT token givent that the token is registered as a [CAIP asset namespace](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md).
 
 NFTs usually encode some sort of metadata (e.g. image on ipfs). It's possible that this can be added as an extension to the resolved DID document which would unify NFT metadata lookup across all chains. Further work needs to be done in order to properly standardize this.
+
+## Implementations
+
+* [nft-did-resolver](https://github.com/ceramicnetwork/nft-did-resolver/pull/1) - javascript implementation supporting eip721 and eip1155 NFTs
 
 ## Copyright
 
