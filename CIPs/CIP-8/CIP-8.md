@@ -1,6 +1,6 @@
 ---
 cip: 8
-title: Tile Doctype
+title: Tile Document
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/56
 status: Last Call
@@ -12,24 +12,24 @@ requires: Doctypes (CIP-5)
 
 ## Simple Summary
 
-This CIP describes the Tile doctype which is a very general document type that has JSON as it's content and is controlled by a [DID](https://w3c.github.io/did-core/).
+This CIP describes the Tile document which is a very general stream type that has JSON as it's content and is controlled by a [DID](https://w3c.github.io/did-core/).
 
 
 ## Abstract
 
-The Tile doctype allows DIDs to create simple JSON documents that use [json-patch](http://jsonpatch.com/) for updating the content of the document. Each Tile is owned by one or multiple DIDs, all of which need to sign the update record. The signed records are encoded using [dag-jose](https://github.com/ceramicnetwork/js-dag-jose) which allows the signatures to be natively encoded directly in [IPLD](ipld.io). Tiles also support adding schemas to the document which means that the json data within the content of the document can be enforced to have a specific format.
+The Tile document allows DIDs to create simple JSON documents that use [json-patch](http://jsonpatch.com/) for updating the content of the document. Each Tile is owned by one or multiple DIDs, all of which need to sign the update record. The signed records are encoded using [dag-jose](https://github.com/ceramicnetwork/js-dag-jose) which allows the signatures to be natively encoded directly in [IPLD](ipld.io). Tiles also support adding schemas to the document which means that the json data within the content of the document can be enforced to have a specific format.
 
 
 ## Motivation
 
-The Tile doctype is a very generic doctype that gives developers flexibility in how they structure the data that they put into Ceramic. While other doctypes might have certain restrictions around what type of data is allowed to be stored and what the structure of that data should be, tiles allows any type of JSON data to be stored and updated. Tiles can be owned and controlled by any DID that implements the [DID Provider](https://github.com/ceramicnetwork/CIP/issues/4) specification. This provides the entire Decentralized Identity ecosystem with an interoperable verifiable document network.
+The Tile document is a very generic stream type that gives developers flexibility in how they structure the data that they put into Ceramic. While other stream types might have certain restrictions around what type of data is allowed to be stored and what the structure of that data should be, tiles allows any type of JSON data to be stored and updated. Tiles can be owned and controlled by any DID that implements the [DID Provider](https://github.com/ceramicnetwork/CIP/issues/4) specification. This provides the entire Decentralized Identity ecosystem with an interoperable verifiable document network.
 
 
 ## Specification
 
-Below the record formats and state transitions of the Tile doctype are specified. Together they should include all information needed to implement this doctype in Ceramic.
+Below the record formats and state transitions of the Tile document are specified. Together they should include all information needed to implement this stream type in Ceramic.
 
-#### DocID code: `0x00`
+#### StreamID code: `0x00`
 
 ### Record formats
 
@@ -74,7 +74,7 @@ In addition to this, the following should be verified:
 
 * If the record uses the *dag-cbor* format (not signed), `genesisRecord.data` MUST equal `null`
 * `owners` is an array of DID strings
-* If `schema` is defined it should be Ceramic DocId string
+* If `schema` is defined it should be Ceramic StreamId string
 * If `tags` is defined it should be an array of strings
 * `content` should be JSON
 * If `schema` is defined the data in the `content` should be valid according to the schema
@@ -102,7 +102,7 @@ state.log.push(new CID(signedRecord))
 
 Where `applyJSONPatch` is a function that applies a json-patch and returns a new json object. In addition the following should be validated:
 
-* If `schema` is defined it should be Ceramic DocId string
+* If `schema` is defined it should be Ceramic StreamId string
 * If `tags` is defined it should be an array of strings
 * If `schema` is defined the data in the `content` should be valid according to the schema
 * The **dag-jose** signature should be valid and signed by the DID(s) in the `owners` array in the `metadata` property (not the `next.metadata` property of the state)
@@ -131,7 +131,7 @@ The Tile specification provides a fairly straightforward way of implementing a g
 
 ## Implementation
 
-A reference implementation of the Tile doctype is provided in [js-ceramic](https://github.com/ceramicnetwork/js-ceramic) (see the `doctype-tile` package).
+A reference implementation of the Tile document is provided in [js-ceramic](https://github.com/ceramicnetwork/js-ceramic) (see the `doctype-tile` package).
 
 
 ## Security Considerations
