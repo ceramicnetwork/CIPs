@@ -16,15 +16,17 @@ Specification for how to encode a Stream Id (StreamID)
 
 
 ## Abstract
-A StreamID is composed of a docid-multicodec, a stream type varint, and a CID.
+A StreamID is composed of a streamid-multicodec, a stream type varint, and a CID.
 
 
 ## Motivation
-A specific encoding for StreamIDs allows us to distinguish them from CIDs as well as provide more information about the given stream. 
+A specific encoding for StreamIDs allows us to distinguish them from CIDs as well as provide more information about the given stream. CommitIDs are a subset of a StreamID which refers to a specific commit in a stream.
 
 
 ## Specification
-DocIDs are defined as:
+#### StreamID
+
+StreamIDs are defined as:
 
 ```html
 <streamid> ::= <multibase-prefix><multicodec-streamid><stream-type><genesis-cid-bytes>
@@ -40,7 +42,28 @@ Where
 - `<stream-type>` is a [varint](https://github.com/multiformats/unsigned-varint) representing the stream type of the stream.
 - `<genesis-cid-bytes>` is the bytes from the [CID](https://github.com/multiformats/cid) of the *genesis record*,  stripped of the multibase prefix.
 
-### DocID multicodec
+#### CommitID
+
+The CommitID adds some additional information at the end. If it represents the genesis commit the zero byte is added (`0x00`) otherwise the CID that represents the commit is added.
+
+CommitIDs are defined as:
+
+```html
+<streamid> ::= <multibase-prefix><multicodec-streamid><stream-type><genesis-cid-bytes><commit-reference>
+
+# e.g. using CIDv1 and representing the genesis commit
+<streamid> ::= <multibase-prefix><multicodec-streamid><stream-type><multicodec-cidv1><multicodec-content-type><multihash-content-address><0x00>
+
+# e.g. using CIDv1 and representing the an arbitrary commit in the log
+<streamid> ::= <multibase-prefix><multicodec-streamid><stream-type><multicodec-cidv1><multicodec-content-type-1><multihash-content-address-1><multicodec-cidv1><multicodec-content-type-2><multihash-content-address-2>
+
+```
+
+Where
+
+- `<commit-reference>` is either the zero byte (`0x00`) or a [CID](https://github.com/multiformats/cid).
+
+### StreamID multicodec
 The multicodec for StreamID is `0xce`
 
 ### Recommendations 
