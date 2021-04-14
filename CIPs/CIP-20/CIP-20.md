@@ -54,7 +54,7 @@ The past seeds array contain JWEs that includes previous seeds, which since have
 
 ### Definition content
 
-**Deployment:** `<definition-DocID>`
+**Deployment:** `kjzl6cwe1jw14a50gupo0d433e9ojgmj9rd9ejxkc8vq6lw0fznsoohwzmejqs8`
 
 ```json
 {
@@ -66,7 +66,7 @@ The past seeds array contain JWEs that includes previous seeds, which since have
 
 ### Record Schema
 
-**Deployment:** `<record-schema-DocID>`
+**Deployment:** `k3y52l7qbv1frxiodfo6f25wocb8zz60ywqw4sqcprs26qx1qx467l4ybxplybvgg`
 
 ```jsx
 {
