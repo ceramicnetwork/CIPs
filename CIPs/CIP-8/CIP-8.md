@@ -12,12 +12,12 @@ requires: Doctypes (CIP-5)
 
 ## Simple Summary
 
-This CIP describes the Tile document which is a very general stream type that has JSON as it's content and is controlled by a [DID](https://w3c.github.io/did-core/).
+This CIP describes the Tile document which is a very general stream type that has JSON as its content and is controlled by a [DID](https://w3c.github.io/did-core/).
 
 
 ## Abstract
 
-The Tile document allows DIDs to create simple JSON documents that use [json-patch](http://jsonpatch.com/) for updating the content of the document. Each Tile is owned by one or multiple DIDs, all of which need to sign the update record. The signed records are encoded using [dag-jose](https://github.com/ceramicnetwork/js-dag-jose) which allows the signatures to be natively encoded directly in [IPLD](ipld.io). Tiles also support adding schemas to the document which means that the json data within the content of the document can be enforced to have a specific format.
+The Tile document allows DIDs to create simple JSON documents that use [json-patch](http://jsonpatch.com/) for updating the content of the document. Each Tile is owned by a DID, which need to sign the update commit. The signed commits are encoded using [dag-jose](https://github.com/ceramicnetwork/js-dag-jose) which allows the signatures to be natively encoded directly in [IPLD](ipld.io). Tiles also support adding schemas to the document which means that the json data within the content of the document can be enforced to have a specific format.
 
 
 ## Motivation
@@ -27,52 +27,52 @@ The Tile document is a very generic stream type that gives developers flexibilit
 
 ## Specification
 
-Below the record formats and state transitions of the Tile document are specified. Together they should include all information needed to implement this stream type in Ceramic.
+Below the commit formats and state transitions of the Tile document are specified. Together they should include all information needed to implement this stream type in Ceramic.
 
 #### StreamID code: `0x00`
 
-### Record formats
+### Commit formats
 
-The **Genesis record** has the following required properties:
+The **Genesis commit** has the following required properties:
 
 * `data` - the initial JSON content of the document
 * `owners` - the owners array in the header needs to contain only DID strings
 
-In addition to the required properties above the genesis record may inlcude `schema`, `tags`, and `unique`. The `unique` property should include randomness as a string to ensure that there is no other document that is exactly the same.
+In addition to the required properties above the genesis commit may inlcude `schema`, `tags`, and `unique`. The `unique` property should include randomness as a string to ensure that there is no other document that is exactly the same.
 
-Finally the genesis record is signed and encoded using [dag-jose](https://github.com/ceramicnetwork/js-dag-jose).
+Finally the genesis commit is signed and encoded using [dag-jose](https://github.com/ceramicnetwork/js-dag-jose).
 
-The genesis record can also be stored without a signature using *dag-cbor*. However in this case the `data` property MUST be set to `null`.
+The genesis commit can also be stored without a signature using *dag-cbor*. However in this case the `data` property MUST be set to `null`.
 
-**Signed records** of a Tile document are encoded using [dag-jose](https://github.com/ceramicnetwork/js-dag-jose). Other than that they conform to the standard record format. The content of the `data` property should be a [json-patch](http://jsonpatch.com/) object which contains the difference from the previous document content state.
+**Signed commits** of a Tile document are encoded using [dag-jose](https://github.com/ceramicnetwork/js-dag-jose). Other than that they conform to the standard commit format. The content of the `data` property should be a [json-patch](http://jsonpatch.com/) object which contains the difference from the previous document content state.
 
 ### State transitions
 
-Below the state transition logic for the three different supported records is described.
+Below the state transition logic for the three different supported commits is described.
 
-#### Applying the Genesis Record
+#### Applying the Genesis Commit
 
-When the genesis record is applied a `DocState` object is created that looks like this:
+When the genesis commit is applied a `DocState` object is created that looks like this:
 
 ```js
 {
   doctype: 'tile',
   metadata: {
-    owners: genesisRecord.owners,
-    schema: genesisRecord.schema,
-    family: genesisRecord.family,
-    tags: genesisRecord.tags
+    owners: genesisCommit.owners,
+    schema: genesisCommit.schema,
+    family: genesisCommit.family,
+    tags: genesisCommit.tags
   },
-  content: genesisRecord.data,
+  content: genesisCommit.data,
   signature: SignatureStatus.SIGNED,
   anchorStatus: AnchorStatus.NOT_REQUESTED,
-  log: [new CID(genesisRecord)]
+  log: [new CID(genesisCommit)]
 }
 ```
 
 In addition to this, the following should be verified:
 
-* If the record uses the *dag-cbor* format (not signed), `genesisRecord.data` MUST equal `null`
+* If the commit uses the *dag-cbor* format (not signed), `genesisCommit.data` MUST equal `null`
 * `owners` is an array of DID strings
 * If `schema` is defined it should be Ceramic StreamId string
 * If `tags` is defined it should be an array of strings
@@ -81,23 +81,22 @@ In addition to this, the following should be verified:
 * The **dag-jose** signature should be valid and signed by the DID(s) in the `owners` array
 
 
-#### Applying a Signed Record
+#### Applying a Signed Commit
 
-When a signed record is applied the `DocState` object should be modified in the following way:
+When a signed commit is applied the `DocState` object should be modified in the following way:
 
 ```js
 state.next = {
-  content: applyJSONPatch(state.content, signedRecord.data),
+  content: applyJSONPatch(state.content, signedCommit.data),
   metadata: {
-    schema: signedRecord.schema,
-    family: genesisRecord.family,
-    tags: signedRecord.tags
+    schema: signedCommit.schema,
+    family: genesisCommit.family,
+    tags: signedCommit.tags
   }
 }
 state.signature = SignatureStatus.SIGNED
 state.anchorStatus = AnchorStatus.NOT_REQUESTED
-state.log.push(new CID(signedRecord))
-
+state.log.push(new CID(signedCommit))
 ```
 
 Where `applyJSONPatch` is a function that applies a json-patch and returns a new json object. In addition the following should be validated:
@@ -106,19 +105,19 @@ Where `applyJSONPatch` is a function that applies a json-patch and returns a new
 * If `tags` is defined it should be an array of strings
 * If `schema` is defined the data in the `content` should be valid according to the schema
 * The **dag-jose** signature should be valid and signed by the DID(s) in the `owners` array in the `metadata` property (not the `next.metadata` property of the state)
-* The **dag-jose** signature should include a `kid` property in it's header which specifies the `keyFragment` as well as the `version-id` of the public key that was used to sign the record
+* The **dag-jose** signature should include a `kid` property in it's header which specifies the `keyFragment` as well as the `version-id` of the public key that was used to sign the commit
 
-#### Applying an Anchor Record
+#### Applying an Anchor Commit
 
-When an anchor record is applied the `DocState` object should be modified in the following way:
+When an anchor commit is applied the `DocState` object should be modified in the following way:
 
 ```js
 state.anchorStatus = AnchorStatus.ANCHORED
-state.anchorProof = anchorRecord.proof
+state.anchorProof = anchorCommit.proof
 state.content = state.next.content
 state.metadata = Object.assign(state.metadata, state.next.metadata)
 delete state.next
-state.log.push(new CID(anchorRecord))
+state.log.push(new CID(anchorCommit))
 ```
 
 No additional validation needs to happen at this point in the state transition function.
@@ -136,7 +135,7 @@ A reference implementation of the Tile document is provided in [js-ceramic](http
 
 ## Security Considerations
 
-Because of the double spend problem, a change of `owners` is a trusted operation. This means that the new owner has to trust that the previous owner is not withholding the data of another owner change record that was anchored earlier. If the first owner publishes this record at a later point the document would change owner away from the new owner. In future versions of the Ceramic protocol it will be possible to specify an NFT as an owner of a document which means that the ownership transfer can happen on-chain and thus sidestep this problem.
+Because of the double spend problem, a change of `owners` is a trusted operation. This means that the new owner has to trust that the previous owner is not withholding the data of another owner change commit that was anchored earlier. If the first owner publishes this commit at a later point the document would change owner away from the new owner. In future versions of the Ceramic protocol it will be possible to specify an NFT as an owner of a document which means that the ownership transfer can happen on-chain and thus sidestep this problem.
 
 
 ## Copyright
