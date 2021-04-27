@@ -21,3 +21,4 @@
 | 85   | [AppendCollection schemas](./CIPs/CIP-85/CIP-85.md)          | Standards | RFC  | Draft     |
 | 88   | [Ceramic namespace in JSON schemas](./CIPs/CIP-88/CIP-88.md) | Standards | RFC  | Draft     |
 | 94   | [NFT DID Method Specification](./CIPs/CIP-94/CIP-94.md)      | Standards | RFC  | Draft     |
+| 101  | [Safe DID Method Specification](./CIPs/CIP-101/CIP-101.md)   | Standards | RFC  | Draft     |
