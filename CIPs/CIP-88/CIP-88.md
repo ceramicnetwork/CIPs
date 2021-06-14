@@ -18,22 +18,22 @@ This CIP defines a reserved namespace for Ceramic-specific metadata in a JSON sc
 
 ## Motivation
 
-As commented in https://github.com/ceramicnetwork/CIP/issues/82#issuecomment-787449788 the `$id` cannot be used to define Ceramic-specific extensions as intended in [CIP-82](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-82/CIP-82.md), so creating a custom namespace for Ceramic-specific metadata should be a safer option to enable further extensions.
+As commented in https://github.com/ceramicnetwork/CIP/issues/82#issuecomment-787449788 the `$id` cannot be used to define Ceramic-specific extensions as intended in [CIP-82](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-82/CIP-82.md).
+
+A previous version of this CIP relied on creating a custom namespace for Ceramic-specific metadata using the non-standard `$ceramic` key, but it was not compatible with the "strict mode" of the JSON validation library used in Ceramic (AJV).
+Instead, this CIP would rely on the `$comment` field that is supported by AJV's strict mode.
 
 ## Specification
 
 ### Namespace
 
-A JSON schema property can contain a `$ceramic` field, that must be an object with a unique `type` defined in the following reference table, for example:
+A JSON schema property can contain a `$comment` field, that must be a string starting with `ceramic:`:
 
 ```js
 {
   type: 'string',
   maxLength: 150,
-  $ceramic: {
-    type: 'tile',
-    schema: '<schema docID or commitID>' ,
-  },
+  $comment: 'ceramic:tile:<schema streamID or commitID>',
 }
 ```
 
@@ -47,9 +47,11 @@ A JSON schema property can contain a `$ceramic` field, that must be an object wi
 
 ## Rationale
 
-Using the `$ceramic` property should be consistent with other `$`-prefixed metadata properties in JSON schemas, avoiding possible conflicts with other property names.
+Using the `$comment` property allows to add a metadata string to a schema in a spec-compliant way (compatible with AJV's strict mode).
 
-A unique `type`, along with possible type-specific additional properties, should make it easy to add custom extensions and build tools (simple checks for existence of `$ceramic` property and type-specific logic, TypeScript interfaces and inference, etc.).
+The string value must match the following pattern: `ceramic:<type>[type-specific string]`.
+
+A unique `type`, possibly followed by an additional type-specific string, should make it easy to add custom extensions and build tools based on having the `$comment` value start with `ceramic:`.
 
 Finally, providing a reference table in this CIP should allow for easy discovery and avoid conflicts between extensions.
 
