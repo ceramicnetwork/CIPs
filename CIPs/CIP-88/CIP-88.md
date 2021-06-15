@@ -21,7 +21,7 @@ This CIP defines a reserved namespace for Ceramic-specific metadata in a JSON sc
 As commented in https://github.com/ceramicnetwork/CIP/issues/82#issuecomment-787449788 the `$id` cannot be used to define Ceramic-specific extensions as intended in [CIP-82](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-82/CIP-82.md).
 
 A previous version of this CIP relied on creating a custom namespace for Ceramic-specific metadata using the non-standard `$ceramic` key, but it was not compatible with the "strict mode" of the JSON validation library used in Ceramic (AJV).
-Instead, this CIP would rely on the `$comment` field that is supported by AJV's strict mode.
+Instead, this CIP relies on the `$comment` field that is supported by AJV's strict mode.
 
 ## Specification
 
