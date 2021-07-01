@@ -57,7 +57,7 @@ Using this CIP, a `NotesList` schema could explicitly reference a `Note` schema 
     NoteDocID: {
       type: 'string',
       maxLength: 150,
-      $comment: 'ceramic:tile:<Note schema streamID>',
+      $comment: 'ceramic:doc:<Note schema streamID>',
     },
   },
 }
@@ -67,14 +67,14 @@ This way, by loading the `Notes` schema, it is possible by a tool/library to dis
 
 ## Specification
 
-References to Ceramic schema should use a `string` with the `$comment` field using the `ceramic:tile` type, and optionally with a schema string of the StreamID (implicit reference to latest version) or CommitID (specific version) of the supported schema(s).
+References to Ceramic schema should use a `string` with the `$comment` field using the `ceramic:doc` type, and optionally with a schema string of the StreamID (implicit reference to latest version) or CommitID (specific version) of the supported schema(s).
 Multiple schemas can be provided, using the `|` character as separator.
 
 ```js
 {
   type: 'string',
   maxLength: 150,
-  $comment: 'ceramic:tile:<Note schema streamID>',
+  $comment: 'ceramic:doc:<Note schema streamID>',
 }
 ```
 
@@ -83,7 +83,7 @@ Multiple schemas can be provided, using the `|` character as separator.
 This CIP uses the `$comment` field as defined in [CIP-88](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-88/CIP-88.md).
 
 This spec allows to either define a single schema (using a string) or multiple ones (array of strings).
-The use case would be to support different schemas for a single reference, for example a "media" schema could reference an "image" schema, but also the "audio" and "video" ones as acceptable document schemas: `$comment: 'ceramic:tile:<image schema docID>|<audio schema docID>|<video schema docID>'`.
+The use case would be to support different schemas for a single reference, for example a "media" schema could reference an "image" schema, but also the "audio" and "video" ones as acceptable document schemas: `$comment: 'ceramic:doc:<image schema docID>|<audio schema docID>|<video schema docID>'`.
 
 ## Backwards Compatibility
 

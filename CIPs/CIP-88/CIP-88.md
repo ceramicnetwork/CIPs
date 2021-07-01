@@ -39,11 +39,11 @@ A JSON schema property can contain a `$comment` field, that must be a string sta
 
 ### Reference table
 
-| Type               | CIP                                                                                                   | Status |
-| ------------------ | ----------------------------------------------------------------------------------------------------- | ------ |
-| `tile`             | [DocID json-schema definition](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-82/CIP-82.md) | Draft  |
-| `appendCollection` | [AppendCollection schemas](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-85/CIP-85.md)     | Draft  |
-| `collectionSlice`  | [AppendCollection schemas](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-85/CIP-85.md)     | Draft  |
+| Type               | CIP                                                                                                      | Status |
+| ------------------ | -------------------------------------------------------------------------------------------------------- | ------ |
+| `doc`              | [StreamID json-schema definition](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-82/CIP-82.md) | Draft  |
+| `appendCollection` | [AppendCollection schemas](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-85/CIP-85.md)        | Draft  |
+| `collectionSlice`  | [AppendCollection schemas](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-85/CIP-85.md)        | Draft  |
 
 ## Rationale
 
