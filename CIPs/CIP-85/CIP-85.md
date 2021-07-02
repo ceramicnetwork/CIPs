@@ -7,7 +7,7 @@ status: Draft
 category: Standards
 type: RFC
 created: 2021-02-16
-edited: 2021-03-02
+edited: 2021-07-02
 requires: [CIP-82](https://github.com/ceramicnetwork/CIP/issues/82), [CIP-88](https://github.com/ceramicnetwork/CIP/issues/88)
 ---
 
@@ -22,7 +22,7 @@ This allows to create a virtually infinite list of items such as a feed by lever
 
 ## Motivation
 
-Storing a list of items in a single Ceramic stream can make the stream grow large in size, possibly exceeding Ceramic's internal limits.
+Storing a list of items in a single Ceramic Tile stream can make the stream grow large in size, possibly exceeding Ceramic's internal limits for this stream stype.
 Providing a standard way to represent large lists such as feeds would be useful to provide reference schemas to solve this issue and associated tools to simplify interactions.
 
 ## Specification
@@ -52,7 +52,7 @@ A Collection "instance" would therefore be made of 1 `AppendCollection` stream a
 
 #### AppendCollection schema
 
-The `AppendCollection` schema must be an `object` with a `$comment` field from [CIP-88](../CIP-88/CIP-88.md) using the `ceramic:appendCollection` prefix and pointing to the slice's `schema`, along with the following properties:
+The `AppendCollection` schema must be an `object` with a `$comment` field from [CIP-88](../CIP-88/CIP-88.md) using the `cip88:appendCollection` prefix and pointing to the slice's `schema`, along with the following properties:
 
 - `sliceMaxItems`: the maximum number of items a single slice should contain
 - `slicesCount`: the total number of slices the collection contains
@@ -60,7 +60,7 @@ The `AppendCollection` schema must be an `object` with a `$comment` field from [
 ```js
 {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $comment: 'ceramic:appendCollection:<slice schema ID>',
+  $comment: 'cip88:appendCollection:<slice schema ID>',
   title: 'MyCollection',
   type: 'object',
   properties: {
@@ -73,7 +73,7 @@ The `AppendCollection` schema must be an `object` with a `$comment` field from [
 
 #### CollectionSlice schema
 
-The `CollectionSlice` schema must be an `object` with a `$comment` field from [CIP-88](../CIP-88/CIP-88.md) having the value `ceramic:collectionSlice`, along with the following properties:
+The `CollectionSlice` schema must be an `object` with a `$comment` field from [CIP-88](../CIP-88/CIP-88.md) having the value `cip88:collectionSlice`, along with the following properties:
 
 - `collection`: the StreamID of the collection the slice is part of
 - `sliceIndex`: index of the slice in the collection, between `0` and the collection's `slicesCount` minus `1`
@@ -82,7 +82,7 @@ The `CollectionSlice` schema must be an `object` with a `$comment` field from [C
 ```js
 {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $comment: 'ceramic:collectionSlice',
+  $comment: 'cip88:collectionSlice',
   title: 'MyCollectionSlice',
   type: 'object',
   properties: {

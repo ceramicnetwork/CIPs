@@ -6,6 +6,7 @@ status: Draft
 category: Standards
 type: RFC
 created: 2021-03-01
+edited: 2021-07-02
 ---
 
 ## Simple Summary
@@ -27,7 +28,7 @@ Instead, this CIP relies on the `$comment` field that is supported by AJV's stri
 
 ### Namespace
 
-A JSON schema property can contain a `$comment` field, that must be a string starting with `ceramic:`:
+A JSON schema property can contain a `$comment` field, that must be a string starting with `cip88:`:
 
 ```js
 {
@@ -49,9 +50,9 @@ A JSON schema property can contain a `$comment` field, that must be a string sta
 
 Using the `$comment` property allows to add a metadata string to a schema in a spec-compliant way (compatible with AJV's strict mode).
 
-The string value must match the following pattern: `ceramic:<type>[type-specific string]`.
+The string value must match the following pattern: `cip88:<type>[type-specific string]`.
 
-A unique `type`, possibly followed by an additional type-specific string, should make it easy to add custom extensions and build tools based on having the `$comment` value start with `ceramic:`.
+A unique `type`, possibly followed by an additional type-specific string, should make it easy to add custom extensions and build tools based on having the `$comment` value start with `cip88:`.
 
 Finally, providing a reference table in this CIP should allow for easy discovery and avoid conflicts between extensions.
 
