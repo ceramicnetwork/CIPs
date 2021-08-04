@@ -82,7 +82,7 @@ When resolving the DID document [DID Document Metadata](https://w3c.github.io/di
 * `create` - populate using the blockchain timestamp from the block when the NFT was created
 * `updated` - populate using the blockchain timestamp from the block of the most recent owner change
 
-Note that the regular ERC721 api doesn't provide any way to query this data. An implementer is MAY to use [The Graph protocol](https://thegraph.com/) to create *subgraphs* for NFTs that are supported. Same thing should apply to NFT systems on other blockchains as well.
+Note that the regular ERC721 api doesn't provide any way to query this data. An implementer MAY use [The Graph protocol](https://thegraph.com/) to create *subgraphs* for NFTs that are supported. This should apply to other blockchains as well.
 
 #### Resolving using the `versionTime` parameter
 
