@@ -21,14 +21,14 @@ A DID that uses this method MUST begin with the following prefix: `did:nft`. Per
 
 ## Method Specific Identifier
 
-The method specific identifier is simply a [CAIP-19 Asset ID](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md) where all `:` characters have been replaced by `.` and all `/` characters replaced by `_`, in order to comply with the DID spec.
+The method specific identifier is simply a [CAIP-19 Asset ID](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md) where all `/` characters is replaced by `_`, in order to comply with the DID spec.
 
 ### Example
 
 In the example below we see a [cryptokitty](https://opensea.io/assets/0x06012c8cf97bead5deae237070f9587f8e7a266d/771769) being used as a DID. Cryptokitties is an ERC721 token on Ethereum and we can refer to it using the ERC721 asset namespace as defined in [CAIP-22](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-22.md).
 
 ```sh
-did:nft:eip155.1_erc721.0x06012c8cf97BEaD5deAe237070F9587f8E7A266d_771769
+did:nft:eip155:1_erc721:0x06012c8cf97BEaD5deAe237070F9587f8E7A266d_771769
 ```
 
 ## CRUD Operation Definitions
