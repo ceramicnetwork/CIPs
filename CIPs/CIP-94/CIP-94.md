@@ -21,7 +21,7 @@ A DID that uses this method MUST begin with the following prefix: `did:nft`. Per
 
 ## Method Specific Identifier
 
-The method specific identifier is simply a [CAIP-19 Asset ID](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md) where all `/` characters is replaced by `_`, in order to comply with the DID spec.
+The method specific identifier is simply a [CAIP-19 Asset ID](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md) where all `/` characters are replaced by `_`, in order to comply with the DID spec.
 
 ### Example
 
