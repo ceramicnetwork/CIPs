@@ -6,7 +6,7 @@ status: Draft
 category: Standards
 type: RFC
 created: 2021-03-01
-edited: 2021-07-02
+edited: 2021-09-07
 ---
 
 ## Simple Summary
@@ -34,7 +34,7 @@ A JSON schema property can contain a `$comment` field, that must be a string sta
 {
   type: 'string',
   maxLength: 150,
-  $comment: 'ceramic:tile:<schema streamID or commitID>',
+  $comment: 'ceramic:ref:<schema streamID or commitID>',
 }
 ```
 
@@ -42,7 +42,7 @@ A JSON schema property can contain a `$comment` field, that must be a string sta
 
 | Type               | CIP                                                                                                      | Status |
 | ------------------ | -------------------------------------------------------------------------------------------------------- | ------ |
-| `doc`              | [StreamID json-schema definition](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-82/CIP-82.md) | Draft  |
+| `ref`              | [StreamID json-schema definition](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-82/CIP-82.md) | Draft  |
 | `appendCollection` | [AppendCollection schemas](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-85/CIP-85.md)        | Draft  |
 | `collectionSlice`  | [AppendCollection schemas](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-85/CIP-85.md)        | Draft  |
 
