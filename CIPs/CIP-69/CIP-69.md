@@ -66,7 +66,7 @@ The bloom filter should include the following data for each document that is bei
 * The first 5 `tags`, prepend each tag string with `tag-`
 * The `schema`, prepend the schema StreamID string with `schema-`
 * All DID strings in the `controllers` array, prepend each DID with `controller-`
-* The StreamID string of the document, prepend with `StreamID-`
+* The StreamID string of the document, prepend with `streamid-`
 
 The bloom filter is created using the javascript [bloom-filters](https://github.com/Callidon/bloom-filters) library. Specifically using the *Classic Bloom Filter*. An example for how to create the filter can be observed below.
 
