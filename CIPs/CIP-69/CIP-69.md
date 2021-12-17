@@ -55,7 +55,7 @@ Before creating the tree the leafs (updates) should be sorted. The sorting shoul
 1. `family` - sort by the family in the document metadata
 2. `schema` - if multiple documents have the same topic, sort by the *schema*
 3. `controllers` - if multiple documents have the same topic and schema, sort by the first controller, then subsequent ones
-4. `DocID` - finally sort by the DocID
+4. `StreamID` - finally sort by the StreamID
 
 
 ### Bloom filter
@@ -64,9 +64,9 @@ The bloom filter should include the following data for each document that is bei
 * The `family`, prepend each string with `family-`
 
 * The first 5 `tags`, prepend each tag string with `tag-`
-* The `schema`, prepend the schema DocID string with `schema-`
+* The `schema`, prepend the schema StreamID string with `schema-`
 * All DID strings in the `controllers` array, prepend each DID with `controller-`
-* The DocID string of the document, prepend with `docid-`
+* The StreamID string of the document, prepend with `StreamID-`
 
 The bloom filter is created using the javascript [bloom-filters](https://github.com/Callidon/bloom-filters) library. Specifically using the *Classic Bloom Filter*. An example for how to create the filter can be observed below.
 
