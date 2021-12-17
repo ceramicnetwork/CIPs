@@ -1,27 +1,27 @@
 ---
 cip: 82
-title: DocID json-schema definition
+title: StreamID json-schema definition
 author: Paul Le Cam (@PaulLeCam)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/82
 status: Draft
 category: Standards
 type: RFC
 created: 2021-02-15
-edited: 2021-03-01
+edited: 2021-07-02
 requires: [CIP-88](https://github.com/ceramicnetwork/CIP/issues/88)
 ---
 
 ## Simple Summary
 
-Provide a static way to define a string in a JSON schema represents a Ceramic DocID, optionally with static references to the schema(s) that must be used by the referenced document.
+Provide a static way to define a string in a JSON schema represents a Ceramic StreamID, optionally with static references to the schema(s) that must be used by the referenced stream.
 
 ## Abstract
 
-This CIP defines a standard way to add a reference to an existing Ceramic document in a JSON schema and references to existing JSON schemas, so it is possible to access this information about Ceramic documents at build time rather than only at runtime on created documents.
+This CIP defines a standard way to add a reference to an existing Ceramic stream in a JSON schema and references to existing JSON schemas, so it is possible to access this information about Ceramic streams at build time rather than only at runtime on created streams.
 
 ## Motivation
 
-It is sometimes necessary to reference Ceramic documents from other documents, such as a list containing the docIDs of individual Ceramic documents.
+It is sometimes necessary to reference Ceramic streams from other streams, such as a list containing the streamIDs of individual Ceramic streams.
 Currently, we are sometimes using definitions that can be referenced in a schema using `"$ref": "#/definitions/CeramicDocId"` for example, but this has not be defined as a standard.
 Using local definitions to a schema also has the downside of providing no guaranty of being unique or having the definition matching any standard.
 
@@ -57,10 +57,7 @@ Using this CIP, a `NotesList` schema could explicitly reference a `Note` schema 
     NoteDocID: {
       type: 'string',
       maxLength: 150,
-      $ceramic: {
-        type: 'tile',
-        schema: '<Note schema docID>',
-      },
+      $comment: 'cip88:ref:<Note schema streamID>',
     },
   },
 }
@@ -70,25 +67,23 @@ This way, by loading the `Notes` schema, it is possible by a tool/library to dis
 
 ## Specification
 
-References to Ceramic schema should use a `string` with the `$ceramic` field using the `tile` type, and optionally with a `schema` property containing either a string or array of strings containing the DocID (implicit reference to latest version) or CommitID (specific version) of the supported schema(s):
+References to Ceramic schema should use a `string` with the `$comment` field using the `cip88:ref` type, and optionally with a schema string of the StreamID (implicit reference to latest version) or CommitID (specific version) of the supported schema(s).
+Multiple schemas can be provided, using the `|` character as separator.
 
 ```js
 {
   type: 'string',
   maxLength: 150,
-  $ceramic: {
-    type: 'tile',
-    schema: '<Note schema docID>',
-  },
+  $comment: 'cip88:ref:<Note schema streamID>',
 }
 ```
 
 ## Rationale
 
-This CIP uses the `$ceramic` namespace defined in [CIP-88](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-88/CIP-88.md).
+This CIP uses the `$comment` field as defined in [CIP-88](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-88/CIP-88.md).
 
-This spec allows to either define a single schema (using a string) or multiple ones (array of strings).
-The use case would be to support different schemas for a single reference, for example a "media" schema could reference an "image" schema, but also the "audio" and "video" ones as acceptable document schemas: `schema: ['<image schema docID>', '<audio schema docID>', '<video schema docID>']`.
+This spec allows to either define a single schema or multiple ones sparated by the `|` character.
+The use case would be to support different schemas for a single reference, for example a "media" schema could reference an "image" schema, but also the "audio" and "video" ones as acceptable document schemas: `$comment: 'cip88:ref:<image schema docID>|<audio schema docID>|<video schema docID>'`.
 
 ## Backwards Compatibility
 

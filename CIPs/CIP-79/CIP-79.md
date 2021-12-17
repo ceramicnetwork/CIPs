@@ -11,7 +11,7 @@ created: 2021-02-12
 
 # 3ID DID Method Specification
 
-3ID is a DID method that is implemented natively on Ceramic. It uses a Ceramic document as a source of truth of the information which makes up the DID document for the 3ID. Documents in Ceramic achieves secure key rotation though *proof-of-publication* by anchoring document updates into a blockchain. This means that 3ID inherits this property.
+3ID is a DID method that is implemented natively on Ceramic. It uses the Tile Document StreamType to create a mutable stream that stores the information which makes up the DID document for the 3ID. The Tile Document StreamType supports secure key rotation for 3IDs since its updates must be anchored into a blockchain, providing explicit versions and *proof-of-publication* at specific points in time (blockheights). This means that 3ID inherits this property.
 
 ## DID Method Name
 
@@ -21,14 +21,14 @@ A DID that uses this method MUST begin with the following prefix: `did:3`. Per t
 
 ## Method Specific Identifier
 
-There are two versions of 3IDs, both versions use a Ceramic document as a way to update the DID document. 3IDv1 is the most recent version, 3IDv0 is supported for legacy reasons. If you are creating new 3IDs you should always use 3IDv1. Both versions are always encoded using multibase. To determine if it's v1 or v0 first convert the multibase string into a byte array, if the first varint is `0x01` we have a 3IDv0, and if it's a `0xce` we have a 3IDv1.
+There are two versions of 3IDs. Both versions use a Ceramic Tile Document StreamType as a way to update the DID document. 3IDv1 is the most recent version, however 3IDv0 is supported for legacy reasons. If you are creating new 3IDs you should always use 3IDv1. Both versions are always encoded using multibase. To determine if it's v1 or v0, first convert the multibase string into a byte array. If the first varint is `0x01` it's a 3IDv0, and if the first varint is `0xce` it's a 3IDv1.
 
 ### 3IDv1
 
-The method specific identifier for 3IDv1 is simply a Ceramic DocID. The DocID used refers to the Ceramic document which contains the information needed to construct the DID Document upon resolution. DocIDs are encoded according to [CIP-59](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-59/CIP-59.md).
+The method specific identifier for 3IDv1 is simply a Ceramic StreamID. The StreamID used refers to the Ceramic stream which contains the information needed to construct the DID Document upon resolution. StreamIDs are encoded according to [CIP-59](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-59/CIP-59.md).
 
 ```
-3idv1 = "did:3:<docId>"
+3idv1 = "did:3:<StreamId>"
 ```
 
 #### Example
@@ -57,9 +57,9 @@ In this section the CRUD operations for a 3ID DID are defined.
 
 ### Create
 
-A `3` DID is created by simply creating a Ceramic [`tile`](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-8/CIP-8.md) document. The [`tile`](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-8/CIP-8.md) document type takes a DID as the *controller*, and it's recommended that a `did:key` is used. The *controller* is the DID which is allowed to update the document. The *family* of the document is set to `3id`, and the *deterministic* flag is set to `true`.
+A `3` DID is created by simply creating a stream that conforms to the [`tile document`](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-8/CIP-8.md) StreamType. The [`tile document`](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-8/CIP-8.md) takes a DID as the *controller*, and it's recommended that a `did:key` is used. The *controller* is the DID which is allowed to update the stream. The *family* of the stream is set to `3id`, and the *deterministic* flag is set to `true`.
 
-Now the content of the document should consist of a JSON object with one property *publicKeys*. These public keys will be allowed to sign messages on behalf of the 3ID, or decrypt messages encrypted to the 3ID. The value of this property should be an object where the value is a [multicodec](https://github.com/multiformats/multicodec/) + multibase(*base58btc*) encoded public key, the key for any given key should be the last *15* characters of the encoded public key.
+Now the content of the stream should consist of a JSON object with one property *publicKeys*. These public keys will be allowed to sign messages on behalf of the 3ID, or decrypt messages encrypted to the 3ID. The value of this property should be an object where the value is a [multicodec](https://github.com/multiformats/multicodec/) + multibase(*base58btc*) encoded public key, the key for any given key should be the last *15* characters of the encoded public key.
 
 The 3ID DID method supports any type of public key that can be encoded using multicodec which can easily be extended to support quantum resistant signature and encryption schemes in the future.
 
@@ -87,11 +87,11 @@ const didString = `did:3:${doc.id}`
 
 ### Read/Verify
 
-Resolving a 3ID is quite straight forward. It is done by taking the DocID from the method specific identifier, looking up the referred document using Ceramic, and converting the content of the Ceramic document into a DID document.
+Resolving a 3ID is quite straight forward. It is done by taking the StreamID from the method specific identifier, looking up the referred stream using Ceramic, and converting the content of the stream into a DID document.
 
-#### Loading 3IDv1 document
+#### Loading 3IDv1 stream
 
-To load a 3IDv1 document simply take the DocID from the method specific identifier and load the document from ceramic.
+To load a 3IDv1 document simply take the StreamID from the method specific identifier and load the stream from ceramic.
 
 #### Loading 3IDv0 document
 
@@ -111,9 +111,9 @@ const doc = await ceramic.createDocument({
 })
 ```
 
-#### Converting the loaded Ceramic document to the DID document
+#### Converting the loaded Ceramic stream to the DID document
 
-Once we have the Ceramic document loaded, load the latest *AnchorCommit* of the document (the latest commit that was anchored to a blockchain). Then get the content of the document at this `AnchorCommit`, which will look something like this:
+Once we have the stream loaded, load the latest *AnchorCommit* in the stream (the latest commit that was anchored to a blockchain). Then get the content of the stream at this `AnchorCommit`, which will look something like this:
 
 ```json
 {
@@ -136,7 +136,7 @@ To convert this into a DID document first create an empty DID document:
 }
 ```
 
-Now iterate though the entires in the `publicKeys` object in the Ceramic document and do the following:
+Now iterate though the entires in the `publicKeys` object in the Ceramic stream and do the following:
 
 * If it's a `secp256k1` key:
 
@@ -212,11 +212,11 @@ When the `versionId` query parameter is given as a DID is resolved it means that
 
 ### Update
 
-The 3ID DID can be updated by changing the content of the Ceramic document corresponding the particular 3ID. Any number of public key can be added or removed from the document content. Note that the *controller* of the Ceramic document can be changed as well. This does not have any effect on the state of the DID document, but changes the DID which is in control of the 3ID document.
+The 3ID DID can be updated by changing the content of the Ceramic stream corresponding to the particular 3ID. Any number of public key can be added or removed from the content. Note that the *controller* of the Ceramic stream can be changed as well. This does not have any effect on the state of the DID document, but changes the DID which is in control of the 3ID document.
 
 ### Deactivate
 
-The 3ID can be deactivated by removing all content in the Ceramic document of the 3ID and replacing it with one property `deactivated` set to `true`.
+The 3ID can be deactivated by removing all content in the Ceramic stream of the 3ID and replacing it with one property `deactivated` set to `true`.
 
 ## Security Requirements
 

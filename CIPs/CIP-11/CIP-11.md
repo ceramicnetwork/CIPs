@@ -61,7 +61,7 @@ For encrypted data sets the *key* is simply a multibase (base36) encoded string 
 
 #### Schema
 
-**Deployment:** `<idx-schema-DocID>`
+**Deployment:** `k3y52l7qbv1fryjn62sggjh1lpn11c56qfofzmty190d62hwk1cal1c7qc5he54ow`
 
 ```json
 {
@@ -95,7 +95,7 @@ The `config` object can be used for whatever is prefered by the creator of the d
 
 #### Schema
 
-**Deployment:** `<definition-schema-DocID>`
+**Deployment:** `k3y52l7qbv1fry1fp4s0nwdarh0vahusarpposgevy0pemiykymd2ord6swtharcw`
 
 ```json
 {
@@ -172,7 +172,7 @@ In the data above the `paths` property allows selective disclosure to apps using
 
 The **IDX Keychain** specifies the following schema in it's `schema` property, which is used for the *record* document. This schema simply represents an array of JWEs.
 
-**Deployment:** `<data-set-keychain-ref-schema-DocID>`
+**Deployment:** `<data-set-keychain-ref-schema-StreamID>`
 
 ```json
 {
@@ -218,7 +218,7 @@ The **IDX Keychain** specifies the following schema in it's `schema` property, w
 
 The **IDX Keychain** *definition* is created using the data below.
 
-**Deployment:** `<data-set-keychain-def-DocID>`
+**Deployment:** `<data-set-keychain-def-StreamID>`
 
 ```json
 {

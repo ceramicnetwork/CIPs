@@ -33,7 +33,7 @@ The Basic Profile is simply a *definition* where the record holds the data of th
 
 ### Definition content
 
-**Deployment:** `<definition-DocID>`
+**Deployment:** `kjzl6cwe1jw145cjbeko9kil8g9bxszjhyde21ob8epxuxkaon1izyqsu8wgcic`
 
 ```json
 {
@@ -57,12 +57,12 @@ The Basic Profile schema defines the format of a document that contains the prop
 | `birthDate`        | a date of birth                | [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)           | 10 char  | optional | 1990-04-24                   |
 | `url`              | a url                          | string                                                       | 240 char | optional | http://ceramic.network       |
 | `gender`           | a gender                       | string                                                       | 42 char  | optional | female                       |
-| `residenceCity`    | a city of residence            | string                                                       | 140 char | optional | Berlin                       |
+| `homeLocation`     | a place of residence           | string                                                       | 140 char | optional | Berlin                       |
 | `residenceCountry` | a country of residence         | [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) | 2 char   | optional | DE                           |
 | `nationalities`    | nationalities                  | array of [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) values | 2 char   | optional | CN                           |
 | `affiliations`     | affiliations                   | array of strings                                             | 240 char | optional | Ceramic Ecosystem Alliance   |
 
-**Deployment:** `<record-schema-DocID>`
+**Deployment:** `k3y52l7qbv1frxt706gqfzmq6cbqdkptzk8uudaryhlkf6ly9vx21hqu4r6k1jqio`
 
 ```json
 {

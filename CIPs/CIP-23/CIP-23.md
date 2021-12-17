@@ -37,7 +37,7 @@ The Also Known As document is a *definition* that contains an array of *linked a
 
 ### Definition content
 
-**Deployment:** `<definition-DocID>`
+**Deployment:** `kjzl6cwe1jw146zfmqa10a5x1vry6au3t362p44uttz4l0k4hi88o41zplhmxnf`
 
 ```json
 {
@@ -59,7 +59,7 @@ The record schema defines a document which maintains an array of JSON objects th
 | `claim`        | Unique location where the DID string is stored. Should be a place where only the given ID could have posted the DID. | string           | 450 char  | optional | https://gist.github.com/marysmith/5c48debdb7 |
 | `attestations` | Attestations issued by third-party services which have verified the claim against the ID.<br />The key in this object should be "did-jwt-vc" in order to indicate a verifiable credential. <br />For backwards compatibility reasons "did-jwt" is also supported. | array of objects | 1000 char | optional | {did-jwt-vc: "eyJhbGciOiJIUzI1..."}          |
 
-**Deployment:** `<record-schema-DocID>`
+**Deployment:** `k3y52l7qbv1fryojt8n8cw2k04p9wp67ly59iwqs65dejso566fij5wsdrb871yio`
 
 ```json
 {

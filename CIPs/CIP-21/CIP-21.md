@@ -40,7 +40,7 @@ The Crypto Accounts is a *definition* that contains a map from CAIP-10 account-i
 
 ### Definition content
 
-**Deployment:** `<definition-DocID>`
+**Deployment:** `kjzl6cwe1jw149z4rvwzi56mjjukafta30kojzktd9dsrgqdgz4wlnceu59f95f`
 
 ```json
 {
@@ -52,7 +52,7 @@ The Crypto Accounts is a *definition* that contains a map from CAIP-10 account-i
 
 ### Record Schema
 
-**Deployment:** `<record-schema-DocID>`
+**Deployment:** `k3y52l7qbv1frypussjburqg4fykyyycfu0p9znc75lv2t5cg4xaslhagkd7h7mkg`
 
 ```jsx
 {
