@@ -1,0 +1,94 @@
+---
+cip: <to be assigned>
+title: DID json-schema definition
+author: Paul Le Cam (@PaulLeCam)
+status: Draft
+category: Standards
+type: RFC
+created: 2022-02-10
+requires: [CIP-88](https://github.com/ceramicnetwork/CIP/issues/88)
+---
+
+## Simple Summary
+
+Provide a static way to define a string in a JSON schema represents a DID.
+
+## Abstract
+
+This CIP defines a standard way to add a reference to a DID in a JSON schema, so it is possible to access this information about Ceramic streams at build time rather than only at runtime on created streams.
+
+## Motivation
+
+Similar to [CIP-82](../CIP-82/CIP-82.md) providing a static way to describe a runtime value represents a Ceramic StreamID for another schema, using this CIP would allow libraries and applications to have a better semantic understanding of the data in a schema.
+
+For example, the following schema makes it explicit the note `author` is a DID and therefore the application logic can use the DID DataStore to attempt to load the basic profile for the author.
+
+```
+{
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  title: 'Notes',
+  type: 'object',
+  properties: {
+    notes: {
+      type: 'array',
+      title: 'list',
+      items: {
+        type: 'object',
+        title: 'item',
+        properties: {
+          author: {
+            type: 'string',
+            maxLength: 150,
+            $comment: 'cip88:did',
+          },
+          note: { $ref: '#/definitions/NoteDocID' },
+          title: {
+            type: 'string',
+            maxLength: 100,
+          },
+        },
+        required: ['author', 'note'],
+      },
+    },
+  },
+  definitions: {
+    NoteDocID: {
+      type: 'string',
+      maxLength: 150,
+      $comment: 'cip88:ref:<Note schema streamID>',
+    },
+  },
+}
+```
+
+## Specification
+
+References to DIDs should use a `string` with the `$comment` field using the `cip88:did` type.
+
+```js
+{
+  type: 'string',
+  maxLength: 150,
+  $comment: 'cip88:did',
+}
+```
+
+## Rationale
+
+This CIP uses the `$comment` field as defined in [CIP-88](../CIP-88/CIP-88.md).
+
+## Backwards Compatibility
+
+No risk of incompatibilities as this is a new entry in the `cip88` namespace.
+
+## Implementation
+
+None yet.
+
+## Security Considerations
+
+None I'm aware of.
+
+## Copyright
+
+Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
