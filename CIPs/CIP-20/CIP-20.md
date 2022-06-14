@@ -143,8 +143,7 @@ The past seeds array contain JWEs that includes previous seeds, which since have
 ```
 
 ### Example
-
-An example Crypto Accounts *record* document that includes two Ethereum accounts and one Bitcoin account.
+An example 3ID Keychain record document.
 
 ```js
 const profile = await ceramic.createDocument('tile', {
