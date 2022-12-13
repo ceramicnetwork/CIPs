@@ -24,3 +24,4 @@
 | 101  | [Safe DID Method Specification](./CIPs/CIP-101/CIP-101.md)   | Standards | RFC  | Draft     |
 | 110  | [Ceramic Anchor Contract](./CIPs/CIP-110/CIP-110.md)         | Standards | Core | Last Call |
 | 113  | [MutableList Streamtype](./CIPs/CIP-113/CIP-113.md)          | Standards | RFC  | Idea      |
+| 120  | [Multiple Pubsub Topics](./CIPs/cip-120.md)                  | Standards | Core | Draft     |
