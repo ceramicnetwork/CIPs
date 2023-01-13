@@ -1,281 +1,452 @@
 ---
 cip: 79
-title: 3ID DID Method Specification
+title: 3 DID Method Specification
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/80
 status: Draft
 category: Standards
-type: RFC
+type: Core
 created: 2021-02-12
+updated: 2023-01-13
 ---
 
-# 3ID DID Method Specification
+## Simple Summary
 
-3ID is a DID method that is implemented natively on Ceramic. It uses the Tile Document StreamType to create a mutable stream that stores the information which makes up the DID document for the 3ID. The Tile Document StreamType supports secure key rotation for 3IDs since its updates must be anchored into a blockchain, providing explicit versions and *proof-of-publication* at specific points in time (blockheights). This means that 3ID inherits this property.
-
-## DID Method Name
-
-The name string that shall identify this DID method is: `3`.
-
-A DID that uses this method MUST begin with the following prefix: `did:3`. Per the [DID specification](https://w3c.github.io/did-core/), this string MUST be in lowercase. The remainder of the DID, after the prefix, is specified below.
-
-## Method Specific Identifier
-
-There are two versions of 3IDs. Both versions use a Ceramic Tile Document StreamType as a way to update the DID document. 3IDv1 is the most recent version, however 3IDv0 is supported for legacy reasons. If you are creating new 3IDs you should always use 3IDv1. Both versions are always encoded using multibase. To determine if it's v1 or v0, first convert the multibase string into a byte array. If the first varint is `0x01` it's a 3IDv0, and if the first varint is `0xce` it's a 3IDv1.
-
-### 3IDv1
-
-The method specific identifier for 3IDv1 is simply a Ceramic StreamID. The StreamID used refers to the Ceramic stream which contains the information needed to construct the DID Document upon resolution. StreamIDs are encoded according to [CIP-59](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-59/CIP-59.md).
-
-```
-3idv1 = "did:3:<StreamId>"
-```
-
-#### Example
-
-```sh
-did:3:kjzl6cwe1jw149tlplc4bgnpn1v4uwk9rg9jkvijx0u0zmfa97t69dnqibqa2as
-```
-
-### 3IDv0
-
-The method specific identifier for 3IDv0 is a [CID](https://github.com/multiformats/cid) as produced by the [IPLD](https://github.com/ipld/specs) codec [dag-cbor](https://github.com/ipld/specs/blob/master/block-layer/codecs/dag-cbor.md).
-
-```
-3idv0 = "did:3:<cid>"
-```
-
-#### Example
-
-```sh
-did:3:bafyreiffkeeq4wq2htejqla2is5ognligi4lvjhwrpqpl2kazjdoecmugi
-```
-
-## CRUD Operation Definitions
-
-In this section the CRUD operations for a 3ID DID are defined.
-
-### Create
-
-A `3` DID is created by simply creating a stream that conforms to the [`tile document`](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-8/CIP-8.md) StreamType. The [`tile document`](https://github.com/ceramicnetwork/CIP/blob/master/CIPs/CIP-8/CIP-8.md) takes a DID as the *controller*, and it's recommended that a `did:key` is used. The *controller* is the DID which is allowed to update the stream. The *family* of the stream is set to `3id`, and the *deterministic* flag is set to `true`.
-
-Now the content of the stream should consist of a JSON object with one property *publicKeys*. These public keys will be allowed to sign messages on behalf of the 3ID, or decrypt messages encrypted to the 3ID. The value of this property should be an object where the value is a [multicodec](https://github.com/multiformats/multicodec/) + multibase(*base58btc*) encoded public key, the key for any given key should be the last *15* characters of the encoded public key.
-
-The 3ID DID method supports any type of public key that can be encoded using multicodec which can easily be extended to support quantum resistant signature and encryption schemes in the future.
-
-#### Example
-
-Below you can see an example of how to create a 3ID using the Ceramic javascript api.
-
-```js
-const doc = await ceramic.createDocument({
-  metadata: {
-    controllers: ['did:key:zQ3shQNcackrTByiYaPGso1Nt7b6r1gSMg4XXBmavzvTMqX1h'], // secp256k1 did:key
-    family: '3id'
-  },
-  content: {
-    publicKeys: {
-      "XQCT2xJHsdY6iJH": "z6LSqKWh3XQ7AfsJuE2KR23cozEut8D5CXQCT2xJHsdY6iJH",  // x22519 public key
-      "yh27jTt7Ny2Pwdy": "zQ3shrMGEKAjUTMmvDkcZ7Y3x9XnVjTH3myh27jTt7Ny2Pwdy", // secp256k1 public key
-    }
-  },
-  deterministic: true
-})
-
-const didString = `did:3:${doc.id}`
-```
-
-### Read/Verify
-
-Resolving a 3ID is quite straight forward. It is done by taking the StreamID from the method specific identifier, looking up the referred stream using Ceramic, and converting the content of the stream into a DID document.
-
-#### Loading 3IDv1 stream
-
-To load a 3IDv1 document simply take the StreamID from the method specific identifier and load the stream from ceramic.
-
-#### Loading 3IDv0 document
-
-To load a 3IDv0 document, first take the CID from the method specific identifier and load the corresponding object from the IPFS network. The resolved object will contain a `publicKey` property which has an array of public key objects (see [Appendix A](#appendix-a)).
-
-Now find the key with an id that ends in `#signingKey` and convert it to a multicodec encoded key (in compressed format), then use it as a `did:key` and look up the ceramic document which has this key as the *controller* and *family* set to `3id`, using the *deterministic* flag. Below you can see the code to do this with the javascript Ceramic api.
+<!--Provide a simplified and layman-accessible explanation of the CIP.-->
+The 3 DID method enables users to compose multiple accounts into a signle identifier.
 
 
+## Abstract
 
-```js
-const doc = await ceramic.createDocument({
-  metadata: {
-    controllers: [didKey], // secp256k1 did:key
-    family: '3id'
-  },
-  deterministic: true
-})
-```
+<!--A short (~200 word) description of the technical issue being addressed.-->
+With a special type of Ceramic stream 3ID enables a revocation registry that can be used to add and remove verification methods from the 3 DID method as well as revoke any capability issued by the identifier. The revocation registry is based on hashes of object-capabilities encoded as CACAO.
 
-#### Converting the loaded Ceramic stream to the DID document
 
-Once we have the stream loaded, load the latest *AnchorCommit* in the stream (the latest commit that was anchored to a blockchain). Then get the content of the stream at this `AnchorCommit`, which will look something like this:
+## Motivation
 
-```json
+<!--Motivation is critical for CIPs that want to change the Ceramic protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the CIP solves. CIP submissions without sufficient motivation may be rejected outright.-->
+Currently in Ceramic the main accounts types are PKH DID. These are great because they enable existing wallets to be used directly with Ceramic. However, these accounts are inherently tied to a specific account and there is no way to rotate keys in a simple manner. The 3 DID method changes this by defining a DID method which works with object-capabilities and supports all DID CRUD operations.
+
+Furthermore, the revocation regsitry of the 3 DID method enables the DID subject to revoke any object-capability issued by the 3ID. This can be useful in case of a key compromise, e.g. for a temporary session key.
+
+## Specification
+
+<!--The technical specification should describe the syntax and semantics of any new feature.-->
+Specification goes here.
+
+### The did:3 identifier
+
+> ```
+> did:3:<cacao-mh>
+> ```
+
+The `<cacao-mh>` value is a `keccak-256` multihash over the CID of a CACAO object-capability, e.g. ReCap or UCAN. The value MUST be encoded as a multibase string, using `base58btc`.
+
+***Simple example:***
+
+> ```
+> did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj
+> ```
+
+### CRUD Operation Definitions
+
+3IDs are created, updated, and deactivated by creating, notarizing, and revoking object-capabilities in the form of CACAOs.
+
+#### Create
+
+Create and sign a [SIWx](https://chainagnostic.org/CAIPs/caip-122) message where:
+
+- `address` - a blockchain address (e.g. `0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`)
+- `uri` - the PKH DID for the same address (e.g. `did:pkh:eip155:1:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`)
+
+And resources contains the following ReCap object:
+
+```java
 {
-  "publicKeys": {
-    "j9uh8iKHSDSLat4": "zQ3shaLgXkpEXt7He5mogBxFfib5cE2kv9j9uh8iKHSDSLat4",
-    "qYfZN2QNDgjJpaL": "z6LSnTyV1nSWfMmfV1PoRmo3enhDnfqfFqYfZN2QNDgjJpaL"
+  "att": {
+    "did:3:new": { "3id/control": [] }
   }
 }
 ```
 
-To convert this into a DID document first create an empty DID document:
+- *When signing this would look something like this for the user:*
+
+  ```
+  example.com wants you to sign in with your Ethereum account:
+  0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+  
+  I further authorize https://example.com to perform the following 
+  actions on my behalf: (1) "3id/control" for "did:3:new".
+  
+  URI: did:pkh:eip155:1:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+  Version: 1
+  Chain ID: 1
+  Nonce: n-0S6_WzA2Mj
+  Issued At: 2022-06-21T12:00:00.000Z
+  Resources:
+  - urn:recap:example:eyJkZWYiOlsicmVhZCJdLCJ0YXIiOnsibXkucmVzb3VyY2UuMSI6WyJhcHBlbmQiLCJkZWxldGUiXSwibXkucmVzb3VyY2UuMiI6WyJhcHBlbmQiXSwibXkucmVzb3VyY2UuMyI6WyJhcHBlbmQiXX19
+  ```
+
+##### Create the DID
+
+```jsx
+cacaoCID = ipld.put(CACAO(SIWx-message, signature))
+did = 'did:3:' + multihash(cacaoCID)
+```
+
+#### Read
+
+To read you must load a deterministic Ceramic stream to find any updates made to the 3ID.
+
+1. Load the revocation registry Ceramic stream
+
+   1. If the `?versionTime=<timestamp>` is specified load only the events `≤ timestamp`
+
+2. Read all entries where `isRevoked = false`
+
+3. For every CACAO multihash in the registry, as well as the 3ID identifier,
+
+   1. Add the following object to the `verificationMethod`  property of the DID document,
+   
+      ```json
+      {
+        "id": "#<cacao-mh>",
+        "type": "capabilityHash",
+        "controller": "did:3:<cacao-mh>",
+        "multihash": "<cacao-mh>"
+      }
+      ```
+   
+   2. Add `"#<cacao-mh>"` to the following fields,
+   
+      1. `authentication`
+      2. `assertionMethod`
+      3. `capabilityDelegation`
+      4. `capabilityInvocation`
+
+##### Example DID Document
+
+For `did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj` with no entires in the Revocation registry,
 
 ```json
 {
-  "@context": "https://w3id.org/did/v1",
-  "id": "<did>",
-  "verificationMethod": [],
-  "authentication": [],
-  "keyAgreement": []
+  "@context": [
+    "<https://www.w3.org/ns/did/v1>",
+  ]
+  "id": "did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj",
+  "verificationMethod": [{
+    "id": "#z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj",
+    "type": "capabilityHash",
+    "controller": "did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj",
+    "multihash": "z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj"
+  }],
+  "authentication": [ "#z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj" ],
+  "assertionMethod": [ "#z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj" ],
+  "capabilityDelegation": [ "#z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj" ],
+  "capabilityInvocation": [ "#z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj" ],
 }
 ```
 
-Now iterate though the entires in the `publicKeys` object in the Ceramic stream and do the following:
+#### Update
 
-* If it's a `secp256k1` key:
+##### To add a verification method:
 
-  * Add a `Secp256k1VerificationKey2018` to the *verificationMethod* array:
+1. Create a new ReCap capability with an existing VM as the issuer, delegating `"3id/control"` to another DID (PKH or Key DID), and encode it as a CACAO.
 
-    ```js
-    {
-      id: "<did>#<entry-key>",
-      type: "EcdsaSecp256k1Signature2019",
-      controller: "<did>",
-      publicKeyBase58: "<entry-value-public-key-base58btc-encoded>"
-    }
-    ```
+   ***ReCap***
 
-  * Add a `Secp256k1SignatureAuthentication2018` to the *authentication* array:
+   ```json
+   {
+     "att": {
+       "did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj": { "3id/control": [] }
+     }
+   }
+   ```
 
-    ```js
-    {
-      id: "<did>#<entry-key>",
-      type: "EcdsaSecp256k1Signature2019",
-      controller: "<did>",
-      publicKeyBase58: "<entry-value-public-key-base58btc-encoded>"
-    }
-    ```
+   - *When signing this would look something like this for the user:*
 
-* If it's a `x25519` key:
+     ```
+     example.com wants you to sign in with your Ethereum account:
+     0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+     
+     I further authorize https://example.com to perform the following 
+     actions on my behalf: (1) "3id/control" for "did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj".
+     
+     URI: did:pkh:eip155:1:0xa05bba39b223fe8d0a0e5c4f27ead9083cb22ee3
+     Version: 1
+     Chain ID: 1
+     Nonce: n-0S6_WzA2Mj
+     Issued At: 2022-06-21T12:00:00.000Z
+     Resources:
+     - urn:recap:example:eyJkZWYiOlsicmVhZCJdLCJ0YXIiOnsibXkucmVzb3VyY2UuMSI6WyJhcHBlbmQiLCJkZWxldGUiXSwibXkucmVzb3VyY2UuMiI6WyJhcHBlbmQiXSwibXkucmVzb3VyY2UuMyI6WyJhcHBlbmQiXX19
+     ```
 
-  * Add a `Curve25519EncryptionPublicKey` to the *verificationMethod* array:
+2. Load the *Revocation Registry* stream
 
-    ```js
-    {
-      id: "<did>#<entry-key>",
-      type: "X25519KeyAgreementKey2019",
-      controller: "<did>",
-      publicKeyBase58: "<entry-value-public-key-base58btc-encoded>"
-    }
-    ```
+3. Update (2) by adding the `cacao-mh` from (1)
 
-  * Add a `X25519KeyAgreementKey2019` to the *keyAgreement* array:
+***To remove a verification method:***
 
-    ```js
-    {
-      id: "<did>#<entry-key>",
-      type: "X25519KeyAgreementKey2019",
-      controller: "<did>",
-      publicKeyBase58: "<entry-value-public-key-base58btc-encoded>"
-    }
-    ```
+1. Load the *Revocation Registry* stream
+2. Update (1) by removing the `cacao-mh` that is being revoked
 
-##### 3IDv0 genesis
+#### Deactivate
 
-Since the content of the Ceramic document for a 3IDv0 is empty at the *GenesisCommit* we create the DID document by taking the public keys in the 3IDv0 genesis object (see [Appendix A](#appendix-a)) and convert them to multicodec public keys (one `secp256k1` and one `x25519`). The key properties in the DID document should be constructed as above, with the *entry-key* being the last *15* characters of the multicodec encoded keys.
+In order to deactivate a 3ID all capabilities will need to be revoked.
 
-##### DID Document Metadata
+### Revocation Registry
 
-When resolving the DID document [DID Document Metadata](https://w3c.github.io/did-core/#did-document-metadata) should be provided. When resolving a 3ID we should populate the following fields:
+3ID is based on a self-certifying revocation registry represented as a special type of Ceramic stream. In it any verification method belonging to the 3ID can be registered and revoked. Every update to the registry is recorded as a *Data Event*. When a new event is created is needs to include a valid delegation chain back to previous version of the registry.
 
-* `create` - should be populated using the blockchain timestamp from the first *AnchorCommit*
-* `updated` - should be populated using the blockchain timestamp from the most recent *AnchorCommit*
-* `versionId` - should be equal to the commit CID from the most recent *AnchorCommit*
+```verilog
+type Prinicipal Bytes // multidid
+type CACAOHash Bytes // multihash
+type Varsig Bytes // varsig
 
-#### Resolving using the `versionId` parameter
+type RevocationEntry struct {
+  key CACAOHash
+  isRevoked Boolean
+} representation tuple
+// The registry should eventually be a HAMT or similar data structure
+type Regsitry { CACAOHash : RevocationEntry }
+type Snapshot struct {
+  registry &Regsitry
+  actions [RevocationEntry]
+}
+```
 
-When the `versionId` query parameter is given as a DID is resolved it means that we should try to resolve a specific version of the DID document. The resolution process is the same except that the *AnchorCommit* we use to get the content of the document should be equal to the DocID + CID from `versionId`. In addition we should construct the *DID Document Metadata* differently.
+#### Ceramic Stream
 
-##### DID Document Metadata
+```verilog
+type Event InitEvent | DataEvent | TimeEvent
 
-* `create` - should be populated using the blockchain timestamp from the first *AnchorCommit*
-* `updated` - should be populated using the blockchain timestamp from the resolved *AnchorCommit*
-* `versionId` - should be equal to the commit CID from the resolved *AnchorCommit*
-* `nextUpdate` - should be populated using the blockchain timestamp from the next *AnchorCommit* (if present)
-* `nextVersionId` - should be equal to the commit CID from the next *AnchorCommit* (if present)
+type InitEvent &Prinicipal // an inline CID containing raw principal bytes
 
-### Update
+type DataEvent struct {
+  id &InitEvent
+  prv [&Event] // is prv needed if it's the first event after genesis?
+  prf [&CACAO] // capabilities used to emit this event
+  data &Snapshot
+  sig Varsig
+}
 
-The 3ID DID can be updated by changing the content of the Ceramic stream corresponding to the particular 3ID. Any number of public key can be added or removed from the content. Note that the *controller* of the Ceramic stream can be changed as well. This does not have any effect on the state of the DID document, but changes the DID which is in control of the 3ID document.
+type EthereumTx // <https://ipld.io/specs/codecs/dag-eth/chain/#transaction-ipld>
 
-### Deactivate
+type BlockchainTimestamp struct {
+  root Link
+  chainID String
+  txType String
+  txHash &EthereumTx
+}
 
-The 3ID can be deactivated by removing all content in the Ceramic stream of the 3ID and replacing it with one property `deactivated` set to `true`.
+type TimeEvent struct {
+  id &InitEvent
+  prv [&DataEvent] // should always be one CID
+  proof &BlockchainTimestamp
+  path String
+}
+```
 
-## Security Requirements
+#### Streamid
 
-3ID derives most of its security properties from the Ceramic protocol. Most notably *censorship resistance*, *decentralization*, and requiring a minimal amount of data to be synced to completely verify the integrity of a 3ID. For more details see the Ceramic [specification](https://github.com/ceramicnetwork/ceramic/blob/master/SPECIFICATION.md).
+Generating the Ceramic streamid can be done in three steps,
+
+1. Generate the multidid representation of the 3ID,
+
+   ```solidity
+   	<multidid> := <varint multidid><cacao-mh><varint 0x00>
+   ```
+
+2. Encode the multidid as an inline CID,
+
+   ```solidity
+   	<genesis-cid> := <varint cidv1><varint 0x55><varint 0x00><varint multidid-length><multidid>
+   ```
+
+3. Encode the Streamid
+
+   ```solidity
+   	<streamid> := <varint 0xce><varint stream-type><genesis-cid>
+   ```
+
+#### Create a `DataEvent`
+
+New data events
+
+1. Attain a key with a valid capability chain to the most recent *previous data event(s)*
+
+2. Create one or more `RevocationEntry` objects and update the `State` from the 
+
+   previous data event(s):
+
+   1. Write the objects to a new array and store them on the `actions` field
+   2. Also append them to the `registry` map
+
+3. Create the `DataEvent` struct,
+
+   1. Set `id` to the principal (an inline CID containing a multidid encoded 3ID),
+   2. Add the capability chain used to the `prf` field
+   3. Add the previous events to the `prv` field
+   4. Add the updated state to the `data` field
+   5. Create a `Varsig` over the `DataEvent` with the key from (1) and add the `sig` field
+
+#### Validating a `DataEvent`
+
+The certification of a `DataEvent` can be validated using the following algorithm,
+
+1. The varsig validates agains the *aud* `Principal` of the referenced CACAO
+
+2. The multihash of the CACAO CID (caphash) is one of:
+
+   1. CapHash is in the `Registry` and `isRevoked` is false
+   2. CapHash is in the `Principal` and **not** in the `Registry`
+
+3. The CACAO *ability* is one or both of:
+
+   1. `"3id/add"` - the `Registry` is only allowed to grow and, new values must have `isRevoked = false`
+2. `"3id/remove"` - the `Registry` can either grow or stay the same size, all modified values must have `isRevoked = true`
+
+#### Consensus
+
+In case of two conflicting events (two events share the same `prv` value) the event with the earliest `TimestampEvent` should be processed first. Note that this might lead to the latter event being invalid due to its delegation chain being revoked. Also, a new event emitted after the conflict must reference both branches in its `prv` and resolve any conflict of the `Registry`.
+
+If there is no anchor for either event yet, the `DataEvent` with the lowest binary value of its CID will win. Note that if a `TimeEvent` appears this order might change.
+
+#### Verified timestamps
+
+For convenience, once a `TimeEvent` has been verified the data used to verify it can be stored as a receipt. This is helpful when resolving the registry at a particular point in time using the `?versionTime=<iso-time>` DID URL parameter.
+
+```verilog
+type EthereumHeader // <https://ipld.io/specs/codecs/dag-eth/chain/>
+
+type TimestampRecipt struct {
+  unixtime Integer // same as block.Time
+  event &TimestampEvent
+  block &EthereumHeader
+  path String // ipld path in the block to find event.txHash
+}
+```
+
+#### Dereferencing the Registry
+
+The 3 DID resolver can [dereference](https://wiki.trustoverip.org/display/HOME/DID+URL+Resource+Parameter+Specification) the registry to a [CAR file](https://ipld.io/specs/transport/car/carv1/) which can be independently verified. This is achieved by using  the `did:3:<cap-hash>?resource=vnd.ipld.car` DID URL. Note that the `versionTime` may be used to resolve an earlier snapshot of the registry.
+
+### Object Capabilities
+
+The 3 DID method relies heavily on object-capabilities as they way to add and remove verification methods, as well as delegating permissions. The root capability is `did/control`, any verification method with this capability has [independent control](https://www.w3.org/TR/did-core/#independent-control) over the DID. This means that they can take any action on behalf of this DID, `*/*` is thus a equivalent of `did/control`. The `did/vm-add` and `did/vm-remove` are actions that can be taken to update the 3ID stream and thus the DID document. In the future other more specific `did/...` capabilities my be specified to define more granular actions on the DID document.
+
+```
+                ┌─────────────┐
+                │ did/control │
+                └──▲───▲───▲──┘
+      ┌────────────┘   │   └────────┐
+┌─────┴──────┐ ┌───────┴───────┐ ┌──┴──┐
+│ did/vm-add │ │ did/vm-remove │ │ */* │
+└────────────┘ └───────────────┘ └─────┘
+```
+
+#### Updating the 3ID stream
+
+In order to make an update to the 3ID stream, one of the verification methods could delegate the following permission to a session key:
+
+```json
+{
+   "att":{
+      "did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj": {
+        "did/vm-add": [],
+        "did/vm-remove": []
+      }
+			// CID of the event to append to the 3ID stream
+   },
+   "prf": [
+       { "/": "bafybeigk7ly3pog6uupxku3b6bubirr434ib6tfaymvox6gotaaaaaaaaa" }
+       // The CID of the capability that grants the key control over the 3ID
+       // From this the 3ID can be found, resolve revreg to see if self cap is revoked
+   ]
+}
+```
+
+#### Using a 3ID in Ceramic
+
+In order to act on behalf of a 3ID that controls a Ceramic stream, a delegation can be created by one of the verification methods in the 3ID. Note that the `prf` field must contain a link to the capability for the verification method.
+
+```json
+{
+   "tar":{
+      "ceramic://*?model=zkfif...": {
+        "crud/mutate": [],
+        "crud/read": []
+      }
+   },
+   "prf": [
+       { "/": "bafybeigk7ly3pog6uupxku3b6bubirr434ib6tfaymvox6gotaaaaaaaaa" }
+       // The CID of the capability that grants the key control over the 3ID
+   ]
+}
+```
+
+## Rationale
+
+<!--The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work, e.g. how the feature is supported in other languages. The rationale may also provide evidence of consensus within the community, and should discuss important objections or concerns raised during discussion.-->
+
+While most DID methods include full public keys, or other DIDs as verification methods 3ID chooses to use hashes of object-capabilities as verification methods. One of the main use cases for 3ID is to connect multiple PKH DIDs into a single identifier on Ceramic. While doing so publically is fine for some use cases, the ability to do so privately is quite important for many. Using *capability hashes* enables more privacy since the DIDs that are delegated to doesn't strictly need to be revealed. It is worth noting that revealing the CACAO object when used is the simplest way to prove a capability chain. However, it is possible to create zero-knowledge proofs that only reveal the hash of the capability used and which session key was delegated to.
 
 ### Cryptographic Agility
 
-As can be seen in the CRUD section, currently only `secp256k1` and `x25519` public keys are supported. This can be easily extended by using other multicodec encoded keys. The [multicodec table](https://github.com/multiformats/multicodec/blob/master/table.csv) already has support for BLS keys for example, so adding support for it would be trivial. Once good post quantum cryptography becomes more widely available extending 3ID to support that will also be fairly straight forward.
+The 3 DID method itself doesn't really limit what cryptography can be used. It boils down to what the system that interprets the actual object capabilities is capable of. In Ceramic this includes the following, but is not limited to, and can be extended in the future:
+
+* `ed25519`
+* `secp256k1`
+* `secp256r1`
+
+Once good post quantum cryptography becomes more widely available extending Ceramic to support that will also be fairly straight forward.
+
+
+## Backwards Compatibility
+
+<!--All CIPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their severity. The CIP must explain how the author proposes to deal with these incompatibilities. CIP submissions without a sufficient backwards compatibility section may be rejected outright.-->
+Previous iterations of 3ID relied on the TileDocument stream type and an interpretation layer above that translated the tile contents to a DID document. That approach had numerious flaws the main one being the impossibility of privacy. This version of the spec deviates from the previous experiment in that there is a special stream type for the 3ID and that it fully relies on object-capabilities as verification methods. This is a great improvement but unfortunately it is not possible to make an upgrade in a backwards compatible manner. Instead all implementers are recommended to follow this specification only.
 
 ## Privacy Requirements
 
-See [§ 10. Privacy Considerations](https://www.w3.org/TR/did-core/#privacy-considerations) in `did-core`.
+The 3 DID method provides a unique privacy enhancement over most other DID methods in that subject only need to reveal hashes of object-capabilities in order to use it. While the simplest way of implementing usage of the system would imply pulicly revealing these object-capabilities, it is indeed possible to create zero-knowledge proofs of the valididty of an object-capability without revealing its content.
 
-## Extensibility
+## Security Considerations
 
- The 3ID DID Method could also easily be extended to support other features specified in  [did-core](https://w3c.github.io/did-core/), e.g. service endpoints.
+3ID derives most of its security properties from the Ceramic protocol. Most notably *censorship resistance*, *decentralization*, and requiring a minimal amount of data to be synced to completely verify the integrity of a 3ID. For more details see the Ceramic [specification](https://github.com/ceramicnetwork/ceramic/blob/master/SPECIFICATION.md).
 
 ## Reference Implementations
 
-* [3id-did-provider](https://github.com/ceramicstudio/js-3id-did-provider) - wallet side implementation of the 3ID DID method
-* [3id-did-resolver](https://github.com/ceramicnetwork/js-ceramic/tree/develop/packages/3id-did-resolver) - 3ID DID method resolver
+Currently no reference implementation for 3ID exists.
 
-## Appendix A
+## Appendix A: Registrations
 
-An example 3IDv0 genesis object
+This appendix contains all regsitrations necessary for the 3 DID method.
 
+### Verification method property
 
-```json
-{
-  "value": {
-    "id": "did:3:GENESIS",
-    "@context": "https://w3id.org/did/v1",
-    "publicKey": [
-      {
-        "id": "did:3:GENESIS#signingKey",
-        "type": "Secp256k1VerificationKey2018",
-        "publicKeyHex": "0452fbcde75f7ddd7cff18767e2b5536211f500ad474c15da8e74577a573e7a346f2192ef49a5aa0552c41f181a7950af3afdb93cafcbff18156943e3ba312e5b2"
-      },
-      {
-        "id": "did:3:GENESIS#encryptionKey",
-        "type": "Curve25519EncryptionPublicKey",
-        "publicKeyBase64": "DFxR24MNHVxEDAdL2f6pPEwNDJ2p0Ldyjoo7y/ItLDc="
-      },
-      {
-        "id": "did:3:GENESIS#managementKey",
-        "type": "Secp256k1VerificationKey2018",
-        "ethereumAddress": "0x3f0bb6247d647a30f310025662b29e6fa382b61d"
-      }
-    ],
-    "authentication": [
-      {
-        "type": "Secp256k1SignatureAuthentication2018",
-        "publicKey": "did:3:GENESIS#signingKey"
-      }
-    ]
-  }
-}
-```
+**Property name:** `multihash`
 
+The multihash property is used to specify a multibase-encoded multihash. Usually this is a hash over an object-capability.
+
+* [Multihash specification](https://github.com/multiformats/multihash)
+* [Multibase specification](https://github.com/multiformats/multibase)
+
+### Verification Method Type
+
+**Type name:** `capabilityHash`
+
+The capabilityHash verification method type indicates that the verification method is the hash of a CACAO. For a signature to be valid under a specific capabilityHash verification method, the proof must show that there is a valid delegation chain from the CACAO that corresponds with the given hash. In the most trivial case this can be achived by revealing the CACAO itself as part of the proof, a verifier can then check the hashed value of the CACAO. However, zero-knowledge proofs may be used to remove the need to reveal the CACAO, improving privacy for the DID subject.
+
+* [CAIP-74: CACAO - Chain Agnostic CApability Object](https://chainagnostic.org/CAIPs/caip-74) 
+
+### Stream type code
+
+**Code:** `5`
+
+### Multidid code
+
+**Code:** `0x1b` - keccak-256
 
 ## Copyright
 
