@@ -1,0 +1,321 @@
+---
+cip: <to be assigned>
+title: Stream Sets Synchronization
+author: Aaron Goldman (@aarongoldman) <aaron@3box.io>
+discussions-to: <URL of the Github issue for this CIP (if this is a PR)>
+status: Draft
+category: Standards
+type: Networking
+created: 2023-01-18
+edited: 2023-01-18
+requires: Multiple pubsub topics (CIP 120)
+replaces: NA
+---
+<!-- STEPS TO SUBMIT A CIP:
+1. Complete the header above.
+2. Fill in as much content as is appropriate for the status of your CIP.
+3. Add Github labels for status, category, and type.-->
+
+<!--[status]: Here is a description of status terms.
+- `Idea`: an CIP issue that is incomplete.
+- `Draft`: an CIP issue that is complete but undergoing rapid iteration and changes.
+- `Last Call`: an CIP issue that is stable and ready for final review by the community.
+- `Pending`: an CIP that has been submitted as a PR or merged but not finalized.-->
+
+## Simple Summary
+<!--Provide a simplified and layman-accessible explanation of the CIP.-->
+Stream Sets bundle a number of streams together so the ceramic node with a common interest in those streams can synchronize efficiently, a process known as Set Reconciliation.
+
+
+## Abstract
+<!--A short (~200 word) description of the technical issue being addressed.-->
+Stream Sets are bundles of streams that can be gossiped about as a group or in sub-ranges. In order to make ranges possible over a set of streams we need to define an order for the ranges to be over. e.g. `ceramic/<network>/<sep>/<model>/<EventID>` by assigning a sort key to each event we can define a range over the lexicographic sort of the sort keys. Now a node can advertise a have/want over a range `(first event ID, hash, last event ID)` If the node receiving the advertisenemt has the same set of events, then they will have the same hash and are in sync. If a node needs to advertise a new event it can send `(first event ID, hash, new event ID, hash, last event ID)` This tells any receiving node not only the new event ID but re-asserts all other events in the range. If the receiving node has any additional or missing events this is detected and can be synchronized.
+
+
+New nodes interested in part of the stream set can be discovered in two ways. First if a node receives a have/want advertisement from a node it can add that node to its list of peers. Second nodes should advertise their wants to the libp2p DHT.
+
+
+## Motivation
+<!--Motivation is critical for CIPs that want to change the Ceramic protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the CIP solves. CIP submissions without sufficient motivation may be rejected outright.-->
+Currently ceramic nodes broadcast updates to streams to every node in the network. This requires nodes to do work processing messages that they don’t care about. At the same time if a node missed the broadcast, it would not know that the stream existed unless it hears a later update or performs historical sync via the CAS contract.
+
+Goals:
+
+- Low to no overhead for peers not subscribed to the stream being queried.
+    - Can we track ranges of interest and not message nodes that don't care?
+- High probability of getting the **latest** tip (e.g. resilience to eclipse attacks etc.)
+    - Can we quickly disseminate new EventIDs to interested nodes?
+- Low overhead for the querying peer (e.g. no requirement to connect to and query a massive amount of peers)
+    - Can we keep most nodes up to date so point queries can go to a small number of, or single, node(s)?
+
+By pulling some set of streams out of the main network channel into a stream set the nodes interested in those streams can synchronies with each other without putting load on the uninterested nodes in the network. These Stream Sets will likely be defined by a set of models that should be included in the Stream Set. They could also be defined by a set of models and controllers but the large and changing number of controllers requires more though and is not proposed here.
+
+A stream also could potentially be included in more than one stream set if for example there are apps that want to sync every event across the entire network, they may want to form a stream set for all events that overlaps the narrower stream sets.
+
+The introduction of stream sets should lower the burden of running a node that is not interested in a stream set and speed up the process of syncing all the historical events that are within the stream set.
+
+A secondary goal of stream sets is that they give a structure for sharding the stream set across ceramic nodes. By supporting an ability to synchronize a sub-range of the stream set the load of storing, indexing, and retrieving streams can be split among ceramic nodes.
+
+Ceramic nodes also need to have a way to find the other nodes interested in the stream set so that they can synchronize with them.
+
+Ultimately by gossiping about ranges of streams ceramic nodes that are arbitrarily out of sync can synchronize all events of mutual interest. Nodes that are in sync or nearly in sync can send each other very little bandwidth. Nodes can avoid sending stream event announcements to nodes that have no interest in the streams.
+
+
+## Specification
+<!--The technical specification should describe the syntax and semantics of any new feature.-->
+Specification goes here.
+
+### **Stream Sets Ranges (Ordering)**
+We need to choose a consistent ordering to give ranges meaning.
+What order should we be sorting the EventIDs
+`/ceramic/mainnet/modal_family/modal/stream/event_hight/event`
+`/ceramic/mainnet/anchor_time/event(64)`
+
+#### **EventID sort order**
+Should we also propose a CIP to change EventIDs so that they sort better lexicographically
+> 🚧 The EventIDs are grouped by stream but then in random order
+```tsx
+// Curent EventID
+<EventID> ::= <multibase-prefix><multicodec-streamid><stream-type>
+  <genesis-cid-bytes>
+  <event-cid-bytes>
+
+// Proposed EventID
+<EventID> ::= <multibase-prefix><multicodec-streamid><stream-type>
+  <genesis-cid-bytes>
+  <multicodec-unsigned-varint><event hight>
+  <event-cid-bytes>
+```
+[multiformats/unsigned-varint](https://github.com/multiformats/unsigned-varint)
+
+#### **Stream set sort order**
+example lexicographical sort order
+```
+ceramic/<network>/<partitions_key>/<EventID>
+```
+
+We could partition on `model`, `controller`, `time` , or something else using a partition key? We could even map multiple dimensions into a single partition key and then partition based on the calulated partition key.
+
+What are the sorting orders that make sense?
+- Total time ordering of all events in all streams.
+    - `ceramic/<network>/<timeID>/<EventID>`
+- Sort by model/StreamID
+    - `ceramic/<network>/<model>/<EventID>`
+- Sort by controller/model/StreamID
+    - `ceramic/<network>/<did>/<model>/<EventID>`
+- Sort by StreamID lexicographic
+    - `ceramic/<network>/<EventID>`
+- Time / block height, causal or lexicographic within stream
+    - `ceramic/<network>/<StreamID>/<block height><EventID>`
+- Z-0rder (Hilbert Curve order)
+    - `ceramic/<network>/< z(model, controller, time) >`
+    - [https://youtu.be/YLVkITvF6KU](https://youtu.be/YLVkITvF6KU)
+    - [https://en.wikipedia.org/wiki/Z-order](https://en.wikipedia.org/wiki/Z-order)
+
+### **Interest Advertisements**
+In order to discover peers with overlaping interests nodes must avertise there interest ranges to the network.
+
+#### **DHT peer discovery**
+1. If known peer list too small
+    - Find providers in the DHT for the given StreamSetID `ceramic/<network>/<partition_key>/` (e.g. model)
+    - Add the node to your known peer list if query receves a reponce.
+    - Advertise your node's stream set ranges of interests on the DHT.
+2. Send query to provider(s)
+    - Select peer(s) at random
+    - Maintain an internal reputation list for peers
+        - How up to date are they.
+        - Latency.
+        - Interests
+    - The query should include data about:
+        - The stream events you want.
+        - The stream events you have.
+        - If out of sync recur.
+3. Providers responds with their interests
+    - The response should include data about:
+        - The stream events they have.
+        - The stream events they want.
+        - If out of sync recur.
+    - The node should add you to their known peer list after responding.
+    
+
+Periodically repeat the process above to achieve eventual consistency.
+
+```ts
+type InterestRange struct {
+	start EventID // A string less the any event of intrest
+	dividers [
+    {
+      associative_hash string // the associative hash of all EventIDs in sub-range
+      link CID // [optional] the CID of the subnode
+
+      // an EventID larger then any EventID in the preceding sub-range
+      // and less then any in the subsuquent sub-range
+      stop string 
+
+    }
+  ]
+}
+
+type Interests: InterestRange[]
+```
+
+#### **Interactive**
+One or more interest range,
+each containing one or more sub-tree associative hashs.
+```
+(EventID (sub-tree-ahash EventID)+ )+
+```
+We folow a syncronisation protocal inspired by
+"Range-Based Set Reconciliation and Authenticated Set Representations"
+[[arXiv:2212.13567](https://doi.org/10.48550/arXiv.2212.13567)]
+
+---
+![ring](assets/ring.png)
+You initate a syncronisation by sending a hash covering the entire range.
+```js
+their_events: {"bee", "cat", "doe", "eel", "fox", "hog"}
+your_events:  {"ape", "eel", "fox", "gnu"}
+
+you: -["ape", h("eel", "fox", "gnu"), "ape"]->
+```
+They don't have the same hash so they split the range near the middel at `"eel" `
+```js
+their_events: {"ape", "bee", "cat", "doe", "eel", "fox", "hog"}
+your_events:  {"ape", "eel", "fox", "gnu"}
+
+them: <-["ape", h("bee", "cat", "doe"), "eel", h("fox", "hog"), "ape"]-
+```
+You have nothing from `"ape"` to `"eel"` so send `0`.
+Your hash from `"eel"` to `"ape"` dose not match so split range on `"gnu"`
+```js
+their_events: {"ape", "bee", "cat", "doe", "eel", "fox", "hog"}
+your_events:  {"ape", "eel", "fox", "gnu"}
+
+you: -["ape", 0, "eel", h("fox"), "gnu", 0, "ape"]->
+```
+They see that you don't have any keys form `"ape"` to `"eel"` so they send the entire set.
+
+They have a difrent hash from `"gnu"` to `"ape"` and split the range on `"hog"`
+```js
+their_events: {"ape", "bee", "cat", "doe", "eel", "fox", "gnu", "hog"}
+your_events:  {"ape", "eel", "fox", "gnu"}
+
+them: <-["ape", 0, "bee", 0, "cat", 0, "doe", 0, "eel", h("fox"), "gnu", 0, "hog", 0 "ape"]-
+```
+
+You now have the same hash between `"ape"`, `"bee"`, `"cat"`, `"doe"`, `"eel"`, `"hog"`, and `"gnu"` there is nothing left to send.
+You send the hash covering the entire range so they know you are done and can restart if the sets have diverged as the protocal was running.
+```js
+their_events: {"ape", "bee", "cat", "doe", "eel", "fox", "gnu", "hog"}
+your_events:  {"ape", "bee", "cat", "doe", "eel", "fox", "gnu", "hog"}
+
+you: -["ape", h("bee", "cat", "doe", "eel", "fox", "hog", "gnu"), "ape"]->
+
+```
+
+In this example only `"fox"` was never sent across the wire but in large sets with only tiny fractions of diffrences most keys will never be sent across the wire.
+> ToDo: should we merge 
+> ```
+> ["ape", h("bee", "cat", "doe", "eel", "fox", "hog", "gnu"), "ape"]
+> ```
+>  to
+> ```
+> [h("ape", "bee", "cat", "doe", "eel", "fox", "hog", "gnu")]
+> ```
+> to represent the entire ring?
+
+---
+#### **Imutable object store**
+For syncing with an imutable object store add CIDs to the inodes. This would be DAG-JSON or DAG-CBOR
+```
+(EventID (sub-tree-ahash sub-tree-CID EventID)+ )+
+```
+This protocal can be run in a symalar way agenst a object store.
+however insted of the remote desiding which segments to send they pre-partion the set into a b-tree. At each laer of the b-tree you can deside if you have a match or if you need to recurse into the sub-tree.
+
+The use of synconising agenst a object store may improve the expereance of syncing a brand new node or a node that has been down for an extended pereod of time. The node could start by syncronising agenst a weekly snapshot and the sync with live nodes only after getting the bulk of the dataset from the object store.
+
+#### **DHT key**
+
+- If `separatorKey` and `separatorValue` are set, use `partition = hash(separatorKey | separatorValue)`
+- Else if `stream` is set, use `stream`
+
+### **Random Peer Synchronization Order**
+When synchronizing we want to sync with nearby nodes with higher probability since this is lower cost but also sometimes with the far away nodes so that the whole network is synchronized. By tracking the latency of other nodes with overlapping interests we can choose a peer proportional to the overlapping interests and inversely proportional to the latency.
+|| keys in overlapping interests || / latency
+
+![Random Gosip](assets/gossip.gif)
+
+The number of nodes with the event will grow exponetialy until it saturates the network.
+
+### **Associative Hash Function (SumOfShas)**
+If we want to caculate the hash of a range of 
+EventIDs without needing to visit all of the strings 
+we can use an associative hash function where the grouping
+of EventIDs into subranges is not relivent to the final hash.
+
+e.g. use `sum(sha256(EventID) for EventID in Stream Set)`
+each node in the tree can store the associative hash of each 
+sub tree along with its max and min we only need to desend into that sub-tree if the reange end is in the sub-tree. Since a range has only two ends, start and stop, we can calulate the associative hash by visiting only twice the depth of the tree number of nodes `2*log_b(n)`
+where b is the fanout and n is the number of EventIDs.
+
+A b-tree with fanout 3:
+![fanout3](assets/b_hash_tree_1.png)
+
+A b-tree with fanout 2:
+![fanout2](assets/b_hash_tree_2.png)
+
+### **B#tree (B hash trees)**
+e.g. [MST](https://hal.inria.fr/hal-02303490/document) / [Prolly tree](https://docs.dolthub.com/architecture/storage-engine/prolly-tree) 
+
+Advantage:
+  - Can be shared to split among nodes.
+  - Can have independent tree structure, fanout, balancing, or leveling.
+
+Disadvantage:
+  - A stream set must agree on a sorting of events.
+
+![b hash tree](assets/b_hash_tree.png)
+
+The B#tree (Bee-Hash-Tree) is a form of B-tree
+where the links are hashes rather than pointers.
+
+1. Pointers are CIDs (hashes)
+2. iNode is functionally **dependent** on the nodes that **the node points to**.
+3. iNode is functionally **independent** of the nodes that **point to the node**.
+4. Keys and subtrees are in sorted order within an iNode
+5. Level is functionally dependent set of keys, and optionally values
+
+![merkle search tree](assets/merkle_search_tree.png)
+
+The MST uses only the hash of the key to determine the level of the tree that contains the key.
+This will lead to probabilistically log(n) depth and log(n) keys in the largest node.
+The Prolly tree uses a running hash of the keys from left to right to determine level of the tree.
+Sliding a fixed-size window through it, one byte at a time.
+This enables the proly tree to better calibrate the node size variance.
+e.g. As the node size grows increase the probability of a boundary. 
+This will reduce the odds of small nodes and large nodes
+in favor of target size nodes.
+
+## Rationale
+<!--The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work, e.g. how the feature is supported in other languages. The rationale may also provide evidence of consensus within the community, and should discuss important objections or concerns raised during discussion.-->
+Rationale goes here.
+
+
+## Backwards Compatibility
+<!--All CIPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their severity. The CIP must explain how the author proposes to deal with these incompatibilities. CIP submissions without a sufficient backwards compatibility section may be rejected outright.-->
+Backwards compatibility goes here.
+
+
+## Implementation
+<!--The implementations must be completed before any CIP is given status "Final", but it need not be completed before the CIP is accepted.-->
+Implementation goes here.
+
+
+## Security Considerations
+<!--All CIPs must contain a section that discusses the security implications/considerations relevant to the proposed change. Include information that might be important for security discussions, surfaces risks and can be used throughout the life cycle of the proposal. E.g. include security-relevant design decisions, concerns, important discussions, implementation-specific guidance and pitfalls, an outline of threats and risks and how they are being addressed. CIP submissions missing the "Security Considerations" section will be rejected. An CIP cannot proceed to status "Final" without a Security Considerations discussion deemed sufficient by the reviewers.-->
+The associative hash functions are only secure if the node is asked to produce the EventIDs that hash to the SHAs that make up the SumOfShas associative hash.
+
+
+## Copyright
+Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
