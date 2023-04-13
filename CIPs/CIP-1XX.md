@@ -1,218 +1,58 @@
 ---
 cip: 122
-title: 3 DID Method
+title: CapReg - Notary for object-capabilities
 author: Joel Thorstensson (@oed)
-discussions-to: https://forum.ceramic.network/t/cip-122-3-did-method
+discussions-to: https://forum.ceramic.network/t/cip-1xx-capreg
 status: Draft
 category: Standards
 type: Core
-created: 2021-02-12
-updated: 2023-01-31
-replaces: 79
+created: 2023-04-11
+updated: 2023-04-11
 ---
 
 ## Simple Summary
 
 <!--Provide a simplified and layman-accessible explanation of the CIP.-->
-The 3 DID method enables users to compose multiple accounts into a single identifier.
+The CapReg capability registry enables users to notarize and revoke any object-apability associated with their DID.
 
 
 ## Abstract
 
 <!--A short (~200 word) description of the technical issue being addressed.-->
-With a special type of Ceramic stream 3ID enables a revocation registry that can be used to add and remove verification methods from the 3 DID method as well as revoke any capability issued by the identifier. The revocation registry is based on hashes of object-capabilities encoded as CACAO.
+With a special type of Ceramic stream the capability registry enables users to notarize and revoke object-capabilities issued by their DID. The registry is based on hashes of object-capabilities encoded as CACAO.
 
 
 ## Motivation
 
 <!--Motivation is critical for CIPs that want to change the Ceramic protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the CIP solves. CIP submissions without sufficient motivation may be rejected outright.-->
-Currently in Ceramic the main accounts types are PKH DID. These are great because they enable existing wallets to be used directly with Ceramic. However, these accounts are inherently tied to a specific account and there is no way to rotate keys in a simple manner. The 3 DID method changes this by defining a DID method which works with object-capabilities and supports all DID CRUD operations.
 
-Furthermore, the revocation regsitry of the 3 DID method enables the DID subject to revoke any object-capability issued by the 3ID. This can be useful in case of a key compromise, e.g. for a temporary session key.
+Currently in Ceramic the main accounts types are PKH DID. These are great because they enable existing wallets to be used directly with Ceramic. Once a PKH DID is used to delegate permissions to a session key. That delegation will remain valid until the capability expires. This could be a problem in the case of a stolen session key or a malicious application. By introducing a capability registry these capabilities can be revoked at any time by the main DID (PKH DID in the case above, but this would work for any DID method). A system that uses these object capabilities could refer to the registry to verify that the capability  has not been revoked before it was used.
 
 ## Specification
 
 <!--The technical specification should describe the syntax and semantics of any new feature.-->
-Specification goes here.
+This specification describes the data structure of the capability registry, its validation and consensus logic, as well as how wallet UX would look like for someone using the registry.
 
-### The did:3 identifier
 
-> ```
-> did:3:<cacao-mh>
-> ```
+### Capability Registry
 
-The `<cacao-mh>` value is a `keccak-256` multihash over the CID of a CACAO object-capability, e.g. ReCap or UCAN. The value MUST be encoded as a multibase string, using `base58btc`.
-
-***Simple example:***
-
-> ```
-> did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj
-> ```
-
-### CRUD Operation Definitions
-
-3IDs are created, updated, and deactivated by creating, notarizing, and revoking object-capabilities in the form of CACAOs.
-
-#### Create
-
-Create and sign a [SIWx](https://chainagnostic.org/CAIPs/caip-122) message where:
-
-- `address` - a blockchain address (e.g. `0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`)
-- `uri` - the PKH DID for the same address (e.g. `did:pkh:eip155:1:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`)
-
-And resources contains the following ReCap object:
-
-```java
-{
-  "att": {
-    "did:3:new": { "3id/control": [] }
-  }
-}
-```
-
-- *When signing this would look something like this for the user:*
-
-  ```
-  example.com wants you to sign in with your Ethereum account:
-  0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
-  
-  I further authorize https://example.com to perform the following 
-  actions on my behalf: (1) "3id/control" for "did:3:new".
-  
-  URI: did:pkh:eip155:1:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
-  Version: 1
-  Chain ID: 1
-  Nonce: n-0S6_WzA2Mj
-  Issued At: 2022-06-21T12:00:00.000Z
-  Resources:
-  - urn:recap:example:eyJkZWYiOlsicmVhZCJdLCJ0YXIiOnsibXkucmVzb3VyY2UuMSI6WyJhcHBlbmQiLCJkZWxldGUiXSwibXkucmVzb3VyY2UuMiI6WyJhcHBlbmQiXSwibXkucmVzb3VyY2UuMyI6WyJhcHBlbmQiXX19
-  ```
-
-##### Create the DID
-
-```jsx
-cacaoCID = ipld.put(CACAO(SIWx-message, signature))
-did = 'did:3:' + multihash(cacaoCID)
-```
-
-#### Read
-
-To read you must load a deterministic Ceramic stream to find any updates made to the 3ID.
-
-1. Load the revocation registry Ceramic stream
-
-   1. If the `?versionTime=<timestamp>` is specified load only the events `≤ timestamp`
-
-2. Read all entries where `isRevoked = false`
-
-3. For every CACAO multihash in the registry, as well as the 3ID identifier,
-
-   1. Add the following object to the `verificationMethod`  property of the DID document,
-   
-      ```json
-      {
-        "id": "#<cacao-mh>",
-        "type": "capabilityHash",
-        "controller": "did:3:<cacao-mh>",
-        "multihash": "<cacao-mh>"
-      }
-      ```
-   
-   2. Add `"#<cacao-mh>"` to the following fields,
-   
-      1. `authentication`
-      2. `assertionMethod`
-      3. `capabilityDelegation`
-      4. `capabilityInvocation`
-
-##### Example DID Document
-
-For `did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj` with no entires in the Revocation registry,
-
-```json
-{
-  "@context": [
-    "<https://www.w3.org/ns/did/v1>",
-  ]
-  "id": "did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj",
-  "verificationMethod": [{
-    "id": "#z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj",
-    "type": "capabilityHash",
-    "controller": "did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj",
-    "multihash": "z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj"
-  }],
-  "authentication": [ "#z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj" ],
-  "assertionMethod": [ "#z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj" ],
-  "capabilityDelegation": [ "#z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj" ],
-  "capabilityInvocation": [ "#z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj" ],
-}
-```
-
-#### Update
-
-##### To add a verification method:
-
-1. Create a new ReCap capability with an existing VM as the issuer, delegating `"3id/control"` to another DID (PKH or Key DID), and encode it as a CACAO.
-
-   ***ReCap***
-
-   ```json
-   {
-     "att": {
-       "did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj": { "3id/control": [] }
-     }
-   }
-   ```
-
-   - *When signing this would look something like this for the user:*
-
-     ```
-     example.com wants you to sign in with your Ethereum account:
-     0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
-     
-     I further authorize https://example.com to perform the following 
-     actions on my behalf: (1) "3id/control" for "did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj".
-     
-     URI: did:pkh:eip155:1:0xa05bba39b223fe8d0a0e5c4f27ead9083cb22ee3
-     Version: 1
-     Chain ID: 1
-     Nonce: n-0S6_WzA2Mj
-     Issued At: 2022-06-21T12:00:00.000Z
-     Resources:
-     - urn:recap:example:eyJkZWYiOlsicmVhZCJdLCJ0YXIiOnsibXkucmVzb3VyY2UuMSI6WyJhcHBlbmQiLCJkZWxldGUiXSwibXkucmVzb3VyY2UuMiI6WyJhcHBlbmQiXSwibXkucmVzb3VyY2UuMyI6WyJhcHBlbmQiXX19
-     ```
-
-2. Load the *Revocation Registry* stream
-
-3. Update (2) by adding the `cacao-mh` from (1)
-
-***To remove a verification method:***
-
-1. Load the *Revocation Registry* stream
-2. Update (1) by removing the `cacao-mh` that is being revoked
-
-#### Deactivate
-
-In order to deactivate a 3ID all capabilities will need to be revoked.
-
-### Revocation Registry
-
-3ID is based on a self-certifying revocation registry represented as a special type of Ceramic stream. In it any verification method belonging to the 3ID can be registered and revoked. Every update to the registry is recorded as a *Data Event*. When a new event is created is needs to include a valid delegation chain back to previous version of the registry.
+The capability registry is based on a self-certifying data structure represented as a special type of Ceramic stream. Each DID has uniquely *one* capability registry. Any object capability issued by this DID can be notarized and revoked in the registry. Every update to the registry is recorded as a *Data Event*.
 
 ```verilog
 type Prinicipal Bytes // multidid
 type CACAOHash Bytes // multihash
 type Varsig Bytes // varsig
 
-type RevocationEntry struct {
-  key CACAOHash
-  isRevoked Boolean
+type Entry struct {
+  key CACAOHash 
+  revoked Boolean // true if the capability has been revoked
+  ocap optional Link // optionally include the CID of the capability
 } representation tuple
-// The registry should eventually be a HAMT or similar data structure
-type Regsitry { CACAOHash : RevocationEntry }
+// The registry should eventually be a HAMT or verkle-tree data structure
+type Regsitry { CACAOHash : Entry }
 type Snapshot struct {
   registry &Regsitry
-  actions [RevocationEntry]
+  actions [Entry]
 }
 ```
 
@@ -233,7 +73,7 @@ type DataEvent struct {
 
 type EthereumTx // <https://ipld.io/specs/codecs/dag-eth/chain/#transaction-ipld>
 
-type BlockchainTimestamp struct {
+type BlockchainTimestamp struct { // https://chainagnostic.org/CAIPs/caip-168
   root Link
   chainID String
   txType String
@@ -250,13 +90,9 @@ type TimeEvent struct {
 
 #### Streamid
 
-Generating the Ceramic streamid can be done in three steps,
+Generating the streamid can be done in three steps,
 
-1. Generate the multidid representation of the 3ID,
-
-   ```solidity
-   	<multidid> := <varint multidid><cacao-mh><varint 0x00>
-   ```
+1. Generate the multidid representation of the DID (see [Multidid specification]()).
 
 2. Encode the multidid as an inline CID,
 
@@ -276,7 +112,7 @@ New data events
 
 1. Attain a key with a valid capability chain to the most recent *previous data event(s)*
 
-2. Create one or more `RevocationEntry` objects and update the `State` from the 
+2. Create one or more `Entry` objects and update the `State` from the 
 
    previous data event(s):
 
@@ -299,13 +135,13 @@ The certification of a `DataEvent` can be validated using the following algorith
 
 2. The multihash of the CACAO CID (caphash) is one of:
 
-   1. CapHash is in the `Registry` and `isRevoked` is false
+   1. CapHash is in the `Registry` and `revoked` is false
    2. CapHash is in the `Principal` and **not** in the `Registry`
 
 3. The CACAO *ability* is one or both of:
 
-   1. `"3id/add"` - the `Registry` is only allowed to grow and, new values must have `isRevoked = false`
-2. `"3id/remove"` - the `Registry` can either grow or stay the same size, all modified values must have `isRevoked = true`
+   1. `"3id/add"` - the `Registry` is only allowed to grow and, new values must have `revoked = false`
+2. `"3id/remove"` - the `Registry` can either grow or stay the same size, all modified values must have `revoked = true`
 
 #### Consensus
 
@@ -328,22 +164,18 @@ type TimestampRecipt struct {
 }
 ```
 
-#### Dereferencing the Registry
-
-The 3 DID resolver can [dereference](https://wiki.trustoverip.org/display/HOME/DID+URL+Resource+Parameter+Specification) the registry to a [CAR file](https://ipld.io/specs/transport/car/carv1/) which can be independently verified. This is achieved by using  the `did:3:<cap-hash>?resource=vnd.ipld.car` DID URL. Note that the `versionTime` may be used to resolve an earlier snapshot of the registry.
-
 ### Object Capabilities
 
 The 3 DID method relies heavily on object-capabilities as they way to add and remove verification methods, as well as delegating permissions. The root capability is `did/control`, any verification method with this capability has [independent control](https://www.w3.org/TR/did-core/#independent-control) over the DID. This means that they can take any action on behalf of this DID, `*/*` is thus a equivalent of `did/control`. The `did/vm-add` and `did/vm-remove` are actions that can be taken to update the 3ID stream and thus the DID document. In the future other more specific `did/...` capabilities my be specified to define more granular actions on the DID document.
 
 ```
                 ┌─────────────┐
-                │ did/control │
-                └──▲───▲───▲──┘
-      ┌────────────┘   │   └────────┐
-┌─────┴──────┐ ┌───────┴───────┐ ┌──┴──┐
-│ did/vm-add │ │ did/vm-remove │ │ */* │
-└────────────┘ └───────────────┘ └─────┘
+                │ crud/* │
+                └──▲──▲───▲──┘
+      ┌────────────┘  │   
+┌─────┴─────┐ ┌───────┴──────┐
+│  crud/update  │ │  curd/remove  │
+└───────────┘ └──────────────┘
 ```
 
 #### Updating the 3ID stream
@@ -422,32 +254,9 @@ Currently no reference implementation for 3ID exists.
 
 ## Appendix A: Registrations
 
-This appendix contains all regsitrations necessary for the 3 DID method.
-
-### Verification method property
-
-**Property name:** `multihash`
-
-The multihash property is used to specify a multibase-encoded multihash. Usually this is a hash over an object-capability.
-
-* [Multihash specification](https://github.com/multiformats/multihash)
-* [Multibase specification](https://github.com/multiformats/multibase)
-
-### Verification Method Type
-
-**Type name:** `capabilityHash`
-
-The capabilityHash verification method type indicates that the verification method is the hash of a CACAO. For a signature to be valid under a specific capabilityHash verification method, the proof must show that there is a valid delegation chain from the CACAO that corresponds with the given hash. In the most trivial case this can be achived by revealing the CACAO itself as part of the proof, a verifier can then check the hashed value of the CACAO. However, zero-knowledge proofs may be used to remove the need to reveal the CACAO, improving privacy for the DID subject.
-
-* [CAIP-74: CACAO - Chain Agnostic CApability Object](https://chainagnostic.org/CAIPs/caip-74) 
-
 ### Stream type code
 
 **Code:** `5`
-
-### Multidid code
-
-**Code:** `0x1b` - keccak-256
 
 ## Copyright
 
