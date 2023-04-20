@@ -1,13 +1,13 @@
 ---
 cip: 122
-title: CapReg - Notary for object-capabilities
+title: CapReg - object-capability registry
 author: Joel Thorstensson (@oed)
 discussions-to: https://forum.ceramic.network/t/cip-1xx-capreg
 status: Draft
 category: Standards
 type: Core
-created: 2023-04-11
-updated: 2023-04-11
+created: 2023-04-20
+updated: 2023-04-20
 ---
 
 ## Simple Summary
@@ -19,7 +19,7 @@ The CapReg capability registry enables users to notarize and revoke any object-a
 ## Abstract
 
 <!--A short (~200 word) description of the technical issue being addressed.-->
-With a special type of Ceramic stream the capability registry enables users to notarize and revoke object-capabilities issued by their DID. The registry is based on hashes of object-capabilities encoded as CACAO.
+Using a simple Ceramic stream, the capability registry enables users to notarize and revoke object-capabilities issued by their DID. The registry is based on hashes of object-capabilities encoded as CACAO.
 
 
 ## Motivation
@@ -65,7 +65,7 @@ type InitEvent &Prinicipal // an inline CID containing raw principal bytes
 
 type DataEvent struct {
   id &InitEvent
-  prv [&Event] // is prv needed if it's the first event after genesis?
+  prv [&Event] // optional CID pointer to previous event
   prf [&CACAO] // capabilities used to emit this event
   data &Snapshot
   sig Varsig
