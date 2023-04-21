@@ -7,11 +7,12 @@ status: Draft
 category: Standards
 type: RFC
 created: 2021-02-12
+updated: 2023-04-21
 ---
 
 # NFT DID Method Specification
 
-The NFT DID Method converts any non-fungible token on any blockchain into a decentralized identifier where the owner of the NFT is the controller of the DID. This is achieved by using the *Chain Agnostic Improvement Proposals* to describe NFT assets and blockchain accounts, as well as the Ceramic network to find the DID associated with the owner of the NFT.
+The NFT DID Method converts any non-fungible token on any blockchain into a decentralized identifier where the owner of the NFT is the controller of the DID. This is achieved by using the *Chain Agnostic Improvement Proposals* to describe NFT assets. The NFT DID method is a purely generative DID method. It's meant to be used together with [ChainProofs](https://github.com/ChainAgnostic/CAIPs/pull/218) in order to create an object capability that delegates control from the NFT to the current owner of the NFT.
 
 ## DID Method Name
 
@@ -21,14 +22,14 @@ A DID that uses this method MUST begin with the following prefix: `did:nft`. Per
 
 ## Method Specific Identifier
 
-The method specific identifier is simply a [CAIP-19 Asset ID](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md) where all `/` characters are replaced by `_`, in order to comply with the DID spec.
+The method specific identifier is simply a [CAIP-19 Asset ID](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md) where all `/` characters are replaced by `-`, in order to comply with the DID spec.
 
 ### Example
 
-In the example below we see a [cryptokitty](https://opensea.io/assets/0x06012c8cf97bead5deae237070f9587f8e7a266d/771769) being used as a DID. Cryptokitties is an ERC721 token on Ethereum and we can refer to it using the ERC721 asset namespace as defined in [CAIP-22](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-22.md).
+In the example below we see an [ENS name](https://ens.domains/), specifically *jthor.eth*, being used as a DID. ENS is an ERC721 token on Ethereum and we can refer to it using the ERC721 asset namespace as defined in [CAIP-22](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-22.md).
 
 ```sh
-did:nft:eip155:1_erc721:0x06012c8cf97BEaD5deAe237070F9587f8E7A266d_771769
+did:nft:eip155:1-erc721:0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85-96161218729996353997094449792539040731415990220743397894295225315809852060977
 ```
 
 ## CRUD Operation Definitions
@@ -41,60 +42,57 @@ Mint an NFT on any blockchain.
 
 ### Read/Verify
 
-Extract the Asset ID from the method specific identifier. From it you can learn which asset on which blockchain to look up the owner of the NFT. Once you have the owner account convert it to a [CAIP-10 Account ID](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-10.md) by combining it with the Chain ID from the Asset ID. Using the Ceramic `caip10-link` doctype we can now look up the DID which this account points to.
+Extract the Asset ID from the method specific identifier. 
 
-Here's and example of how to make this lookup using the javascript Ceramic api. This function will return either `null` or the DID related to the given account id.
+#### Ethereum ERC20
 
-```js
-async function getControllerDid(accountId: string) {
-  const caip10Doc = await ceramic.createDocument('caip10-link', {
-    metadata: {
-      family: 'caip10-link',
-      controllers: [accountId]
-    }
-  })
-  return caip10Doc?.content
-}
-```
+Given a DID with the `erc721` token namespace,
 
-Once we have retrieved the DID from the `caip10-link` we simply construct the DID document as follows (here `controller-did` is the DID returned by the function above). We also populate the `verificationMethod` field using the Account ID.
+`<did> = did:nft:eip155:1-erc721:<nft-contract>-<token-id>`
+
+the resulting DID document should be created as follows,
 
 ```jsonc
 {
   "@context": "https://w3id.org/did/v1",
   "id": "<did>",
-  "controller": "<controller-did>",
   "verificationMethod": [{
-      "id": "<did>#owner",
-      "type": "BlockchainVerificationMethod2021",
-      "controller": "<did>",
-      "blockchainAccountId": "<accountId>"
-    }]
+    "id": "<did>#0",
+    "type": "ChainProofCAIP218",
+    "controller": "<did>",
+    "evmCall": "ownerOf(<token-id>): address"
+  }],
+  "authentication": ["<did>#0"],
+  "assertionMethod": ["<did>#0"],
+  "capabilityDelegation": ["<did>#0"],
+  "capabilityInvocation": ["<did>#0"]
 }
 ```
 
-If the `caip10-link` returned `null` we simply omit the `controller` property.
+#### Ethereum ERC1155
 
-##### DID Document Metadata
+Given a DID with the `erc1155` token namespace,
 
-When resolving the DID document [DID Document Metadata](https://w3c.github.io/did-core/#did-document-metadata) should be provided. When resolving an NFT the following fields MAY be populated:
+`<did> = did:nft:eip155:1-erc1155:<nft-contract>-<token-id>`
 
-* `create` - populate using the blockchain timestamp from the block when the NFT was created
-* `updated` - populate using the blockchain timestamp from the block of the most recent owner change
+the resulting DID document should be created as follows,
 
-Note that the regular ERC721 api doesn't provide any way to query this data. An implementer MAY use [The Graph protocol](https://thegraph.com/) to create *subgraphs* for NFTs that are supported. This should apply to other blockchains as well.
-
-#### Resolving using the `versionTime` parameter
-
-When the `versionTime` query parameter is given as a DID is resolved it means that we should try to resolve a specific version of the DID document. The resolution process requires the use of the [ethereum blocks subgraph](https://thegraph.com/explorer/subgraph/yyong1010/ethereumblocks) which allows looking up the block height from a timestamp. From it retrieve the owner of the NFT at the given block height. Once the owner is known the `caip10-link` can be looked up. Once this document is loaded go though the commits (use *AnchorCommits*) to find the state of the document at the time of the resolved version of the NFT DID, to retrieve the controller DID.
-
-##### DID Document Metadata
-The following metadata properties MAY be populated (if possible).
-
-* `create` - populate using the blockchain timestamp from the block when the NFT was created
-* `updated` - populate using the blockchain timestamp from the block when the given versions owner became owner
-* `versionId` - integer, should equal the number of owners until the looked up version starting at 0
-* `nextUpdate` - populate using the blockchain timestamp from the block when the next owner became owner
+```jsonc
+{
+  "@context": "https://w3id.org/did/v1",
+  "id": "<did>",
+  "verificationMethod": [{
+    "id": "<did>#0",
+    "type": "ChainProofCAIP218",
+    "controller": "<did>",
+    "evmCall": "balanceOf(address, <token-id>): uint256"
+  }],
+  "authentication": ["<did>#0"],
+  "assertionMethod": ["<did>#0"],
+  "capabilityDelegation": ["<did>#0"],
+  "capabilityInvocation": ["<did>#0"]
+}
+```
 
 ### Update
 
@@ -106,26 +104,20 @@ Transfer the NFT to an account that no one controls, i.e. burn it.
 
 ## Security Requirements
 
-The NFT DID derives most of its security properties from the blockchain which the given NFT lives on and the Ceramic protocol. The security of different blockchains may vary so implementers may choose to limit their implementations to specific NFT assets. Ceramic most notably provides *censorship resistance*, *decentralization*, and requiring a minimal amount of data to be synced to completely verify the integrity of the `caip10-link`s used to find the controller DID. For more details see the Ceramic [specification](https://github.com/ceramicnetwork/ceramic/blob/master/SPECIFICATION.md).
+The NFT DID derives most of its security properties from the blockchain which the given NFT lives on. The security of different blockchains may vary so implementers may choose to limit their implementations to specific NFT assets.
 
 ## Privacy Requirements
 
-NFT DID utilizes a few components. First, blockchains provide a public, immutable audit trail of all previous owners of an NFT asset; these owners are blockchain accounts. Second, the `caip10-link` document on Ceramic similarly provides an audit trail for which DID a specified blockchain account has linked to over time. The combination of these two proofs allows NFT DID to permissionlessly create pubic mappings from an NFT DID -> blockchain account (owner) -> DID (owner). This allows the Ceramic protocol to enforce decentralized access control permissions that only allows the current owner of the NFT to make updates to content or resources owned by the NFT DID.
-
-Since NFTs are tradable, resources controlled by an NFT DID should not be seen as having been granted to one individual. Instead, access granted to an NFT DID becomes more fluid and changes as on-chain ownership changes.
-
-Another important aspect to consider is that by default if data is encrypted to an NFT DID, then the data will only really be encrypted to the public key of the *controller-did*. This means that when the NFT gets a new owner this new owner won't get access to data that was previously encrypted to the NFT DID. Furthermore, the old owner will still be able to decrypt the data if they have access to it. There are, however, various ways that encrypted content can be implemented on top of this standard that could be just as portable as the NFT itself. Solving this issue falls out of scope for this standard, but there are likely various solutions depending on the use case; *secure multi-party computation* and *proxy reencryption* are two viable approaches.
+NFT DID utilizes a few components. First, blockchains provide a public, immutable audit trail of all previous owners of an NFT asset; these owners are blockchain accounts. Since NFTs are tradable, resources controlled by an NFT DID should not be seen as having been granted to one individual. Instead, access granted to an NFT DID becomes more fluid and changes as on-chain ownership changes.
 
 
 ## Extensibility
 
-The NFT DID Method could currently supports ERC721 tokens, but could be easily extended to support any other NFT token givent that the token is registered as a [CAIP asset namespace](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md).
-
-NFTs usually encode some sort of metadata (e.g. image on ipfs). It's possible that this can be added as an extension to the resolved DID document which would unify NFT metadata lookup across all chains. Further work needs to be done in order to properly standardize this.
+The NFT DID Method could currently supports ERC721 and ERC1155 tokens, but could be easily extended to support any other NFT token givent that the token is registered as a [CAIP asset namespace](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-19.md).
 
 ## Implementations
 
-* [nft-did-resolver](https://github.com/ceramicnetwork/nft-did-resolver/pull/1) - javascript implementation supporting eip721 and eip1155 NFTs
+* [nft-did-resolver](https://github.com/ceramicnetwork/nft-did-resolver/pull/1) (needs update) - javascript implementation supporting ERC721 and ERC1155 NFTs
 
 ## Copyright
 
