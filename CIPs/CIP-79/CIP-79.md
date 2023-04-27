@@ -3,10 +3,12 @@ cip: 79
 title: 3ID DID Method Specification
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/80
-status: Draft
+status: Superseded
 category: Standards
 type: RFC
 created: 2021-02-12
+updated: 2023-01-31
+Superseded By: 122
 ---
 
 # 3ID DID Method Specification
