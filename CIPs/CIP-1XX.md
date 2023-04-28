@@ -2,7 +2,7 @@
 cip: 1XX
 title: CapReg - object-capability registry
 author: Joel Thorstensson (@oed)
-discussions-to: https://forum.ceramic.network/t/cip-1xx-capreg
+discussions-to: https://forum.ceramic.network/t/cip-127-capreg-object-capability-registry
 status: Draft
 category: Standards
 type: Core
