@@ -1,13 +1,13 @@
 ---
-cip: 122
+cip: 1XX
 title: CapReg - object-capability registry
 author: Joel Thorstensson (@oed)
 discussions-to: https://forum.ceramic.network/t/cip-1xx-capreg
 status: Draft
 category: Standards
 type: Core
-created: 2023-04-20
-updated: 2023-04-20
+created: 2023-04-28
+updated: 2023-04-28
 ---
 
 ## Simple Summary
@@ -65,7 +65,7 @@ type InitEvent &Prinicipal // an inline CID containing raw principal bytes
 
 type DataEvent struct {
   id &InitEvent
-  prv [&Event] // optional CID pointer to previous event
+  prev [&Event] // optional CID pointer to previous event
   prf [&CACAO] // capabilities used to emit this event
   data &Snapshot
   sig Varsig
@@ -82,7 +82,7 @@ type BlockchainTimestamp struct { // https://chainagnostic.org/CAIPs/caip-168
 
 type TimeEvent struct {
   id &InitEvent
-  prv [&DataEvent] // should always be one CID
+  prev [&DataEvent] // should always be one CID
   proof &BlockchainTimestamp
   path String
 }
@@ -100,7 +100,7 @@ Generating the streamid can be done in three steps,
    	<genesis-cid> := <varint cidv1><varint 0x55><varint 0x00><varint multidid-length><multidid>
    ```
 
-3. Encode the Streamid
+3. Encode the Streamid (see Appending A for `stream-type`)
 
    ```solidity
    	<streamid> := <varint 0xce><varint stream-type><genesis-cid>
@@ -123,7 +123,7 @@ New data events
 
    1. Set `id` to the principal (an inline CID containing a multidid encoded 3ID),
    2. Add the capability chain used to the `prf` field
-   3. Add the previous events to the `prv` field
+   3. Add the previous event(s) to the `prev` field
    4. Add the updated state to the `data` field
    5. Create a `Varsig` over the `DataEvent` with the key from (1) and add the `sig` field
 
@@ -131,21 +131,19 @@ New data events
 
 The certification of a `DataEvent` can be validated using the following algorithm,
 
-1. The varsig validates agains the *aud* `Principal` of the referenced CACAO
+1. The varsig validates agains the *aud* `Principal` of the referenced CACAOs
 
 2. The multihash of the CACAO CID (caphash) is one of:
 
    1. CapHash is in the `Registry` and `revoked` is false
    2. CapHash is in the `Principal` and **not** in the `Registry`
 
-3. The CACAO *ability* is one or both of:
+3. The CACAO *ability* is crud on the CapReg streamid
 
-   1. `"3id/add"` - the `Registry` is only allowed to grow and, new values must have `revoked = false`
-2. `"3id/remove"` - the `Registry` can either grow or stay the same size, all modified values must have `revoked = true`
 
 #### Consensus
 
-In case of two conflicting events (two events share the same `prv` value) the event with the earliest `TimestampEvent` should be processed first. Note that this might lead to the latter event being invalid due to its delegation chain being revoked. Also, a new event emitted after the conflict must reference both branches in its `prv` and resolve any conflict of the `Registry`.
+In case of two conflicting events (two events share the same `prev` value) the event with the earliest `TimestampEvent` should be processed first. Note that this might lead to the latter event being invalid due to its delegation chain being revoked. Also, a new event emitted after the conflict must reference both branches in its `prev` and resolve any conflict of the `Registry`.
 
 If there is no anchor for either event yet, the `DataEvent` with the lowest binary value of its CID will win. Note that if a `TimeEvent` appears this order might change.
 
@@ -166,91 +164,38 @@ type TimestampRecipt struct {
 
 ### Object Capabilities
 
-The 3 DID method relies heavily on object-capabilities as they way to add and remove verification methods, as well as delegating permissions. The root capability is `did/control`, any verification method with this capability has [independent control](https://www.w3.org/TR/did-core/#independent-control) over the DID. This means that they can take any action on behalf of this DID, `*/*` is thus a equivalent of `did/control`. The `did/vm-add` and `did/vm-remove` are actions that can be taken to update the 3ID stream and thus the DID document. In the future other more specific `did/...` capabilities my be specified to define more granular actions on the DID document.
-
-```
-                ┌─────────────┐
-                │ crud/* │
-                └──▲──▲───▲──┘
-      ┌────────────┘  │   
-┌─────┴─────┐ ┌───────┴──────┐
-│  crud/update  │ │  curd/remove  │
-└───────────┘ └──────────────┘
-```
-
-#### Updating the 3ID stream
-
-In order to make an update to the 3ID stream, one of the verification methods could delegate the following permission to a session key:
-
-```json
-{
-   "att":{
-      "did:3:z9CEZ1N1gbFK8J3rxVw3o6M5wygjoNFRSaEtkoGZw5fmbj": {
-        "did/vm-add": [],
-        "did/vm-remove": []
-      }
-			// CID of the event to append to the 3ID stream
-   },
-   "prf": [
-       { "/": "bafybeigk7ly3pog6uupxku3b6bubirr434ib6tfaymvox6gotaaaaaaaaa" }
-       // The CID of the capability that grants the key control over the 3ID
-       // From this the 3ID can be found, resolve revreg to see if self cap is revoked
-   ]
-}
-```
-
-#### Using a 3ID in Ceramic
-
-In order to act on behalf of a 3ID that controls a Ceramic stream, a delegation can be created by one of the verification methods in the 3ID. Note that the `prf` field must contain a link to the capability for the verification method.
+CapReg relies heavily on object-capabilities as they way to add and remove CACAO hashes in the registry.  Write access to CapReg can be delegated in the same way as delegting access to any other stream in Ceramic. Example using ReCap:
 
 ```json
 {
    "tar":{
-      "ceramic://*?model=zkfif...": {
-        "crud/mutate": [],
-        "crud/read": []
+      "ceramic://<capreg-streamid>": {
+        "crud/create": [{}],
+        "crud/delete": [{}]
       }
-   },
-   "prf": [
-       { "/": "bafybeigk7ly3pog6uupxku3b6bubirr434ib6tfaymvox6gotaaaaaaaaa" }
-       // The CID of the capability that grants the key control over the 3ID
-   ]
+   }
 }
 ```
+
+As an extension, it would also be worth exploring the possibility of creating a zero-knowlege proof that proves that a specific CACAO hash is allowed to be added to the registry without revealing what the content of the CACAO itself. Simply the fact that the CACAO is valid should be enough to add it to the registry.
 
 ## Rationale
 
 <!--The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work, e.g. how the feature is supported in other languages. The rationale may also provide evidence of consensus within the community, and should discuss important objections or concerns raised during discussion.-->
 
-While most DID methods include full public keys, or other DIDs as verification methods 3ID chooses to use hashes of object-capabilities as verification methods. One of the main use cases for 3ID is to connect multiple PKH DIDs into a single identifier on Ceramic. While doing so publically is fine for some use cases, the ability to do so privately is quite important for many. Using *capability hashes* enables more privacy since the DIDs that are delegated to doesn't strictly need to be revealed. It is worth noting that revealing the CACAO object when used is the simplest way to prove a capability chain. However, it is possible to create zero-knowledge proofs that only reveal the hash of the capability used and which session key was delegated to.
+CapReg enables any DID to delegate full or partial permission to any other DID without having to worry about the capability getting lost since capabilities can now be revoked. The design requires some special logic for the state transition of the event stream to ensure that the capability is valid when the stream was updated. While Ceramic generally strives towards not including state transtion logic in event streams, for this particular case it seems difficult to avoid.
 
-### Cryptographic Agility
-
-The 3 DID method itself doesn't really limit what cryptography can be used. It boils down to what the system that interprets the actual object capabilities is capable of. In Ceramic this includes the following, but is not limited to, and can be extended in the future:
-
-* `ed25519`
-* `secp256k1`
-* `secp256r1`
-
-Once good post quantum cryptography becomes more widely available extending Ceramic to support that will also be fairly straight forward.
+While using capabilities in public is fine for some use cases, the ability to do so privately is quite important for many. Using *capability hashes* enables more privacy since the DIDs that are delegated to don't strictly need to be revealed. It is worth noting that revealing the CACAO object when used is the simplest way to prove a capability chain. However, it is possible to create zero-knowledge proofs that only reveal the hash of the capability used and the session key which was delegated to.
 
 
 ## Backwards Compatibility
 
 <!--All CIPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their severity. The CIP must explain how the author proposes to deal with these incompatibilities. CIP submissions without a sufficient backwards compatibility section may be rejected outright.-->
-Previous iterations of 3ID relied on the TileDocument stream type and an interpretation layer above that translated the tile contents to a DID document. That approach had numerious flaws the main one being the impossibility of privacy. This version of the spec deviates from the previous experiment in that there is a special stream type for the 3ID and that it fully relies on object-capabilities as verification methods. This is a great improvement but unfortunately it is not possible to make an upgrade in a backwards compatible manner. Instead all implementers are recommended to follow this specification only.
-
-## Privacy Requirements
-
-The 3 DID method provides a unique privacy enhancement over most other DID methods in that subject only need to reveal hashes of object-capabilities in order to use it. While the simplest way of implementing usage of the system would imply pulicly revealing these object-capabilities, it is indeed possible to create zero-knowledge proofs of the valididty of an object-capability without revealing its content.
-
-## Security Considerations
-
-3ID derives most of its security properties from the Ceramic protocol. Most notably *censorship resistance*, *decentralization*, and requiring a minimal amount of data to be synced to completely verify the integrity of a 3ID. For more details see the Ceramic [specification](https://github.com/ceramicnetwork/ceramic/blob/master/SPECIFICATION.md).
+n/a
 
 ## Reference Implementations
 
-Currently no reference implementation for 3ID exists.
+Currently no reference implementation for CapReg currently exists.
 
 ## Appendix A: Registrations
 
