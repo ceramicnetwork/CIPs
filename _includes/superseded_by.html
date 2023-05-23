@@ -1,0 +1,9 @@
+{% assign cips=include.cips|split:"," %}
+{% for cip in cips %}
+{% if cip contains "https://" %}
+<a href="{{ cip | strip | uri_escape }}">{{ cip | strip | xml_escape }}</a>
+{% else %}
+<a href="{{cip|strip|prepend:"cip-" }}">{{cip|strip}}</a>
+{% endif %}
+{% if forloop.last == false %}, {% endif %}
+{% endfor %}
