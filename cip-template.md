@@ -2,10 +2,9 @@
 cip: <to be assigned>
 title: <CIP title>
 author: <a list of the author's or authors' name(s) and/or username(s), or name(s) and email(s), e.g. (use with the parentheses or triangular brackets): FirstName LastName (@GitHubUsername), FirstName LastName <foo@bar.com>, FirstName LastName (@GitHubUsername) and GitHubUsername (@GitHubUsername)>
-discussions-to: <URL of the Github issue for this CIP (if this is a PR)>
-status: <Idea | Draft | Last Call | Pending>
-category: <Standards | Meta | Informational>
-type: <Core | Networking | Interface | RFC> (*only required for Standards)
+discussions-to: <URL to a topic under the CIP category on the Ceramic forum: https://forum.ceramic.network/c/cips>
+status: Draft
+category: <Core | Networking | Interface | RFC | Meta>
 created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
 edited: <date created on, in ISO 8601 (yyyy-mm-dd) format>
 requires: <EIP number(s)>
@@ -19,33 +18,18 @@ You can leave these HTML comments in your CIP and delete the visible text guides
 
 <!-- STEPS TO SUBMIT A CIP:
 1. Complete the header above.
-2. Fill in as much content as is appropriate for the status of your CIP.
-3. Add Github labels for status, category, and type.-->
+2. Fill in as much content as is appropriate for the status of your CIP.-->
 
 <!--ADDITIONAL INSTRUCTIONS FOR HEADER SECTION ABOVE-->
 
-<!--<REMOVE>: Remove the <REMOVE> elements from above and below the header. Leave the --- characters.-->
-
-<!--[cip]: Leave this section blank for new issues. Once you submit a PR later in the process, an editor will assign you a canonical number.-->
-
 <!--[title]: Give your issue a concise, descriptive title prefixed by either its *type* for standards CIPs or its category for other CIPs. (i.e. Core: Protocol Upgrade, Meta: Define CIP Process, etc.).-->
 
-<!--[status]: Here is a description of status terms.
-- `Idea`: an CIP issue that is incomplete.
-- `Draft`: an CIP issue that is complete but undergoing rapid iteration and changes.
-- `Last Call`: an CIP issue that is stable and ready for final review by the community.
-- `Pending`: an CIP that has been submitted as a PR or merged but not finalized.-->
-
 <!--[category]: Here is a description of category terms.
-- `Standards`: an CIP that affects the protocol or is an implementation standard.
-- `Meta`: an CIP that affects the governance process for CIPs.
-- `Informational`: an CIP that is merely for informational purposes but requires no action by the community, and will not be merged as a CIP.-->
-
-<!--[type]: Here is a description of type terms. These are only applicable to CIPs in the *Standards* category.
 - `Core`: an CIP that affects the core protocol.
 - `Networking`: an CIP thst affects the networking layer (i.e. libp2p or syncing).
 - `Interface`: an CIP that affects the Ceramic API or provider interface.
-- `RFC`: an CIP that proposes an implementation standard (i.e. doctypes, document configurations, or document schemas).-->
+- `RFC`: an CIP that proposes an implementation standard (i.e. doctypes, document configurations, or document schemas).
+- `Meta`: an CIP that affects the governance process for CIPs.-->
 
 <!--[requires]: A list of CIP(s) that this CIP depends on. *Optional.-->
 
