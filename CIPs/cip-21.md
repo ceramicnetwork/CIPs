@@ -2,7 +2,7 @@
 cip: 21
 title: Crypto Accounts Definition
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
-status: Last Call
+status: Review
 category: Standards
 type: RFC
 created: 2020-06-15

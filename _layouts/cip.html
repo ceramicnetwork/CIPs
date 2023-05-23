@@ -89,7 +89,7 @@ layout: default
   https://ieee-dataport.org/sites/default/files/analysis/27/IEEE%20Citation%20Guidelines.pdf
   {% endcomment %}
   <p>{% include authorlist.html authors=page.author %}, "CIP-{{ page.cip | xml_escape }}: {{ page.title | xml_escape
-    }}{% if page.status == "Draft" or page.status == "Last Call" or page.status == "Abandoned" %} [DRAFT]{% endif %}," <em>Chain Agnostic Improvement Proposals</em>, no. {{
+    }}{% if page.status == "Draft" or page.status == "Review" or page.status == "Abandoned" %} [DRAFT]{% endif %}," <em>Ceramic Improvement Proposals</em>, no. {{
     page.cip | xml_escape }}, {{ page.created | date: "%B %Y" }}. [Online serial]. Available:
     https://github.com/ceramicnetwork/CIPs/blob/main/CIPs/cip-{{ page.cip | xml_escape }}.md</p>
 </div>

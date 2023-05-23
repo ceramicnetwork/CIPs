@@ -3,7 +3,7 @@ cip: 5
 title: Doctypes
 author: Michael Sena (http://github.com/michaelsena), Joel Thorstensson (http://github.com/oed), Janko Simonovic
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/37
-status: Last Call
+status: Review
 category: Standards
 type: Core
 created: 2020-06-23

@@ -48,7 +48,7 @@ Two schemas are needed to represent a collection: the `AppendCollection` schema 
 
 A Collection "instance" would therefore be made of 1 `AppendCollection` stream and any number of `CollectionSlice` streams with cross-references, as presented in the graphic below:
 
-![Collection relations graphic](./assets/collection-graphic.png)
+![Collection relations graphic](../assets/cip-85/collection-graphic.png)
 
 #### AppendCollection schema
 

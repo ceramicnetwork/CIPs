@@ -2,7 +2,7 @@
 cip: 19
 title: Basic Profile Definition
 author: Michael Sena (http://github.com/michaelsena), Joel Thorstensson (http://github.com/oed)
-status: Last Call
+status: Review
 category: Standards
 type: RFC
 created: 2020-05-22

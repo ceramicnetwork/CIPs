@@ -3,7 +3,7 @@ cip: 11
 title: Identity Index (IDX)
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/3
-status: Final Call
+status: Review
 category: Standards
 type: RFC
 created: 2020-05-22
@@ -51,7 +51,7 @@ IDX is a Ceramic document which contains mappings from **definitions** to **reco
 
 The *definition-record* pair can be stored publicly or encrypted. The former is desirable for data sets which require public discoverability. The latter is useful when possession of the data set should be kept secret. The encrypted *record* should be encrypted using a unique symmetric key. This enables the data set to be selectively disclosed by asymmetrically encrypting the symmetric key to a given recipient.
 
-![IDX Example](./assets/idx-example.png)
+![IDX Example](../assets/cip-11/idx-example.png)
 
 ### IDX Document
 
