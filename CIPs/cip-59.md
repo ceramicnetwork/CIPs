@@ -4,8 +4,7 @@ title: StreamID encoding
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/59
 status: Final
-category: Standards
-type: Core
+category: Core
 created: 2020-08-12
 edited: 2020-09-24
 ---

@@ -4,8 +4,7 @@ title: StreamID json-schema definition
 author: Paul Le Cam (@PaulLeCam)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/82
 status: Draft
-category: Standards
-type: RFC
+category: RFC
 created: 2021-02-15
 edited: 2021-07-02
 requires: 88

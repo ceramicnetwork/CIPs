@@ -4,8 +4,7 @@ title: Identity Index (IDX)
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/3
 status: Review
-category: Standards
-type: RFC
+category: RFC
 created: 2020-05-22
 edited: 2020-09-28
 ---

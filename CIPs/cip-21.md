@@ -3,8 +3,7 @@ cip: 21
 title: Crypto Accounts Definition
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
 status: Review
-category: Standards
-type: RFC
+category: RFC
 created: 2020-06-15
 edited: 2020-09-30
 requires: 7, 8

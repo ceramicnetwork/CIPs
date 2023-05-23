@@ -4,8 +4,7 @@ title: CAIP-10 Link
 author: Joel Thorstensson (@oed), Michael Sena (@michaelsena)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/15
 status: Review
-category: Standards
-type: RFC
+category: RFC
 created: 2020-07-24
 requires: 5
 ---

@@ -3,8 +3,7 @@ cip: 88
 title: Ceramic namespace in JSON schemas
 author: Paul Le Cam (@PaulLeCam)
 status: Draft
-category: Standards
-type: RFC
+category: RFC
 created: 2021-03-01
 edited: 2021-09-07
 ---

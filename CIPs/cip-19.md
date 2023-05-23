@@ -3,8 +3,7 @@ cip: 19
 title: Basic Profile Definition
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
 status: Review
-category: Standards
-type: RFC
+category: RFC
 created: 2020-05-22
 Edited: 2020-09-28
 requires: IdentityIndex (IDX) (CIP-11)

@@ -1,11 +1,10 @@
 ---
 cip: 5
-title: Doctypes
+title: Streamtypes
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed), Janko Simonovic
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/37
 status: Review
-category: Standards
-type: Core
+category: RFC
 created: 2020-06-23
 edited: 2020-09-24
 requires: 59
