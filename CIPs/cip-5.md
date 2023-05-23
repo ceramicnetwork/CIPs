@@ -1,14 +1,14 @@
 ---
 cip: 5
 title: Doctypes
-author: Michael Sena (http://github.com/michaelsena), Joel Thorstensson (http://github.com/oed), Janko Simonovic
+author: Michael Sena (@michaelsena), Joel Thorstensson (@oed), Janko Simonovic
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/37
 status: Review
 category: Standards
 type: Core
 created: 2020-06-23
 edited: 2020-09-24
-requires: DocID encoding (CIP-59)
+requires: 59
 ---
 
 ## Simple Summary

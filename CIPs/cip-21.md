@@ -7,7 +7,7 @@ category: Standards
 type: RFC
 created: 2020-06-15
 edited: 2020-09-30
-requires: Tile Doctype (CIP-8), CAIP-10 Link Doctype (CIP-7)
+requires: 7, 8
 ---
 
 ## Simple Summary

@@ -1,7 +1,7 @@
 ---
 cip: 19
 title: Basic Profile Definition
-author: Michael Sena (http://github.com/michaelsena), Joel Thorstensson (http://github.com/oed)
+author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
 status: Review
 category: Standards
 type: RFC

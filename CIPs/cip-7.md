@@ -7,7 +7,7 @@ status: Review
 category: Standards
 type: RFC
 created: 2020-07-24
-requires: Doctypes (CIP-5)
+requires: 5
 ---
 
 ## Simple Summary
