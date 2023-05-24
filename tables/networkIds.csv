@@ -1,0 +1,6 @@
+name,                     code
+mainnet,                  0x00
+testnet-clay,             0x01
+dev-unstable,             0x02
+local,                    0x03
+inmemory,                 0x04

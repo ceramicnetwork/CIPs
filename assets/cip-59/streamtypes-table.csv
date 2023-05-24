@@ -1,6 +1,7 @@
-name,                     code,   description,                                                    link
-Tile,                     0,      A stream type representing a json document,                     https://github.com/ceramicnetwork/CIP/issues/56
-CAIP-10 Link,             1,      Link blockchain accounts to DIDs,                               https://github.com/ceramicnetwork/CIP/issues/15
-Model,                    2,      Defines a group of documents in ComposeDB that share a schema, 
-Model Instance Document,  3,      Represents a json document in ComposeDB, 
-UNLOADABLE,               4,      A stream that is not meant to be loaded, 
+name,                     code,      description,                                                    definition
+Tile,                     0x00,      A stream type representing a json document,                     https://cips.ceramic.network/CIPs/cip-8
+CAIP-10 Link,             0x01,      Link blockchain accounts to DIDs,                               https://cips.ceramic.network/CIPs/cip-7
+Model,                    0x02,      Defines a group of documents in ComposeDB that share a schema, 
+Model Instance Document,  0x03,      Represents a json document in ComposeDB, 
+UNLOADABLE,               0x04,      A stream that is not meant to be loaded, 
+EventId,                  0x71,      An event id, same code as dag-cbor,                             https://cips.ceramic.network/CIPs/cip-124 
