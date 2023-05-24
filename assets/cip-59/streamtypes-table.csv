@@ -1,4 +1,4 @@
-name,                     code,      description,                                                    definition
+name,                     code,      description,                                                    specification
 Tile,                     0x00,      A stream type representing a json document,                     https://cips.ceramic.network/CIPs/cip-8
 CAIP-10 Link,             0x01,      Link blockchain accounts to DIDs,                               https://cips.ceramic.network/CIPs/cip-7
 Model,                    0x02,      Defines a group of documents in ComposeDB that share a schema, 
