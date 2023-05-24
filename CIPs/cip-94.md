@@ -4,8 +4,7 @@ title: NFT DID Method Specification
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/95
 status: Draft
-category: Standards
-type: RFC
+category: RFC
 created: 2021-02-12
 updated: 2023-04-21
 ---
@@ -44,7 +43,7 @@ Mint an NFT on any blockchain.
 
 Extract the Asset ID from the method specific identifier. 
 
-#### Ethereum ERC20
+#### Ethereum ERC721
 
 Given a DID with the `erc721` token namespace,
 
