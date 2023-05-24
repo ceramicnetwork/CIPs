@@ -22,5 +22,5 @@ To create a new CIP simply follow these steps:
 # Editors
 - Michael Sena ([@michaelsena](http://github.com/michaelsena))
 - Joel Thorstensson ([@oed](http://github.com/oed))
-- Spencer T Brody ([@stbrodfy](http://github.com/stbrody))
+- Spencer T Brody ([@stbrody](http://github.com/stbrody))
 
