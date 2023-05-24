@@ -2,7 +2,7 @@
 # Ceramic Improvement Proposals (CIPs)
 [![](https://img.shields.io/badge/Chat%20on-Discord-orange.svg?style=flat)](https://discord.gg/5CZzG7V)
 
-Ceramic Improvement Proposals (CIPs) are standards for the Ceramic platform, including core protocol specifications, client APIs, doctypes, and document standards. This document describes the end-to-end process for creating a CIP. This process is defined in [CIP-1](https://cips.ceramic.network/CIPs/cip-1).
+The goal of the Ceramic Improvement Proposals (CIPs) is to create standards and document improvements to Ceramic. This includes  standards for the Ceramic platform, such as core protocol specifications, Ceramic APIs, and usage conventions such as streamtypes, and DID methods.
 
 
 # CIP Status Page
