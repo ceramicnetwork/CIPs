@@ -2,7 +2,7 @@
 cip: 1
 title: Ceramic Improvement Proposals (CIP)
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed), Daniel Zuckerman (@dazuck)
-discussions-to: https://github.com/ceramicnetwork/CIP/issues/1
+discussions-to: https://forum.ceramic.network/t/cip-1-ceramic-improvement-proposals/1145
 status: Living
 category: Meta
 created: 2020-05-22
