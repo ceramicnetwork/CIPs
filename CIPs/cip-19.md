@@ -5,7 +5,7 @@ author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
 status: Review
 category: RFC
 created: 2020-05-22
-Edited: 2020-09-28
+edited: 2020-09-28
 requires: IdentityIndex (IDX) (CIP-11)
 ---
 

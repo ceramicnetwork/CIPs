@@ -6,6 +6,7 @@ discussions-to: https://github.com/ceramicnetwork/CIP/issues/80
 status: Draft
 category: RFC
 created: 2021-02-12
+edited: 2021-02-12
 ---
 
 # 3ID DID Method Specification

@@ -6,6 +6,7 @@ discussions-to: https://github.com/ceramicnetwork/CIP/issues/15
 status: Review
 category: RFC
 created: 2020-07-24
+edited: 2020-07-24
 requires: 5
 ---
 

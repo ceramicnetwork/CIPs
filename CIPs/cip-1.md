@@ -6,7 +6,7 @@ discussions-to: https://forum.ceramic.network/t/cip-1-ceramic-improvement-propos
 status: Living
 category: Meta
 created: 2020-05-22
-edited: 2023-05-24
+edited: 2023-05-25
 ---
   
 ## Simple Summary
@@ -52,7 +52,7 @@ Upon submission an editor will manually review the first PR for a new CIP, assig
 
 - *Images and other assets*: If your CIP requires images or other assets, the files should be included in the `assets` folder in the root of this repo. You should create a subdirectory of your CIP as follows: `assets/cip-N` (where **N** is to be replaced with the CIP number). When linking to an image in the CIP, use relative links such as `../assets/cip-N/image.png`.
 
-- Tables: If your CIP introduces a csv table that needs to be updated by other CIPs, the table csv files should be included in the `tables` folder in the root of this repo. When linking to a table in the CIP, use relative links such as `../tables/my-table.csv`.
+- Tables: If your CIP introduces a table that needs to be updated by other CIPs, the table csv files should be included in the `tables` folder in the root of this repo. When linking to a table in the CIP, use relative links for example `../tables/my-table.csv`.
 
 At any time during the review stage you can submit additional PRs to update your CIP. If a CIP is updated by anyone else than any of the authors of the CIP, at least one of the original authors need to approve the PR.
 

@@ -6,6 +6,7 @@ discussions-to: https://github.com/ceramicnetwork/CIP/issues/95
 status: Draft
 category: RFC
 created: 2021-02-12
+edited: 2021-02-12
 ---
 
 # NFT DID Method Specification

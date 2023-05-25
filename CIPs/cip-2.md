@@ -6,6 +6,7 @@ discussions-to: https://github.com/ceramicnetwork/CIP/issues/39
 status: Final
 category: Meta
 created: 2020-06-14
+edited: 2020-06-14
 ---
   
 ## Simple Summary

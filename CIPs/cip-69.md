@@ -6,6 +6,7 @@ discussions-to: https://github.com/ceramicnetwork/CIP/issues/69
 status: Final
 category: Core
 created: 2020-11-02
+edited: 2020-11-02
 ---
 
 ## Simple Summary
