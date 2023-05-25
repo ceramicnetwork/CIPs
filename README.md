@@ -20,6 +20,7 @@ To create a new CIP simply follow these steps:
 4. Submit a Pull Request.
 
 # Editors
+- Aaron Goldman ([@AaronGoldman](https://github.com/AaronGoldman))
 - Michael Sena ([@michaelsena](http://github.com/michaelsena))
 - Joel Thorstensson ([@oed](http://github.com/oed))
 - Spencer T Brody ([@stbrody](http://github.com/stbrody))
