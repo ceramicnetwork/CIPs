@@ -4,9 +4,9 @@ title: 3ID DID Method Specification
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/80
 status: Draft
-category: Standards
-type: RFC
+category: RFC
 created: 2021-02-12
+edited: 2021-02-12
 ---
 
 # 3ID DID Method Specification

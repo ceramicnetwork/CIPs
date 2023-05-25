@@ -5,10 +5,8 @@ author: Michael Sena (@michaelsena)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/39
 status: Final
 category: Meta
-type:
 created: 2020-06-14
-requires:
-replaces:
+edited: 2020-06-14
 ---
   
 ## Simple Summary

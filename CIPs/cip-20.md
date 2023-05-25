@@ -2,11 +2,10 @@
 cip: 20
 title: 3ID Keychain
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
-status: Review
-category: Standards
-type: RFC
+status: Withdrawn
+category: RFC
 created: 2020-05-26
-edited: 2020-10-14
+edited: 2023-05-24
 requires: 7, 8
 ---
 

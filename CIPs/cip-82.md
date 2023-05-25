@@ -3,11 +3,10 @@ cip: 82
 title: StreamID json-schema definition
 author: Paul Le Cam (@PaulLeCam)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/82
-status: Draft
-category: Standards
-type: RFC
+status: Withdrawn
+category: RFC
 created: 2021-02-15
-edited: 2021-07-02
+edited: 2023-05-24
 requires: 88
 ---
 
