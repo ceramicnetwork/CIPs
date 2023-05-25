@@ -4,9 +4,9 @@ title: Tile Document
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/56
 status: Review
-category: Standards
-type: RFC
+category: RFC
 created: 2020-07-22
+edited: 2020-07-22
 requires: 5
 ---
 

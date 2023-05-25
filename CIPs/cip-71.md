@@ -4,9 +4,9 @@ title: MultiQueries
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/72
 status: Draft
-category: Standards
-type: Core
+category: Interfaces
 created: 2020-11-06
+edited: 2020-11-06
 ---
 
 ## Simple Summary

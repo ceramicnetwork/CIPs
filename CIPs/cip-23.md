@@ -3,8 +3,7 @@ cip: 23
 title: Also Known As Definition
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
 status: Review
-category: Standards
-type: RFC
+category: RFC
 created: 2020-07-21
 edited: 2020-11-03
 requires: 8
