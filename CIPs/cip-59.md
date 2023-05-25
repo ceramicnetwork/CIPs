@@ -71,7 +71,7 @@ For compatibility with browser urls it's recommended to encode the StreamID usin
 ### Registered values
 Using the table linked below stream types can be be publicly registered by submitting a new CIP that adds it to the table.
 
-* [StreamType table](../assets/streamtypes-table.csv)
+* [StreamType table](../tables/streamtypes.csv)
 
 ## Rationale
 A Ceramic stream can be identified using the CID of the *genesis commit* of the event log, as well as the stream type of the stream. Using the StreamID a Ceramic node can query the network for the latest *tip* of the stream. 

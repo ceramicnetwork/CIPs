@@ -2,11 +2,11 @@
 cip: 19
 title: Basic Profile Definition
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
-status: Review
+status: Withdrawn
 category: RFC
 created: 2020-05-22
-edited: 2020-09-28
-requires: IdentityIndex (IDX) (CIP-11)
+Edited: 2023-05-24
+requires: 11
 ---
 
 ## Simple Summary

@@ -3,10 +3,10 @@ cip: 85
 title: AppendCollection schemas
 author: Paul Le Cam (@PaulLeCam)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/90
-status: Draft
+status: Withdrawn
 category: RFC
 created: 2021-02-16
-edited: 2021-07-02
+edited: 2023-05-24
 requires: 82, 88
 ---
 

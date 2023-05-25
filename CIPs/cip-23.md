@@ -2,10 +2,10 @@
 cip: 23
 title: Also Known As Definition
 author: Michael Sena (@michaelsena), Joel Thorstensson (@oed)
-status: Review
+status: Withdrawn
 category: RFC
 created: 2020-07-21
-edited: 2020-11-03
+edited: 2023-05-24
 requires: 8
 ---
 
