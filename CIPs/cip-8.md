@@ -3,7 +3,7 @@ cip: 8
 title: Tile Document
 author: Joel Thorstensson (@oed)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/56
-status: Review
+status: Final
 category: RFC
 created: 2020-07-22
 edited: 2020-07-22

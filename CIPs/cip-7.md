@@ -3,7 +3,7 @@ cip: 7
 title: CAIP-10 Link
 author: Joel Thorstensson (@oed), Michael Sena (@michaelsena)
 discussions-to: https://github.com/ceramicnetwork/CIP/issues/15
-status: Review
+status: Final
 category: RFC
 created: 2020-07-24
 edited: 2020-07-24
