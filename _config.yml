@@ -20,10 +20,12 @@
 
 title: Ceramic Improvement Proposals
 description: >- # this means to ignore newlines until "baseurl:"
-  Ceramic Improvement Proposals (CIPs) describe standards for the Ceramic network.
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_username: ceramicnetwork
+  Standards for the Ceramic network.
+url: "https://cips.ceramic.network"
 repository: ceramicnetwork/CIPs
+twitter_username: ceramicnetwork
+github_username: ceramicnetwork
+
 
 header_pages:
   - index.html
