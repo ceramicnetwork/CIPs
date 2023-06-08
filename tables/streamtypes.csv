@@ -4,4 +4,4 @@ CAIP-10 Link,             0x01,      Link blockchain accounts to DIDs,          
 Model,                    0x02,      Defines a schema shared by group of documents in ComposeDB
 Model Instance Document,  0x03,      Represents a json document in ComposeDB, 
 UNLOADABLE,               0x04,      A stream that is not meant to be loaded, 
-EventId,                  0x71,      An event id encoded as a dag-cbor list of attributes,            https://cips.ceramic.network/CIPs/cip-124
+EventId,                  0x30,      An event id encoded as a cip-124 EventID,            https://cips.ceramic.network/CIPs/cip-124
