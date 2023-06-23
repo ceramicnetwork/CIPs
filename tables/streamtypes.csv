@@ -1,7 +1,7 @@
 name,                     code,      description,                                                     specification
 Tile,                     0x00,      A stream type representing a json document,                      https://cips.ceramic.network/CIPs/cip-8
 CAIP-10 Link,             0x01,      Link blockchain accounts to DIDs,                                https://cips.ceramic.network/CIPs/cip-7
-Model,                    0x02,      Defines a schema shared by group of documents in ComposeDB
-Model Instance Document,  0x03,      Represents a json document in ComposeDB, 
-UNLOADABLE,               0x04,      A stream that is not meant to be loaded, 
-EventId,                  0x71,      An event id encoded as a dag-cbor list of attributes,            https://cips.ceramic.network/CIPs/cip-124
+Model,                    0x02,      Defines a schema shared by group of documents in ComposeDB,      https://github.com/ceramicnetwork/js-ceramic/tree/main/packages/stream-model
+Model Instance Document,  0x03,      Represents a json document in ComposeDB,                         https://github.com/ceramicnetwork/js-ceramic/tree/main/packages/stream-model-instance
+UNLOADABLE,               0x04,      A stream that is not meant to be loaded,                         https://github.com/ceramicnetwork/js-ceramic/blob/main/packages/stream-model/src/model.ts#L163-L165
+EventId,                  0x05,      An event id encoded as a cip-124 EventID,                        https://cips.ceramic.network/CIPs/cip-124
