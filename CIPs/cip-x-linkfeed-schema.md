@@ -7,8 +7,6 @@ status: Draft
 category: RFC
 created: 2023-06-28
 edited: 2023-06-28
-requires: <EIP number(s)>
-replaces: <EIP number(s)>
 ---
 
 <!--PROPOSE A NEW CIP-->
