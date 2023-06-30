@@ -1,5 +1,5 @@
 ---
-cip: <to be assigned>
+cip: 142
 title: LinkFeed - a content feed abstraction standard
 author: Pan Zhixiong (@nake13), dugubuyan (@dugubuyan) and Liang Qiao (@qbig)
 discussions-to: https://forum.ceramic.network/t/linkfeed-schema-rfc-wip/1199
