@@ -20,7 +20,7 @@
 
 title: Ceramic Improvement Proposals
 description: >- # this means to ignore newlines until "baseurl:"
-  Standards for the Ceramic network.
+  Protocol improvements and standards for Ceramic.
 url: "https://cips.ceramic.network"
 repository: ceramicnetwork/CIPs
 twitter_username: ceramicnetwork
